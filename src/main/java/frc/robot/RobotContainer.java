@@ -17,6 +17,11 @@ import edu.wpi.first.wpilibj2.command.Command;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
+
+  private final DriveTrain m_driveTrainSubsystem = new DriveTrain();
+  private final DriveTrainCommand m_driveTrainCommand = new DriveTrainCommand(m_driveTrainSubsystem);
+
   // The robot's subsystems and commands are defined here...
   private final DriveTrain m_exampleSubsystem = new DriveTrain();
 
@@ -45,4 +50,12 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
   }
+
+
+  public Command getDriveTrainCommand() {
+    // System.out.println("DRIVE TRAIN");
+    return m_driveTrainCommand;
+  }
+
+  
 }

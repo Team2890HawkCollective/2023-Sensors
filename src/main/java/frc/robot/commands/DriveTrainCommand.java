@@ -17,6 +17,9 @@ public class DriveTrainCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
+
+
+
   public DriveTrainCommand(DriveTrain subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -27,11 +30,12 @@ public class DriveTrainCommand extends CommandBase {
   @Override
   public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    
-  }
+  public void execute() 
+	{
+		DriveTrain.driveMotor();
+	}
+
 
   // Called once the command ends or is interrupted.
   @Override
