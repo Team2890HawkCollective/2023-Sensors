@@ -6,7 +6,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
-//import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 //import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 //import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,28 +19,50 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 public class DriveTrain extends SubsystemBase {
 
 
-  private static VictorSPX FrontLeftVictor = new VictorSPX(Constants.MOTOR_FRONT_LEFT);
-  private static VictorSPX FrontRightVictor = new VictorSPX(Constants.MOTOR_FRONT_RIGHT);
-  private static VictorSPX BackLeftVictor = new VictorSPX(Constants.MOTOR_BACK_LEFT);
-  private static VictorSPX BackRightVictor = new VictorSPX(Constants.MOTOR_BACK_RIGHT);
-  //private MecanumDrive ChassisDrive = new MecanumDrive((MotorController)FrontLeftVictor, (MotorController)BackRightVictor, (MotorController)FrontRightVictor, (MotorController)BackRightVictor);
+
+
+  private static MotorController frontLeftVictorSPX = new VictorSPXMecanum(Constants.MOTOR_FRONT_LEFT);
+  private static MotorController frontRightVictorSPX = new VictorSPXMecanum(Constants.MOTOR_FRONT_RIGHT);
+  private static MotorController backLeftVictorSPX = new VictorSPXMecanum(Constants.MOTOR_BACK_LEFT);
+  private static MotorController backRightVictorSPX = new VictorSPXMecanum(Constants.MOTOR_BACK_RIGHT);
+
+  
+
+  private static MecanumDrive chassisDrive = new MecanumDrive(frontLeftVictorSPX, backLeftVictorSPX, frontRightVictorSPX, backRightVictorSPX);
 
 
   private static XboxController driverController = new XboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);
 
-  private static double xInput = (MathUtil.applyDeadband(driverController.getLeftX(), .02));
+  private static double xInput;
 
-  private static double yInput = -(MathUtil.applyDeadband(driverController.getLeftY(), .02));
+  private static double yInput;
+
+  private static double rInput;
 
 
   public static void driveMotor()
   {
-    FrontLeftVictor.set(ControlMode.PercentOutput, ((xInput + yInput) * Constants.SPEED_MOD * Constants.POLARITY_SWAP));
-    BackLeftVictor.set(ControlMode.PercentOutput, ((xInput + yInput) * Constants.SPEED_MOD));
+    backLeftVictorSPX.setInverted(true);
+    backRightVictorSPX.setInverted(true);
+    frontLeftVictorSPX.setInverted(false);
+    frontRightVictorSPX.setInverted(false);
 
-    FrontRightVictor.set(ControlMode.PercentOutput, ((xInput - yInput) * Constants.SPEED_MOD * Constants.POLARITY_SWAP));
-    BackRightVictor.set(ControlMode.PercentOutput, ((xInput - yInput) * Constants.SPEED_MOD));
+    xInput = (MathUtil.applyDeadband(driverController.getLeftX(), .02));
+    yInput = -(MathUtil.applyDeadband(driverController.getLeftY(), .02));
+    rInput = (MathUtil.applyDeadband(driverController.getRightY(), .02));
+    //System.out.println("X = " + xInput);
+    //System.out.println("Y = " + yInput);
 
+    chassisDrive.driveCartesian(driverController.getLeftX() * Constants.SPEED_MOD, driverController.getLeftY() * Constants.SPEED_MOD, driverController.getRightX() * Constants.SPEED_MOD);
+    System.out.println(driverController.getRightX());
+    System.out.println(driverController.getRightY());
+
+    //FUNCTIONAL MECANUM BASE
+    // FrontLeftVictor.set(ControlMode.PercentOutput, ((xInput + yInput) * Constants.SPEED_MOD * Constants.POLARITY_SWAP));
+    // BackLeftVictor.set(ControlMode.PercentOutput, ((xInput + yInput) * Constants.SPEED_MOD));
+
+    // FrontRightVictor.set(ControlMode.PercentOutput, ((xInput - yInput) * Constants.SPEED_MOD * Constants.POLARITY_SWAP));
+    // BackRightVictor.set(ControlMode.PercentOutput, ((xInput - yInput) * Constants.SPEED_MOD));
 
   }
 

@@ -33,6 +33,7 @@ public class DriveTrainCommand extends CommandBase {
   @Override
   public void execute() 
 	{
+    //System.out.println("Drive Train Execute");
 		DriveTrain.driveMotor();
 	}
 
