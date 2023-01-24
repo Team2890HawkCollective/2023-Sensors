@@ -53,9 +53,10 @@ public class DriveTrain extends SubsystemBase {
     //System.out.println("X = " + xInput);
     //System.out.println("Y = " + yInput);
 
-    chassisDrive.driveCartesian(driverController.getLeftX() * Constants.SPEED_MOD, driverController.getLeftY() * Constants.SPEED_MOD, driverController.getRightX() * Constants.SPEED_MOD);
-    System.out.println(driverController.getRightX());
-    System.out.println(driverController.getRightY());
+    //1/24/2023 Inverting the X joystick
+    chassisDrive.driveCartesian(driverController.getLeftX() * -1 * Constants.SPEED_MOD, driverController.getLeftY() * Constants.SPEED_MOD, driverController.getRightX() * -1 * Constants.SPEED_MOD);
+    // System.out.println(driverController.getRightX());
+    // System.out.println(driverController.getRightY());
 
     //FUNCTIONAL MECANUM BASE
     // FrontLeftVictor.set(ControlMode.PercentOutput, ((xInput + yInput) * Constants.SPEED_MOD * Constants.POLARITY_SWAP));
