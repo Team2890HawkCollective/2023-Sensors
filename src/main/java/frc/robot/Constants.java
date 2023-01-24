@@ -25,5 +25,11 @@ public final class Constants {
 
     public static final int POLARITY_SWAP = -1;
 
+    public static final int CHANNEL_2 = 2;
+    public static final int CHANNEL_3 = 3;
+    public static final int CHANNEL_4 = 4;
+
+    
+
 
 }
