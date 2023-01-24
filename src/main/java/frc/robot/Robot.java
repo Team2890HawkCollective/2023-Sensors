@@ -37,6 +37,9 @@ public class Robot extends TimedRobot {
    * <p>This runs after the mode specific periodic functions, but before LiveWindow and
    * SmartDashboard integrated updating.
    */
+
+
+
   @Override
   public void robotPeriodic() {
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
@@ -44,6 +47,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -83,7 +87,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    m_robotContainer.getDriveTrainCommand().execute();
+    //m_robotContainer.getDriveTrainCommand().execute();
 
 
   }
