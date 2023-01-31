@@ -7,7 +7,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveTrainCommand;
+import frc.robot.commands.LineReaderCommand;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.LineReader;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -24,8 +26,9 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final DriveTrain m_exampleSubsystem = new DriveTrain();
-
   private final DriveTrainCommand m_autoCommand = new DriveTrainCommand(m_exampleSubsystem);
+  private final LineReader m_LineReaderSubsystem = new LineReader();
+  private final LineReaderCommand m_LineReaderCommand = new LineReaderCommand(m_LineReaderSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -55,6 +58,13 @@ public class RobotContainer {
   public Command getDriveTrainCommand() {
     // System.out.println("DRIVE TRAIN");
     return m_driveTrainCommand;
+    
+  }
+
+  public Command getLineReader()
+  {
+    System.out.println("LINE READER");
+    return m_LineReaderCommand;
   }
 
   

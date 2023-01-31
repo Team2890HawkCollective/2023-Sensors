@@ -28,7 +28,7 @@ public class DriveTrain extends SubsystemBase {
 
   
 
-  private static MecanumDrive chassisDrive = new MecanumDrive(frontLeftVictorSPX, backLeftVictorSPX, frontRightVictorSPX, backRightVictorSPX);
+  //private static MecanumDrive chassisDrive = new MecanumDrive(frontLeftVictorSPX, backLeftVictorSPX, frontRightVictorSPX, backRightVictorSPX);
 
 
   private static XboxController driverController = new XboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);
@@ -53,7 +53,7 @@ public class DriveTrain extends SubsystemBase {
     //System.out.println("X = " + xInput);
     //System.out.println("Y = " + yInput);
 
-    chassisDrive.driveCartesian(driverController.getLeftX() * Constants.SPEED_MOD, driverController.getLeftY() * Constants.SPEED_MOD, driverController.getRightX() * Constants.SPEED_MOD);
+    //chassisDrive.driveCartesian(driverController.getLeftX() * Constants.SPEED_MOD, driverController.getLeftY() * Constants.SPEED_MOD, driverController.getRightX() * Constants.SPEED_MOD);
     System.out.println(driverController.getRightX());
     System.out.println(driverController.getRightY());
 

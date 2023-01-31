@@ -34,7 +34,7 @@ public class DriveTrainCommand extends CommandBase {
   public void execute() 
 	{
     //System.out.println("Drive Train Execute");
-		DriveTrain.driveMotor();
+		//DriveTrain.driveMotor();
 	}
 
 
