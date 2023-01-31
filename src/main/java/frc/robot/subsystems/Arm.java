@@ -56,36 +56,6 @@ public class Arm extends SubsystemBase {
     {
         armMotor.stopMotor();
     }
-    // if(aPressed)
-    // {
-    //     //System.out.println("A Pressed Encoder " + m_Encoder.getPosition());
-    //     //armMotor.set(Constants.ARM_SPEED);
-
-    //     System.out.println("A? = " + driverController.getAButton());
-    // }
-
-    // if(bPressed)
-    // {
-    //     //System.out.println("B Pressed Encoder " + m_Encoder.getPosition());
-    //     //armMotor.set(-1 * Constants.ARM_SPEED);
-
-    //     System.out.println("A? = " + driverController.getBButton());
-    // }
-
-    // aPressed = false;
-    // bPressed = false;
-    // armMotor.stopMotor();
-
-    // System.out.println(driverController.getRightX());
-    // System.out.println(driverController.getRightY());
-
-    //FUNCTIONAL MECANUM BASE
-    // FrontLeftVictor.set(ControlMode.PercentOutput, ((xInput + yInput) * Constants.SPEED_MOD * Constants.POLARITY_SWAP));
-    // BackLeftVictor.set(ControlMode.PercentOutput, ((xInput + yInput) * Constants.SPEED_MOD));
-
-    // FrontRightVictor.set(ControlMode.PercentOutput, ((xInput - yInput) * Constants.SPEED_MOD * Constants.POLARITY_SWAP));
-    // BackRightVictor.set(ControlMode.PercentOutput, ((xInput - yInput) * Constants.SPEED_MOD));
-
   }
 
 
