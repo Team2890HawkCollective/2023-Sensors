@@ -36,21 +36,29 @@ public class Arm extends SubsystemBase {
   private static RelativeEncoder m_Encoder = armMotor.getEncoder();
   private static boolean aPressed = false;
   private static boolean bPressed = false;
+  private static double startingPos = m_Encoder.getPosition();
 
   public static void moveArm()
   {
     aPressed = driverController.getAButton();
     bPressed = driverController.getBButton();
+    
 
-    System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton());
+    System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + m_Encoder.getPosition() + " StartingPos = " + startingPos);
 
     if(driverController.getAButton())
     {
-        armMotor.set(Constants.ARM_SPEED);
+        if(m_Encoder.getPosition() > startingPos + 30)
+        {
+            armMotor.set(Constants.ARM_SPEED);
+        }
     }
     else if (driverController.getBButton())
     {
-        armMotor.set(-1 * Constants.ARM_SPEED);
+        if(m_Encoder.getPosition() > startingPos - 30)
+        {
+            armMotor.set(-1 * Constants.ARM_SPEED);
+        }
     }
     else if (!driverController.getAButton() && !driverController.getBButton())
     {
