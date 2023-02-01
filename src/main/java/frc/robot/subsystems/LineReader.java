@@ -16,8 +16,12 @@ public class LineReader extends SubsystemBase{
 private final static I2C.Port i2cPort = I2C.Port.kOnboard;
 private final static ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
 
-public static boolean isLine()
+public static boolean isLine(int sensorNumber)
 {
+  //Get the color detected by the right sensor using sensorNumber
+
+
+
     Color detectedColor = m_colorSensor.getColor();
 
     int colorValueDecimal = detectedColor.hashCode();
@@ -58,12 +62,37 @@ public static boolean isLine()
     return true;
 }
 
-public static void passedLine()
+public static boolean passedLine()
 {
-  // int leftFrontColorSensor = 0;
-  // int rightFrontColorSensor = 0;
-  // int leftRearColorSensor = 0;
-  // int rightReartColorSensor = 0;
+  boolean sensor1 = false;
+  boolean sensor2 = false;
+  boolean sensor3 = false;
+  boolean sensor4 = false;
+
+  
+  if(isLine(1))
+  {
+    sensor1 = true;
+  }
+  if(isLine(2))
+  {
+    sensor2 = true;
+  }
+  if(isLine(3))
+  {
+    sensor3 = true;
+  }
+  if(isLine(4))
+  {
+    sensor4 = true;
+  }
+
+  if(sensor1 && sensor2 && sensor3 && sensor4)
+  {
+    //SET MOTORS TO DRIVE FORWARD ANOTHER METER
+    return true;
+  }
+  else return false;
 
 
 }
