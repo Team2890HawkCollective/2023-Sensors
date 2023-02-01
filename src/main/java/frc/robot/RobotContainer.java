@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.commands.VisualSensorsCommand;
+import frc.robot.subsystems.VisualSensors;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -21,6 +23,9 @@ public class RobotContainer {
 
   private final DriveTrain m_driveTrainSubsystem = new DriveTrain();
   private final DriveTrainCommand m_driveTrainCommand = new DriveTrainCommand(m_driveTrainSubsystem);
+
+  private final VisualSensors m_visualSensors = new VisualSensors();
+  private final VisualSensorsCommand m_visualSensorsCommand = new VisualSensorsCommand(m_visualSensors);
 
   // The robot's subsystems and commands are defined here...
   private final DriveTrain m_exampleSubsystem = new DriveTrain();
@@ -57,5 +62,8 @@ public class RobotContainer {
     return m_driveTrainCommand;
   }
 
-  
+  public Command getVisualSensorsCommand() {
+    // System.out.println("DRIVE TRAIN");
+    return m_visualSensorsCommand;
+  }
 }

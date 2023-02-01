@@ -25,5 +25,24 @@ public final class Constants {
 
     public static final int POLARITY_SWAP = -1;
 
+    /*1/20/2023, added final vairables CAMERA_PORT and LIMELIGHT_PORT
+    given temporary values of 1 and 2 respectively b/c i dont know what port they will end up being in*/
+    public static final int CAMERA_PORT=1;
+    public static final int LIMELIGHT_PORT=2;
+    /**
+     * Distances and area calculations used for limelight targeting
+     */
+    public static final double LIMELIGHT_TARGET_FOUND = 1.0; //tv
+    public static final double LIMELIGHT_X_RANGE_MAXIMUM = 1.0; //range for which limelight is considered centered
+    public static final double LIMELIGHT_AREA_FOUND_MINIMUM = 1.0; //minimum area for target to be considered found
+    public static final double LIMELIGHT_AREA_FOUND_MAXIMUM = 2.5; //maximum area where target is reachable
+    public static final double LIMELIGHT_TARGETING_AREA_LARGE_VALUE = 2.7; //11-15 ft away ta value
+    public static final double LIMELIGHT_TARGETING_AREA_MEDIUM_VALUE = 3.0; //9-11 ft away ta value
+    public static final double LIMELIGHT_TARGETING_AREA_SMALL_VALUE = 3.2; //7-9 ft awat ta value
+    public static final double SHOOTER_SPEED_LIMELIGHT_TARGETING_AREA_LARGE_VALUE = 0.8; //11-15 ft shooter speed
+    public static final double SHOOTER_SPEED_LIMELIGHT_TARGETING_AREA_MEDIUM_VALUE = 0.7; //9-11 ft shooter speed
+    public static final double SHOOTER_SPEED_LIMELIGHT_TARGETING_AREA_SMALL_VALUE = 0.6; //7-9 ft shooter speed
+
+
 
 }

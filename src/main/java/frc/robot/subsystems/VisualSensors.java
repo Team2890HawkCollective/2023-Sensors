@@ -30,7 +30,9 @@ public class VisualSensors extends SubsystemBase
         final double limelightXValue = limelightX.getDouble(0.0); //tx  0.0 is default value
         final double limelightAreaValue = limelightArea.getDouble(0.0); //ta
         final double limelightTargetFoundValue = limelightTargetFound.getDouble(0.0); //tv
-        // System.out.println(table);
+        System.out.println("distance is: "+limelightXValue);
+        System.out.println("area is: "+limelightAreaValue);
+        System.out.println("target is: "+limelightTargetFoundValue);
       
     }
   
