@@ -16,56 +16,73 @@ public class LineReader extends SubsystemBase{
 private final static I2C.Port i2cPort = I2C.Port.kOnboard;
 private final static ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
 
-public static boolean isLine()
+public static boolean isLine(int sensorNumber)
 {
+  //Get the color detected by the right sensor using sensorNumber
+
     Color detectedColor = m_colorSensor.getColor();
 
     int colorValueDecimal = detectedColor.hashCode();
 
-    //System.out.println(colorValueDecimal/1000000);
-
-    //double IR = m_colorSensor.getIR();
-
-    //System.out.println("DEBUG 4");
-
-    //System.out.println(detectedColor);
-
-    // String detectedColorString = detectedColor.toString();
-
-    // int colorValue =Character.getNumericValue(detectedColorString.charAt(1));
-
-    //System.out.println(colorValue);
-
     if (colorValueDecimal > 800000000)
     {
       System.out.println("BLUE");
+      return true;
     }
 
     else if (colorValueDecimal < -1700000000)
     {
       System.out.println("RUG");
+      return false;
     }
 
     else if (colorValueDecimal < -600000000 && colorValueDecimal > -1700000000)
     {
       System.out.println("RED");
+      return true;
     }
     else
     {
       System.out.println("OUTSIDE PRESET BOUNDS: " + colorValueDecimal);
     }
 
-    return true;
+    return false;
 }
 
-public static void passedLine()
+public static boolean passedLine()
 {
-  // int leftFrontColorSensor = 0;
-  // int rightFrontColorSensor = 0;
-  // int leftRearColorSensor = 0;
-  // int rightReartColorSensor = 0;
+  boolean sensor1 = false;
+  boolean sensor2 = false;
+  boolean sensor3 = false;
+  boolean sensor4 = false;
 
+  if (isLine(1))
+  {
+    sensor1 = true;
+  }
 
+  if (isLine(2))
+  {
+    sensor2 = true;
+  }
+  
+  if (isLine(3))
+  {
+    sensor3 = true;
+  }
+
+  if (isLine(4))
+  {
+    sensor4 = true;
+  }
+
+  if (sensor1 && sensor2 && sensor3 && sensor4)
+  {
+    //SET MOTORS TO DRIVE FORWARD ANOTHER METER
+    return true;
+  }
+
+  else return false;
 }
 
 public LineReader() {}
