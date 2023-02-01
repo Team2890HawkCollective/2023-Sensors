@@ -17,7 +17,12 @@ private final static I2C.Port i2cPort = I2C.Port.kOnboard;
 private final static ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
 
 public static boolean isLine(int sensorNumber)
+public static boolean isLine(int sensorNumber)
 {
+  //Get the color detected by the right sensor using sensorNumber
+
+
+
   //Get the color detected by the right sensor using sensorNumber
 
     Color detectedColor = m_colorSensor.getColor();
