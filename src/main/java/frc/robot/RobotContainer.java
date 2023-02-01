@@ -63,7 +63,7 @@ public class RobotContainer {
 
   public Command getLineReader()
   {
-    System.out.println("LINE READER");
+    //System.out.println("LINE READER");
     return m_LineReaderCommand;
   }
 

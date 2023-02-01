@@ -88,6 +88,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
 
     //m_robotContainer.getDriveTrainCommand().execute();
+    //System.out.println("DEBUG 3");
     m_robotContainer.getLineReader().execute();
     
 

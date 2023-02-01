@@ -20,13 +20,40 @@ public static boolean isLine()
 {
     Color detectedColor = m_colorSensor.getColor();
 
+    int colorValueDecimal = detectedColor.hashCode();
+
+    //System.out.println(colorValueDecimal/1000000);
+
     //double IR = m_colorSensor.getIR();
 
-    System.out.println(detectedColor);
+    //System.out.println("DEBUG 4");
 
-    String detectedColorString = detectedColor.toString();
+    //System.out.println(detectedColor);
 
-    System.out.println(detectedColorString.charAt(1));
+    // String detectedColorString = detectedColor.toString();
+
+    // int colorValue =Character.getNumericValue(detectedColorString.charAt(1));
+
+    //System.out.println(colorValue);
+
+    if (colorValueDecimal > 800000000)
+    {
+      System.out.println("BLUE");
+    }
+
+    else if (colorValueDecimal < -1700000000)
+    {
+      System.out.println("RUG");
+    }
+
+    else if (colorValueDecimal < -600000000 && colorValueDecimal > -1700000000)
+    {
+      System.out.println("RED");
+    }
+    else
+    {
+      System.out.println("OUTSIDE PRESET BOUNDS: " + colorValueDecimal);
+    }
 
     return true;
 }

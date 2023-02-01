@@ -35,6 +35,7 @@ public class DriveTrainCommand extends CommandBase {
 	{
     //System.out.println("Drive Train Execute");
 		//DriveTrain.driveMotor();
+    System.out.println("DEBUG 5");
 	}
 
 

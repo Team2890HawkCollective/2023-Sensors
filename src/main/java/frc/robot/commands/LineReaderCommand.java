@@ -30,8 +30,9 @@ public class LineReaderCommand extends CommandBase{
     public void execute() 
       {
       //System.out.println("Drive Train Execute");
+          //System.out.println("DEBUG 1");
           LineReader.isLine();
-          System.out.println("working");
+          //System.out.println("DEBUG 2");
       }
   
   
