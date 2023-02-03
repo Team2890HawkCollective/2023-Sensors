@@ -4,72 +4,98 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 //import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 //import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-import javax.swing.plaf.basic.BasicBorders.MenuBarBorder;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.EncoderType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxRelativeEncoder.Type;
 
 public class Arm extends SubsystemBase {
 
 
 
   private static final CANSparkMax armMotor = new CANSparkMax(Constants.ARM_MOTOR, MotorType.kBrushless);
-  
-
-  private static XboxController driverController = new XboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);
-
-  
+  private static XboxController driverController = new XboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);  
   private static RelativeEncoder m_Encoder = armMotor.getEncoder();
   private static boolean aPressed = false;
   private static boolean bPressed = false;
-  private static double startingPos = m_Encoder.getPosition();
+  private static boolean xPressed = false;
+  private static boolean aFlag = false;
+  private static boolean bFlag = false;
+  private static boolean xFlag = false;
 
-  public static void moveArm()
+  public static void controlledMoveArm()
   {
     aPressed = driverController.getAButton();
     bPressed = driverController.getBButton();
+
+    System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + Math.abs(m_Encoder.getPosition()) + " Motor Temp " + armMotor.getMotorTemperature());
+
+    if(aPressed && Math.abs(m_Encoder.getPosition()) < 45) 
+    {
+      armMotor.set(Constants.POLARITY_SWAP * Constants.ARM_SPEED);
+    } 
+    else if(bPressed && Math.abs(m_Encoder.getPosition()) > 5) 
+    {
+      armMotor.set(Constants.ARM_SPEED);
+    } 
+    else 
+    {
+      armMotor.set(0.0);
+    }
+  }
+
+  public static void threeButtonControl() // DOES NOT WORK CURRENTLY NEEDS FIXING
+  {
+    aPressed = driverController.getAButton();
+    bPressed = driverController.getBButton();
+    xPressed = driverController.getXButton();
+    aFlag = driverController.getAButton();
+    bFlag = driverController.getBButton();
+    xFlag = driverController.getXButton();
+
+    System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + Math.abs(m_Encoder.getPosition()) + 
+     " Motor Temp " + armMotor.getMotorTemperature());
+
     
 
-    System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + m_Encoder.getPosition() + " StartingPos = " + startingPos);
-
-    if(driverController.getAButton())
+    if(aPressed && Math.abs(m_Encoder.getPosition()) < 45)
     {
-        if(m_Encoder.getPosition() > startingPos + 30)
-        {
-            armMotor.set(Constants.ARM_SPEED);
-        }
+      armMotor.set(Constants.POLARITY_SWAP * Constants.ARM_SPEED);
     }
-    else if (driverController.getBButton())
+    else if(bPressed && Math.abs(m_Encoder.getPosition()) > 5) 
     {
-        if(m_Encoder.getPosition() > startingPos - 30)
-        {
-            armMotor.set(-1 * Constants.ARM_SPEED);
-        }
+      armMotor.set(Constants.ARM_SPEED);
+    } 
+    else if(xPressed)
+    {
+      if (Math.abs(m_Encoder.getPosition()) > 20)
+      {
+        armMotor.set(Constants.ARM_SPEED);
+      }
+      else if(Math.abs(m_Encoder.getPosition()) < 24)
+      {
+        armMotor.set(Constants.POLARITY_SWAP * Constants.ARM_SPEED);
+      }
     }
-    else if (!driverController.getAButton() && !driverController.getBButton())
-    {
-        armMotor.stopMotor();
+    else if(Math.abs(m_Encoder.getPosition()) > 45 || Math.abs(m_Encoder.getPosition()) < 0)
+    { 
+      armMotor.stopMotor();
     }
   }
 
 
 
+
   /** Creates a new ExampleSubsystem. */
-  public Arm() {}
+  public Arm() {
+    m_Encoder.setPosition(0);
+    armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+  }
 
   @Override
   public void periodic() {

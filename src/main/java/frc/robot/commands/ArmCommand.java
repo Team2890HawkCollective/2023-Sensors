@@ -33,8 +33,8 @@ public class ArmCommand extends CommandBase {
   @Override
   public void execute() 
 	{
-    //System.out.println("Drive Train Execute");
-		Arm.moveArm();
+		Arm.controlledMoveArm();
+    //Arm.threeButtonControl();
 	}
 
 
