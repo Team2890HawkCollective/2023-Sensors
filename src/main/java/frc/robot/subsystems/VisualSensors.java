@@ -33,8 +33,12 @@ public class VisualSensors extends SubsystemBase
         System.out.println("distance is: "+limelightXValue);
         System.out.println("area is: "+limelightAreaValue);
         System.out.println("target is: "+limelightTargetFoundValue);
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
       
     }
-  
-    
 }
