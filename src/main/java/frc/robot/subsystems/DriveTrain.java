@@ -16,6 +16,11 @@ import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
+
+
+
 public class DriveTrain extends SubsystemBase {
 
 
@@ -38,6 +43,9 @@ public class DriveTrain extends SubsystemBase {
   private static double yInput;
 
   private static double rInput;
+  private static AHRS ahrs; 
+
+
 
 
   public static void driveMotor()
@@ -52,6 +60,12 @@ public class DriveTrain extends SubsystemBase {
     rInput = (MathUtil.applyDeadband(driverController.getRightY(), .02));
     //System.out.println("X = " + xInput);
     //System.out.println("Y = " + yInput);
+    System.out.print("Pitch "  + ahrs.getPitch() + " ");
+    System.out.print("Yaw "  + ahrs.getYaw() + " ");
+    System.out.print("Roll "  + ahrs.getRoll() + " ");
+    System.out.print("Angle "  + ahrs.getAngle() + " ");
+    System.out.println("Rotation 2D "  + ahrs.getRotation2d());
+
 
     //1/24/2023 Inverting the X joystick
     chassisDrive.driveCartesian(driverController.getLeftX() * -1 * Constants.SPEED_MOD, driverController.getLeftY() * Constants.SPEED_MOD, driverController.getRightX() * -1 * Constants.SPEED_MOD);
@@ -70,7 +84,14 @@ public class DriveTrain extends SubsystemBase {
 
 
   /** Creates a new ExampleSubsystem. */
-  public DriveTrain() {}
+  public DriveTrain() {
+     try {
+          ahrs = new AHRS(SPI.Port.kMXP); 
+      } catch (RuntimeException ex ) {
+         System.out.println("Error instantiating navX-MXP:  " + ex.getMessage());
+      }
+
+  }
 
   @Override
   public void periodic() {

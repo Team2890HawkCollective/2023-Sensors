@@ -21,7 +21,7 @@ public final class Constants {
 
     public static final int DRIVER_XBOX_CONTROLLER_PORT = 0;
 
-    public static final double SPEED_MOD = .6;
+    public static final double SPEED_MOD = 1;
 
     public static final int POLARITY_SWAP = -1;
 
