@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
@@ -26,9 +27,9 @@ public class DriveTrain extends SubsystemBase {
   private static MotorController backLeftVictorSPX = new VictorSPXMecanum(Constants.MOTOR_BACK_LEFT);
   private static MotorController backRightVictorSPX = new VictorSPXMecanum(Constants.MOTOR_BACK_RIGHT);
 
-  
+  private static double[] motorCoefficients = {1.0, 1.0, 1.0, 1.0};
 
-  private static MecanumDrive chassisDrive = new MecanumDrive(frontLeftVictorSPX, backLeftVictorSPX, frontRightVictorSPX, backRightVictorSPX);
+  private static MecanumWrapperClass chassisDrive = new MecanumWrapperClass(frontLeftVictorSPX, backLeftVictorSPX, frontRightVictorSPX, backRightVictorSPX);
 
 
   private static XboxController driverController = new XboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);
@@ -53,8 +54,16 @@ public class DriveTrain extends SubsystemBase {
     //System.out.println("X = " + xInput);
     //System.out.println("Y = " + yInput);
 
+
+    //2/8/2023 USE THE new Rotation2d() THING TO PASS A BLANK GYRO VALUE IF NOT USING GYRO !!!!!!!!!!!!!!
+
     //1/24/2023 Inverting the X joystick
-    chassisDrive.driveCartesian(driverController.getLeftX() * -1 * Constants.SPEED_MOD, driverController.getLeftY() * Constants.SPEED_MOD, driverController.getRightX() * -1 * Constants.SPEED_MOD);
+    chassisDrive.driveCartesian
+          (driverController.getLeftX() * -1 * Constants.SPEED_MOD, 
+          driverController.getLeftY() * Constants.SPEED_MOD, 
+          driverController.getRightX() * -1 * Constants.SPEED_MOD,
+          new Rotation2d(), 
+          motorCoefficients);
     // System.out.println(driverController.getRightX());
     // System.out.println(driverController.getRightY());
 
@@ -70,7 +79,9 @@ public class DriveTrain extends SubsystemBase {
 
 
   /** Creates a new ExampleSubsystem. */
-  public DriveTrain() {}
+  public DriveTrain() {
+    
+  }
 
   @Override
   public void periodic() {
