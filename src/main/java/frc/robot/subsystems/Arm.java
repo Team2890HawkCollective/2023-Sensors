@@ -37,15 +37,15 @@ public class Arm extends SubsystemBase {
 
     System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + Math.abs(m_Encoder.getPosition()) + " Motor Temp " + armMotor.getMotorTemperature());
 
-    if(aPressed && Math.abs(m_Encoder.getPosition()) < 45) 
+    if(aPressed) 
     {
       //Setting the target position with the PID control
-      armMotor.getPIDController().setReference(Constants.POLARITY_SWAP * 45, com.revrobotics.CANSparkMax.ControlType.kPosition);
+      armMotor.getPIDController().setReference(22.5, com.revrobotics.CANSparkMax.ControlType.kPosition);
     } 
-    else if(bPressed && Math.abs(m_Encoder.getPosition()) > 5) 
+    else if(bPressed) 
     {
       //Setting the target position with the PID control
-      armMotor.getPIDController().setReference(Constants.ARM_SPEED * 5, com.revrobotics.CANSparkMax.ControlType.kPosition);
+      armMotor.getPIDController().setReference(2.5, com.revrobotics.CANSparkMax.ControlType.kPosition);
     } 
     else 
     {
@@ -61,17 +61,17 @@ public class Arm extends SubsystemBase {
 
     System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + Math.abs(m_Encoder.getPosition()) + " Motor Temp " + armMotor.getMotorTemperature());
 
-    if(aPressed && Math.abs(m_Encoder.getPosition()) < 45) 
+    if(aPressed && m_Encoder.getPosition() < 45) 
     {
       armMotor.set(Constants.POLARITY_SWAP * Constants.ARM_SPEED);
     } 
-    else if(bPressed && Math.abs(m_Encoder.getPosition()) > 5) 
+    else if(bPressed && m_Encoder.getPosition() > 5) 
     {
       armMotor.set(Constants.ARM_SPEED);
     } 
     else 
     {
-      armMotor.set(0.0);
+      //armMotor.set(0.0);
     }
   }
 

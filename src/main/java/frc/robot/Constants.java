@@ -26,13 +26,13 @@ public final class Constants {
     public static final int POLARITY_SWAP = -1;
 
     public static final int ARM_MOTOR = 10;
-    public static final double ARM_SPEED = .3;
+    public static final double ARM_SPEED = .1;
     public static final double ARM_REBOUND_SPEED = 0.1;
-    public static final double PID_P = .075;
-    public static final double PID_I = .01;
-    public static final double PID_D = .075;
-    public static final double PID_I_ZONE = 2;
-    public static final double PID_FF = .0001;
+    public static final double PID_P = .01;
+    public static final double PID_I = .1;
+    public static final double PID_D = .3;
+    public static final double PID_I_ZONE = 7;
+    public static final double PID_FF = .01;
 
 
 

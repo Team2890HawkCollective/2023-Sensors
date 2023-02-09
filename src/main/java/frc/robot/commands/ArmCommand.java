@@ -33,8 +33,9 @@ public class ArmCommand extends CommandBase {
   @Override
   public void execute() 
 	{
-		Arm.controlledMoveArm();
+		//Arm.controlledMoveArm();
     //Arm.threeButtonControl();
+    Arm.PIDMoveArm();
 	}
 
 
