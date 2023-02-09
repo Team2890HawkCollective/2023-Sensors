@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -27,6 +28,31 @@ public class Arm extends SubsystemBase {
   private static boolean aFlag = false;
   private static boolean bFlag = false;
   private static boolean xFlag = false;
+
+
+  public static void PIDMoveArm()
+  {
+    aPressed = driverController.getAButton();
+    bPressed = driverController.getBButton();
+
+    System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + Math.abs(m_Encoder.getPosition()) + " Motor Temp " + armMotor.getMotorTemperature());
+
+    if(aPressed && Math.abs(m_Encoder.getPosition()) < 45) 
+    {
+      //Setting the target position with the PID control
+      armMotor.getPIDController().setReference(Constants.POLARITY_SWAP * 45, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    } 
+    else if(bPressed && Math.abs(m_Encoder.getPosition()) > 5) 
+    {
+      //Setting the target position with the PID control
+      armMotor.getPIDController().setReference(Constants.ARM_SPEED * 5, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    } 
+    else 
+    {
+      armMotor.set(0.0);
+    }
+  }
+
 
   public static void controlledMoveArm()
   {
@@ -95,6 +121,11 @@ public class Arm extends SubsystemBase {
   public Arm() {
     m_Encoder.setPosition(0);
     armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    armMotor.getPIDController().setP(Constants.PID_P);
+    armMotor.getPIDController().setI(Constants.PID_I);
+    armMotor.getPIDController().setD(Constants.PID_D);
+    armMotor.getPIDController().setFF(Constants.PID_FF);
+    armMotor.getPIDController().setIZone(Constants.PID_I_ZONE);
   }
 
   @Override
