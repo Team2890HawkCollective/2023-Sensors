@@ -32,7 +32,7 @@ public class LineReaderCommand extends CommandBase{
       //System.out.println("Drive Train Execute");
           //System.out.println("DEBUG 1");
           LineReader.passedLine();
-          LineReader.interpretColor(LineReader.readColor());
+          LineReader.readColor();
           //System.out.println("DEBUG 2");
       }
   

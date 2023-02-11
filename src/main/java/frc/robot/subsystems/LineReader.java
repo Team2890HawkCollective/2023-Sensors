@@ -87,13 +87,24 @@ public static int[] readColor()
 
   // System.out.println(buffer);
   // System.out.println(color);
-  // System.out.println("Red: " + color[0]);
-  // System.out.print(" Green: " + color[1]);
-  // System.out.print(" Blue: " + color[2]);
-  // System.out.print(" Clear: " + color[3]);
 
   int[] color = new int[8];
+
   colorSensor1.read(COLOR_SENSOR_1_ADRESS, 8, buffer);
+
+  for (int i = 0; i < buffer.length; i++)
+  {
+    color[i] = buffer[i] & 0xff;
+  }
+
+  System.out.println(color);
+  System.out.print("Red: " + color[0]);
+  System.out.print(" Green: " + color[1]);
+  System.out.print(" Blue: " + color[2]);
+  System.out.print(" Clear: " + color[3]);
+
+  System.out.println();
+
   return color;
 }
 
