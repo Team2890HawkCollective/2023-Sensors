@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 //import edu.wpi.first.wpilibj.motorcontrol.Victor;
@@ -29,11 +31,27 @@ public class Arm extends SubsystemBase {
   private static boolean bFlag = false;
   private static boolean xFlag = false;
 
+  /**
+   * Set up NetworkTable for PID Coefficients
+   */
+  private static final NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
+  private static final NetworkTable table = ntInstance.getTable("PIDValues");
+  
+  private static final double kP = table.getEntry("kP").getDouble(0.1);
+  private static final double kI = table.getEntry("kI").getDouble(0.0);
+  private static final double kD = table.getEntry("kD").getDouble(0.0);
 
   public static void PIDMoveArm()
   {
     aPressed = driverController.getAButton();
     bPressed = driverController.getBButton();
+
+    /**
+     * Set PID coefficients in real time
+     */
+    armMotor.getPIDController().setP(kP);
+    armMotor.getPIDController().setI(kI);
+    armMotor.getPIDController().setD(kD);
 
     System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + Math.abs(m_Encoder.getPosition()) + " Motor Temp " + armMotor.getMotorTemperature());
 
