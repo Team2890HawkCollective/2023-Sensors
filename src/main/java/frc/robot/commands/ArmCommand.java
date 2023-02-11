@@ -4,8 +4,11 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
+
+import frc.robot.Constants;
 
 /** An example command that uses an example subsystem. */
 public class ArmCommand extends CommandBase {
@@ -36,7 +39,7 @@ public class ArmCommand extends CommandBase {
 		//Arm.controlledMoveArm();
     //Arm.threeButtonControl();
     Arm.PIDMoveArm();
-	}
+}
 
 
   // Called once the command ends or is interrupted.
