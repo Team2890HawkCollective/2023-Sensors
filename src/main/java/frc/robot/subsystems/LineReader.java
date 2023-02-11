@@ -16,11 +16,11 @@ public class LineReader extends SubsystemBase{
 private final static I2C.Port i2cPort = I2C.Port.kOnboard;
 
 private static final int MULTIPLEXER_ADDRESS = 0x70;
-private static final int COLOR_SENSOR_1_ADRESS = 0x29;
+private static final int COLOR_SENSOR_1_ADDRESS = 0x29;
 
 private final static I2C i2cBus = new I2C(i2cPort, MULTIPLEXER_ADDRESS);
 
-private final static I2C colorSensor1 = new I2C(i2cPort, COLOR_SENSOR_1_ADRESS);
+private final static I2C colorSensor1 = new I2C(i2cPort, COLOR_SENSOR_1_ADDRESS);
 // private final static I2C colorSensor2 = new I2C(i2cPort, 0x2A);
 // private final static I2C colorSensor3 = new I2C(i2cPort, 0x2B);
 // private final static I2C colorSensor4 = new I2C(i2cPort, 0x2C);
@@ -90,18 +90,22 @@ public static int[] readColor()
 
   int[] color = new int[8];
 
-  colorSensor1.read(COLOR_SENSOR_1_ADRESS, 8, buffer);
+  colorSensor1.read(COLOR_SENSOR_1_ADDRESS, 8, buffer);
 
   for (int i = 0; i < buffer.length; i++)
   {
     color[i] = buffer[i] & 0xff;
   }
 
-  System.out.println(color);
-  System.out.print("Red: " + color[0]);
-  System.out.print(" Green: " + color[1]);
-  System.out.print(" Blue: " + color[2]);
-  System.out.print(" Clear: " + color[3]);
+  System.out.println("String: " + String.valueOf(color));
+  String colorString = String.valueOf(color);
+
+  //System.out.println(buffer);
+ // System.out.println("Buffer 0: " + buffer[0]);
+  System.out.print("Red: " + colorString.charAt(0));
+  // System.out.print(" Green: " + color[4]);
+  // System.out.print(" Blue: " + color[2]);
+  // System.out.print(" Clear: " + color[3]);
 
   System.out.println();
 
