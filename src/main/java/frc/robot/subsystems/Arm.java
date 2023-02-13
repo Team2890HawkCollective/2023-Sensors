@@ -4,19 +4,15 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
+
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 //import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Arm extends SubsystemBase {
 
@@ -29,17 +25,13 @@ public class Arm extends SubsystemBase {
   private static RelativeEncoder m_Encoder = armMotor.getEncoder();
   private static boolean aPressed = false;
   private static boolean bPressed = false;
-  private static boolean xPressed = false;
-  private static boolean aFlag = false;
-  private static boolean bFlag = false;
-  private static boolean xFlag = false;
+
 
 
   public static void PIDMoveArm()
   {
     aPressed = driverController.getAButton();
     bPressed = driverController.getBButton();
-    xPressed = driverController.getXButton();
 
     System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + m_Encoder.getPosition() + " Motor Temp " + armMotor.getMotorTemperature());
 
