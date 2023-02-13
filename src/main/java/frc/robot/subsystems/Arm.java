@@ -56,7 +56,10 @@ public class Arm extends SubsystemBase {
     {
       armMotor.set(0.0);
     }
+
+
     
+    EncoderGraph.data.add(new EncoderData(System.currentTimeMillis(), m_Encoder.getPosition()));
   }
 
 
