@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm extends SubsystemBase {
 
@@ -58,8 +61,7 @@ public class Arm extends SubsystemBase {
     }
 
 
-    
-    EncoderGraph.data.add(new EncoderData(System.currentTimeMillis(), m_Encoder.getPosition()));
+
   }
 
 
