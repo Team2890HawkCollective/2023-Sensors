@@ -23,7 +23,9 @@ public class Arm extends SubsystemBase {
 
 
   private static final CANSparkMax armMotor = new CANSparkMax(Constants.ARM_MOTOR, MotorType.kBrushless);
+
   private static XboxController driverController = new XboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);  
+
   private static RelativeEncoder m_Encoder = armMotor.getEncoder();
   private static boolean aPressed = false;
   private static boolean bPressed = false;
@@ -32,17 +34,6 @@ public class Arm extends SubsystemBase {
   private static boolean bFlag = false;
   private static boolean xFlag = false;
 
-  /**
-   * Set up NetworkTable for PID Coefficients
-   */
-  private static final NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
-  private static final NetworkTable table = ntInstance.getTable("PIDValues");
-  
-  private static final double kP = table.getEntry("kP").getDouble(Constants.PID_P);
-  private static final double kI = table.getEntry("kI").getDouble(Constants.PID_I);
-  private static final double kD = table.getEntry("kD").getDouble(Constants.PID_D);
-
-  
 
   public static void PIDMoveArm()
   {
@@ -50,14 +41,7 @@ public class Arm extends SubsystemBase {
     bPressed = driverController.getBButton();
     xPressed = driverController.getXButton();
 
-    /**
-     * Set PID coefficients in real time
-     */
-    armMotor.getPIDController().setP(kP);
-    armMotor.getPIDController().setI(kI);
-    armMotor.getPIDController().setD(kD);
-
-    System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + Math.abs(m_Encoder.getPosition()) + " Motor Temp " + armMotor.getMotorTemperature());
+    System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + m_Encoder.getPosition() + " Motor Temp " + armMotor.getMotorTemperature());
 
     if(aPressed) 
     {
@@ -69,10 +53,7 @@ public class Arm extends SubsystemBase {
       //Setting the target position with the PID control
       armMotor.getPIDController().setReference(5, com.revrobotics.CANSparkMax.ControlType.kPosition);
     } 
-    else if(xPressed)
-    {
-      armMotor.getPIDController().setReference(25, com.revrobotics.CANSparkMax.ControlType.kPosition);
-    }
+
     else 
     {
       armMotor.set(0.0);
@@ -81,86 +62,15 @@ public class Arm extends SubsystemBase {
   }
 
 
-  public static void controlledMoveArm()
-  {
-    aPressed = driverController.getAButton();
-    bPressed = driverController.getBButton();
-
-    System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + Math.abs(m_Encoder.getPosition()) + " Motor Temp " + armMotor.getMotorTemperature());
-
-    if(aPressed && m_Encoder.getPosition() < 45) 
-    {
-      armMotor.set(Constants.POLARITY_SWAP * Constants.ARM_SPEED);
-    } 
-    else if(bPressed && m_Encoder.getPosition() > 5) 
-    {
-      armMotor.set(Constants.ARM_SPEED);
-    } 
-    else 
-    {
-      //armMotor.set(0.0);
-    }
-    printPID();
-  }
-  public static void printPID()
-  {
-    SmartDashboard.putNumber("The PID_I is:", Constants.PID_I);
-    // SmartDashboard.putNumber("The PID_P is:", PID_D);
-    SmartDashboard.putNumber("The PID_P is:", Constants.PID_P);
-  }
-
-
-  public static void threeButtonControl() // DOES NOT WORK CURRENTLY NEEDS FIXING
-  {
-    aPressed = driverController.getAButton();
-    bPressed = driverController.getBButton();
-    xPressed = driverController.getXButton();
-    aFlag = driverController.getAButton();
-    bFlag = driverController.getBButton();
-    xFlag = driverController.getXButton();
-
-    System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + Math.abs(m_Encoder.getPosition()) + 
-     " Motor Temp " + armMotor.getMotorTemperature());
-
-    
-
-    if(aPressed && Math.abs(m_Encoder.getPosition()) < 45)
-    {
-      armMotor.set(Constants.POLARITY_SWAP * Constants.ARM_SPEED);
-    }
-    else if(bPressed && Math.abs(m_Encoder.getPosition()) > 5) 
-    {
-      armMotor.set(Constants.ARM_SPEED);
-    } 
-    else if(xPressed)
-    {
-      if (Math.abs(m_Encoder.getPosition()) > 20)
-      {
-        armMotor.set(Constants.ARM_SPEED);
-      }
-      else if(Math.abs(m_Encoder.getPosition()) < 24)
-      {
-        armMotor.set(Constants.POLARITY_SWAP * Constants.ARM_SPEED);
-      }
-    }
-    else if(Math.abs(m_Encoder.getPosition()) > 45 || Math.abs(m_Encoder.getPosition()) < 0)
-    { 
-      armMotor.stopMotor();
-    }
-  }
-
-
-
-
-  /** Creates a new ExampleSubsystem. */
   public Arm() {
     m_Encoder.setPosition(0);
     armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    // armMotor.getPIDController().setP(Constants.PID_P);
-    // armMotor.getPIDController().setI(Constants.PID_I);
-    // armMotor.getPIDController().setD(Constants.PID_D);
-    // armMotor.getPIDController().setFF(Constants.PID_FF);
-    // armMotor.getPIDController().setIZone(Constants.PID_I_ZONE);
+
+
+    armMotor.getPIDController().setP(Constants.PID_P);
+    armMotor.getPIDController().setI(Constants.PID_I);
+    armMotor.getPIDController().setD(Constants.PID_D);
+
   }
 
   @Override
