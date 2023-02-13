@@ -32,13 +32,19 @@ public class Arm extends SubsystemBase {
   {
     aPressed = driverController.getAButton();
     bPressed = driverController.getBButton();
+    armMotor.getPIDController().setP(Constants.PID_P);
+    armMotor.getPIDController().setI(Constants.PID_I);
+    armMotor.getPIDController().setD(Constants.PID_D);
+    armMotor.getPIDController().setFF(Constants.PID_FF);
+    armMotor.getPIDController().setIZone(Constants.PID_I_ZONE);
 
     System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + m_Encoder.getPosition() + " Motor Temp " + armMotor.getMotorTemperature());
-
+ 
     if(aPressed) 
     {
       //Setting the target position with the PID control
       armMotor.getPIDController().setReference(45, com.revrobotics.CANSparkMax.ControlType.kPosition);
+   
     } 
     else if(bPressed) 
     {
@@ -59,9 +65,7 @@ public class Arm extends SubsystemBase {
     armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
 
-    armMotor.getPIDController().setP(Constants.PID_P);
-    armMotor.getPIDController().setI(Constants.PID_I);
-    armMotor.getPIDController().setD(Constants.PID_D);
+
 
   }
 
