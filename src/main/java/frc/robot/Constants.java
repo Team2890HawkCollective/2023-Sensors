@@ -30,11 +30,11 @@ public final class Constants {
     public static final double ARM_REBOUND_SPEED = 0.1;
 
 
-    public static final double PID_P = 0.01;
-    public static final double PID_I = 0.0000075;
-    public static final double PID_D = .0;
-    public static final double PID_I_ZONE = 0;
-    public static final double PID_FF = 0.0;
+    public static final double PID_P = 0.025;
+    public static final double PID_I = 0.000015;
+    public static final double PID_D = 0.24;
+    public static final double PID_I_ZONE = 10;
+    public static final double PID_FF = 0;
 
 
 
