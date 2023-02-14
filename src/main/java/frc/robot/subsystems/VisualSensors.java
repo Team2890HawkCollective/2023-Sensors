@@ -12,7 +12,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class VisualSensors extends SubsystemBase
+
 {
  /**
    * Calls the limelight and gather basic data
@@ -23,18 +27,27 @@ public class VisualSensors extends SubsystemBase
   NetworkTableEntry limelightTargetFound = table.getEntry("tv"); //tv
 
     private boolean targetingOkay = true;
-    
     public void target()
     {
       //Gathers data 
         final double limelightXValue = limelightX.getDouble(0.0); //tx  0.0 is default value
         final double limelightAreaValue = limelightArea.getDouble(0.0); //ta
         final double limelightTargetFoundValue = limelightTargetFound.getDouble(0.0); //tv
-        System.out.print("distance is: " + limelightXValue);
-        System.out.print(" area is: " + limelightAreaValue);
-        System.out.println(" target is: " + limelightTargetFoundValue);
+
+
+        System.out.println("distance is: " + limelightXValue);
+        System.out.println("area is: "+ limelightAreaValue);
+        System.out.println("target is: "+ limelightTargetFoundValue);
+        SmartDashboard.putNumber("distance is: ", limelightXValue);
+        SmartDashboard.putNumber("area is: ", limelightAreaValue);
+        SmartDashboard.putNumber("target is: ", limelightTargetFoundValue);
+        //Shuffleboard.getTab("Limelight").add("Area",limelightAreaValue);
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
       
     }
-  
-    
 }
