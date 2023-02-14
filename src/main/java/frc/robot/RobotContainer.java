@@ -6,8 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.DriveTrainCommand;
-import frc.robot.subsystems.DriveTrain;
 import frc.robot.commands.VisualSensorsCommand;
 import frc.robot.subsystems.VisualSensors;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,16 +19,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
 
 
-  private final DriveTrain m_driveTrainSubsystem = new DriveTrain();
-  private final DriveTrainCommand m_driveTrainCommand = new DriveTrainCommand(m_driveTrainSubsystem);
 
   private final VisualSensors m_visualSensors = new VisualSensors();
   private final VisualSensorsCommand m_visualSensorsCommand = new VisualSensorsCommand(m_visualSensors);
 
   // The robot's subsystems and commands are defined here...
-  private final DriveTrain m_exampleSubsystem = new DriveTrain();
 
-  private final DriveTrainCommand m_autoCommand = new DriveTrainCommand(m_exampleSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -46,21 +40,6 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {}
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }
-
-
-  public Command getDriveTrainCommand() {
-    // System.out.println("DRIVE TRAIN");
-    return m_driveTrainCommand;
-  }
 
   public Command getVisualSensorsCommand() {
     // System.out.println("DRIVE TRAIN");
