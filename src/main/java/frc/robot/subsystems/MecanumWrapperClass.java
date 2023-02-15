@@ -7,6 +7,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import frc.robot.Constants;
 
 public class MecanumWrapperClass extends MecanumDrive
 {
@@ -16,7 +17,7 @@ public class MecanumWrapperClass extends MecanumDrive
     private MotorController m_frontRightMotor;
     private MotorController m_rearRightMotor;
     private boolean m_reported;
-    public static double[] coefficients = {  1.0,           1.0,           1.0,            1.0};
+    public static double[] coefficients = {Constants.frontLeftMotorCoeff, Constants.frontRightMotorCoeff, Constants.backLeftMotorCoeff, Constants.backRightMotorCoeff};
                             //            Front Left ,  Front Right  ,  Back Left   ,  Back Right
 
 

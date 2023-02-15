@@ -27,7 +27,7 @@ public class DriveTrain extends SubsystemBase {
   private static MotorController backLeftVictorSPX = new VictorSPXMecanum(Constants.MOTOR_BACK_LEFT);
   private static MotorController backRightVictorSPX = new VictorSPXMecanum(Constants.MOTOR_BACK_RIGHT);
 
-  private static double[] motorCoefficients = {1.0, 1.0, 1.0, 1.0};
+  private static double[] motorCoefficients = {Constants.frontLeftMotorCoeff, Constants.frontRightMotorCoeff, Constants.backLeftMotorCoeff, Constants.backRightMotorCoeff};
 
   private static MecanumWrapperClass chassisDrive = new MecanumWrapperClass(frontLeftVictorSPX, backLeftVictorSPX, frontRightVictorSPX, backRightVictorSPX);
 
@@ -39,8 +39,30 @@ public class DriveTrain extends SubsystemBase {
   private static double yInput;
 
   private static double rInput;
+  private static boolean isMechanum = true;
+
+  public static void chooseDrive()
+  {
+    if (driverController.getLeftBumper())
+    {
+      //PISTONS RETRACT
+      isMechanum = !isMechanum;
+    }
+    if (isMechanum)
+    {
+      driveMotor();
+    }
+    else
+    {
+      //PISTONS EXTEND
+      driveNonMechanum();
+    }
+  }
 
 
+  /**
+   * Drives the robot using mecanum drive
+   */
   public static void driveMotor()
   {
     backLeftVictorSPX.setInverted(true);
@@ -76,7 +98,28 @@ public class DriveTrain extends SubsystemBase {
 
   }
 
+  /**
+   * This is the drive method for the non-mecanum drive train
+   */
+  public static void driveNonMechanum()
+  {
+    backLeftVictorSPX.setInverted(true);
+    backRightVictorSPX.setInverted(true);
+    frontLeftVictorSPX.setInverted(false);
+    frontRightVictorSPX.setInverted(false);
 
+    xInput = (MathUtil.applyDeadband(driverController.getLeftX(), .02));
+    yInput = 0;
+    rInput = 0;
+
+    chassisDrive.driveCartesian
+          (driverController.getLeftX() * -1 * Constants.SPEED_MOD, 
+          0, 
+          0,
+          new Rotation2d(), 
+          motorCoefficients);
+
+  }
 
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
