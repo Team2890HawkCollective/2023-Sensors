@@ -51,34 +51,47 @@ public class Arm extends SubsystemBase {
   {
     aPressed = driverController.getAButton();
     bPressed = driverController.getBButton();
-    armMotor.getPIDController().setP(Constants.PID_P);
-    armMotor.getPIDController().setI(Constants.PID_I);
-    armMotor.getPIDController().setD(Constants.PID_D);
-    armMotor.getPIDController().setFF(Constants.PID_FF);
-    armMotor.getPIDController().setIZone(Constants.PID_I_ZONE);
+    
+    //System.out.println("gets inside PID MOVE ARM ");
 
     
     double encoderPosition = m_Encoder.getPosition();
     SmartDashboard.putNumber("Encoder Position", encoderPosition);
+    
+
+    //System.out.println("gets passed dashboard placement ");
 
 
+    armMotor.getPIDController().setP(SmartDashboard.getNumber("PID P", 0));
+    armMotor.getPIDController().setI(SmartDashboard.getNumber("PID I", 0));
+    armMotor.getPIDController().setD(SmartDashboard.getNumber("PID D", 0));
+    armMotor.getPIDController().setFF(SmartDashboard.getNumber("PID FF", 0));
+    armMotor.getPIDController().setIZone(SmartDashboard.getNumber("PID I Zone", 0));
 
-    //System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + m_Encoder.getPosition() + " Motor Temp " + armMotor.getMotorTemperature());
+    //System.out.println("gets passed pid placement ");
+
+    System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + m_Encoder.getPosition() + " Motor Temp " + armMotor.getMotorTemperature());
  
     if(aPressed) 
     {
+      System.out.println("gets passed AAAAAAAAa ");
+
       //Setting the target position with the PID control
       armMotor.getPIDController().setReference(45, com.revrobotics.CANSparkMax.ControlType.kPosition);
    
     } 
     else if(bPressed) 
     {
+      System.out.println("gets passed BBBBBBBBb ");
+
       //Setting the target position with the PID control
       armMotor.getPIDController().setReference(5, com.revrobotics.CANSparkMax.ControlType.kPosition);
     } 
 
     else 
     {
+      //System.out.println("neither pressed ");
+
       armMotor.set(0.0);
     }
   }
@@ -91,7 +104,11 @@ public class Arm extends SubsystemBase {
     m_Encoder.setPosition(0);
     armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
-
+    SmartDashboard.putNumber("PID P", Constants.PID_P);
+    SmartDashboard.putNumber("PID I", Constants.PID_I);
+    SmartDashboard.putNumber("PID D", Constants.PID_D);
+    SmartDashboard.putNumber("PID FF", Constants.PID_FF);
+    SmartDashboard.putNumber("PID I Zone", Constants.PID_I_ZONE);
 
 
   }

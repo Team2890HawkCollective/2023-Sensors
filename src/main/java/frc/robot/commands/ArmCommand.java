@@ -37,6 +37,7 @@ public class ArmCommand extends CommandBase {
   public void execute() 
 	{
     Arm.PIDMoveArm();
+    //System.out.println("gets to PID MOVE ARM ");
 }
 
 
