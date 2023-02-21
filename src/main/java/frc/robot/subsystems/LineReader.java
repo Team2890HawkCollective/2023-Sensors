@@ -27,6 +27,7 @@ private final static I2C colorSensor1 = new I2C(i2cPort, COLOR_SENSOR_1_ADDRESS)
 
 
 private final static ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
+
 //private final static ColorSensorV3 m_colorSensor = new ColorSensorV3(I2C.Port.kOnboard, 0x29);
 
 public static boolean isLine(int sensorNumber)
