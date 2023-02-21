@@ -20,13 +20,6 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
 
-
-  private final DriveTrain m_driveTrainSubsystem = new DriveTrain();
-  private final DriveTrainCommand m_driveTrainCommand = new DriveTrainCommand(m_driveTrainSubsystem);
-
-  // The robot's subsystems and commands are defined here...
-  private final DriveTrain m_exampleSubsystem = new DriveTrain();
-  private final DriveTrainCommand m_autoCommand = new DriveTrainCommand(m_exampleSubsystem);
   private final LineReader m_LineReaderSubsystem = new LineReader();
   private final LineReaderCommand m_LineReaderCommand = new LineReaderCommand(m_LineReaderSubsystem);
 

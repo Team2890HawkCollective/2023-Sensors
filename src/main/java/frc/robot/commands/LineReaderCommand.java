@@ -8,12 +8,6 @@ public class LineReaderCommand extends CommandBase{
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final LineReader m_subsystem;
   
-    /**
-     * Creates a new ExampleCommand.
-     *
-     * @param subsystem The subsystem used by this command.
-     */
-  
   
   
     public LineReaderCommand(LineReader subsystem) {
@@ -29,11 +23,9 @@ public class LineReaderCommand extends CommandBase{
     @Override
     public void execute() 
       {
-      //System.out.println("Drive Train Execute");
-          //System.out.println("DEBUG 1");
-          LineReader.passedLine();
-          LineReader.readColor();
-          //System.out.println("DEBUG 2");
+
+
+
       }
   
   
