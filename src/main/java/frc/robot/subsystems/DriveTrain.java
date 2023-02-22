@@ -39,23 +39,23 @@ public class DriveTrain extends SubsystemBase {
   private static double yInput;
 
   private static double rInput;
-  private static boolean isMechanum = true;
+  private static boolean isMecanum = true;
 
   public static void chooseDrive()
   {
     if (driverController.getLeftBumper())
     {
       //PISTONS RETRACT
-      isMechanum = !isMechanum;
+      isMecanum = !isMecanum;
     }
-    if (isMechanum)
+    if (isMecanum)
     {
-      driveMotor();
+      driveMecanum();
     }
     else
     {
       //PISTONS EXTEND
-      driveNonMechanum();
+      driveNonMecanum();
     }
   }
 
@@ -63,7 +63,7 @@ public class DriveTrain extends SubsystemBase {
   /**
    * Drives the robot using mecanum drive
    */
-  public static void driveMotor()
+  public static void driveMecanum()
   {
     backLeftVictorSPX.setInverted(true);
     backRightVictorSPX.setInverted(true);
