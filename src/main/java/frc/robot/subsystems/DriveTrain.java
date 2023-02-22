@@ -87,29 +87,15 @@ public class DriveTrain extends SubsystemBase {
     xInput = (MathUtil.applyDeadband(driverController.getLeftX(), .02));
     yInput = -(MathUtil.applyDeadband(driverController.getLeftY(), .02));
     rInput = (MathUtil.applyDeadband(driverController.getRightY(), .02));
-    //System.out.println("X = " + xInput);
-    //System.out.println("Y = " + yInput);
-
 
     //2/8/2023 USE THE new Rotation2d() THING TO PASS A BLANK GYRO VALUE IF NOT USING GYRO !!!!!!!!!!!!!!
 
-    //1/24/2023 Inverting the X joystick
     chassisDrive.driveCartesian
           (driverController.getLeftX() * -1 * Constants.SPEED_MOD, 
           driverController.getLeftY() * Constants.SPEED_MOD, 
           driverController.getRightX() * -1 * Constants.SPEED_MOD,
           new Rotation2d(), 
           motorCoefficients);
-    // System.out.println(driverController.getRightX());
-    // System.out.println(driverController.getRightY());
-
-    //FUNCTIONAL MECANUM BASE
-    // FrontLeftVictor.set(ControlMode.PercentOutput, ((xInput + yInput) * Constants.SPEED_MOD * Constants.POLARITY_SWAP));
-    // BackLeftVictor.set(ControlMode.PercentOutput, ((xInput + yInput) * Constants.SPEED_MOD));
-
-    // FrontRightVictor.set(ControlMode.PercentOutput, ((xInput - yInput) * Constants.SPEED_MOD * Constants.POLARITY_SWAP));
-    // BackRightVictor.set(ControlMode.PercentOutput, ((xInput - yInput) * Constants.SPEED_MOD));
-
   }
 
   /**
