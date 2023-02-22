@@ -27,6 +27,11 @@ public class MecanumWrapperClass extends MecanumDrive
         MotorController frontRightMotor,
         MotorController rearRightMotor) {
         super(rearRightMotor, rearRightMotor, rearRightMotor, rearRightMotor);
+        this.m_frontLeftMotor = frontLeftMotor;
+        this.m_frontRightMotor = frontRightMotor;
+        this.m_rearLeftMotor = rearLeftMotor;
+        this.m_rearRightMotor = rearRightMotor;
+        
         
     }
 

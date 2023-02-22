@@ -45,11 +45,10 @@ public class DriveTrain extends SubsystemBase {
 
   public static void updateShuffleboard()
   {
-    SmartDashboard.getNumber("frontLeftMotorCoeff", Constants.frontLeftMotorCoeff);
-    SmartDashboard.getNumber("frontRightMotorCoeff", Constants.frontRightMotorCoeff);
-    SmartDashboard.getNumber("backLeftMotorCoeff", Constants.backLeftMotorCoeff);
-    SmartDashboard.getNumber("backRightMotorCoeff", Constants.backRightMotorCoeff);
-
+    motorCoefficients[0] = SmartDashboard.getNumber("frontLeftMotorCoeff", Constants.frontLeftMotorCoeff);
+    motorCoefficients[1] = SmartDashboard.getNumber("frontRightMotorCoeff", Constants.frontRightMotorCoeff);
+    motorCoefficients[2] = SmartDashboard.getNumber("backLeftMotorCoeff", Constants.backLeftMotorCoeff);
+    motorCoefficients[3] = SmartDashboard.getNumber("backRightMotorCoeff", Constants.backRightMotorCoeff);
   }
 
 
