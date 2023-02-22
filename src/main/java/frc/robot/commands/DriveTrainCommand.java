@@ -33,10 +33,8 @@ public class DriveTrainCommand extends CommandBase {
   @Override
   public void execute() 
 	{
-    
-
+    DriveTrain.updateShuffleboard();
     DriveTrain.chooseDrive();
-    
 	}
 
 
