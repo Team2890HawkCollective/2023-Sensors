@@ -9,6 +9,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 //import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -41,12 +43,26 @@ public class DriveTrain extends SubsystemBase {
   private static double rInput;
   private static boolean isMecanum = true;
 
+  public static void updateShuffleboard()
+  {
+    SmartDashboard.getNumber("frontLeftMotorCoeff", Constants.frontLeftMotorCoeff);
+    SmartDashboard.getNumber("frontRightMotorCoeff", Constants.frontRightMotorCoeff);
+    SmartDashboard.getNumber("backLeftMotorCoeff", Constants.backLeftMotorCoeff);
+    SmartDashboard.getNumber("backRightMotorCoeff", Constants.backRightMotorCoeff);
+
+  }
+
+
+
   public static void chooseDrive()
   {
     if (driverController.getLeftBumper())
     {
-      //PISTONS RETRACT
       isMecanum = !isMecanum;
+
+      if(isMecanum){/*Extend*/}
+      if(!isMecanum){/*Retract*/}
+
     }
     if (isMecanum)
     {
@@ -54,8 +70,7 @@ public class DriveTrain extends SubsystemBase {
     }
     else
     {
-      //PISTONS EXTEND
-      driveNonMecanum();
+      driveFriction();
     }
   }
 
@@ -101,7 +116,7 @@ public class DriveTrain extends SubsystemBase {
   /**
    * This is the drive method for the non-mecanum drive train
    */
-  public static void driveNonMechanum()
+  public static void driveFriction()
   {
     backLeftVictorSPX.setInverted(true);
     backRightVictorSPX.setInverted(true);
@@ -123,7 +138,11 @@ public class DriveTrain extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
-    
+    SmartDashboard.putNumber("frontLeftMotorCoeff", Constants.frontLeftMotorCoeff);
+    SmartDashboard.putNumber("frontRightMotorCoeff", Constants.frontRightMotorCoeff);
+    SmartDashboard.putNumber("backLeftMotorCoeff", Constants.backLeftMotorCoeff);
+    SmartDashboard.putNumber("backRightMotorCoeff", Constants.backRightMotorCoeff);
+
   }
 
   @Override
