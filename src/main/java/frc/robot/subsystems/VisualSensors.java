@@ -35,12 +35,13 @@ public class VisualSensors extends SubsystemBase
         final double limelightTargetFoundValue = limelightTargetFound.getDouble(0.0); //tv
 
 
-        System.out.println("distance is: " + limelightXValue);
-        System.out.println("area is: "+ limelightAreaValue);
-        System.out.println("target is: "+ limelightTargetFoundValue);
-        SmartDashboard.putNumber("distance is: ", limelightXValue);
-        SmartDashboard.putNumber("area is: ", limelightAreaValue);
-        SmartDashboard.putNumber("target is: ", limelightTargetFoundValue);
+        System.out.print("Distance is: " + limelightXValue + " ");
+        System.out.print("Area is: "+ limelightAreaValue + " ");
+        System.out.println("Target is: "+ limelightTargetFoundValue);
+
+        // SmartDashboard.putNumber("distance is: ", limelightXValue);
+        // SmartDashboard.putNumber("area is: ", limelightAreaValue);
+        // SmartDashboard.putNumber("target is: ", limelightTargetFoundValue);
         //Shuffleboard.getTab("Limelight").add("Area",limelightAreaValue);
         try {
           Thread.sleep(1000);
