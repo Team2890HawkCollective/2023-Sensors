@@ -33,19 +33,6 @@ public class Arm extends SubsystemBase {
   private static boolean aPressed = false;
   private static boolean bPressed = false; 
 
-//   public void graphEncoderPosition() {
-//     ShuffleboardTab tab = Shuffleboard.getTab("Arm Subsystem");
-//     NetworkTableEntry graph = tab.add(kGraphTitle, new LinkedList<Double>())
-//         .withSize(2, 2)
-//         .withPosition(0, 0)
-//         .getEntry();
-//     LinkedList<Double> data = (LinkedList<Double>) graph.getValue();
-//     data.addFirst(m_Encoder.getPosition());
-//     while (data.size() > kMaxDataPoints) {
-//         data.removeLast();
-//     }
-//     graph.setValue(data);
-// }
 
   public static void PIDMoveArm()
   {

@@ -108,9 +108,11 @@ public class DriveTrain extends SubsystemBase {
     frontLeftVictorSPX.setInverted(false);
     frontRightVictorSPX.setInverted(false);
 
-    xInput = (MathUtil.applyDeadband(driverController.getLeftX(), .02));
-    yInput = 0;
+    xInput = 0;
+    yInput = (MathUtil.applyDeadband(driverController.getLeftX(), .02));
     rInput = 0;
+    
+
 
     chassisDrive.driveCartesian
           (driverController.getLeftX() * -1 * Constants.SPEED_MOD, 
@@ -118,8 +120,9 @@ public class DriveTrain extends SubsystemBase {
           0,
           new Rotation2d(), 
           motorCoefficients);
-
   }
+
+
 
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
