@@ -130,7 +130,7 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("backLeftMotorCoeff", Constants.backLeftMotorCoeff);
     SmartDashboard.putNumber("backRightMotorCoeff", Constants.backRightMotorCoeff);
     
-    butterFlySolenoid = new DoubleSolenoid(Constants.REV_PNEUMATIC_MODULE, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
+    butterFlySolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
   }
 
   @Override
