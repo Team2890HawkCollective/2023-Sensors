@@ -6,18 +6,15 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 //import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class DriveTrain extends SubsystemBase {
 
@@ -42,6 +39,8 @@ public class DriveTrain extends SubsystemBase {
 
   private static double rInput;
   private static boolean isMecanum = true;
+
+  private static DoubleSolenoid butterFlySolenoid = null;
 
   public static void updateShuffleboard()
   {
@@ -130,7 +129,8 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("frontRightMotorCoeff", Constants.frontRightMotorCoeff);
     SmartDashboard.putNumber("backLeftMotorCoeff", Constants.backLeftMotorCoeff);
     SmartDashboard.putNumber("backRightMotorCoeff", Constants.backRightMotorCoeff);
-
+    
+    butterFlySolenoid = new DoubleSolenoid(Constants.REV_PNEUMATIC_MODULE, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
   }
 
   @Override
