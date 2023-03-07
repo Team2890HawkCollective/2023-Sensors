@@ -30,8 +30,8 @@ public class RobotContainer {
   private final ArmCommand m_ArmCommand = new ArmCommand(m_armSubsystem);
   // The robot's subsystems and commands are defined here...
 
-  private final DriveTrain m_exampleSubsystem = new DriveTrain();
-  private final DriveTrainCommand m_autoCommand = new DriveTrainCommand(m_driveTrainSubsystem);
+  //private final DriveTrain m_exampleSubsystem = new DriveTrain();
+  // private final DriveTrainCommand m_autoCommand = new DriveTrainCommand();
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -64,10 +64,10 @@ public Command getArmCommand() {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }
+  // public Command getAutonomousCommand() {
+  //   // An ExampleCommand will run in autonomous
+  //   return m_autoCommand;
+  // }
 
 
 
