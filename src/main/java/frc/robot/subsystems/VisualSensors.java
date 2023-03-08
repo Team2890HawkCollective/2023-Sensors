@@ -4,7 +4,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-
+import edu.wpi.first.cscore.HttpCamera;
 /*1/20/23 created the new subsystem VisualSensors. Copied most of the info from the DriveTrain subsystem
 Imported NetworkTable, NetworkTableEntry, and NetworkTableInstance b/c the limelight website told me too*/
 import edu.wpi.first.math.MathUtil;
@@ -15,6 +15,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.cameraserver.*;
+
 public class VisualSensors extends SubsystemBase
 
 {
@@ -25,7 +27,8 @@ public class VisualSensors extends SubsystemBase
   NetworkTableEntry limelightX = table.getEntry("tx"); //tx
   NetworkTableEntry limelightArea = table.getEntry("ta"); //ta
   NetworkTableEntry limelightTargetFound = table.getEntry("tv"); //tv
-
+  HttpCamera httpCamera = new HttpCamera("CoprocessorCamera", "http://limelight.local:5801/");
+  
     private boolean targetingOkay = true;
     public void target()
     {
@@ -33,16 +36,19 @@ public class VisualSensors extends SubsystemBase
         final double limelightXValue = limelightX.getDouble(0.0); //tx  0.0 is default value
         final double limelightAreaValue = limelightArea.getDouble(0.0); //ta
         final double limelightTargetFoundValue = limelightTargetFound.getDouble(0.0); //tv
+        //CameraServer.addCamera(httpCamera);
+        //CameraServer.startAutomaticCapture(httpCamera);
+        
 
 
         System.out.print("Distance is: " + limelightXValue + " ");
         System.out.print("Area is: "+ limelightAreaValue + " ");
         System.out.println("Target is: "+ limelightTargetFoundValue);
 
-        // SmartDashboard.putNumber("distance is: ", limelightXValue);
-        // SmartDashboard.putNumber("area is: ", limelightAreaValue);
-        // SmartDashboard.putNumber("target is: ", limelightTargetFoundValue);
-        //Shuffleboard.getTab("Limelight").add("Area",limelightAreaValue);
+        SmartDashboard.putNumber("distance is: ", limelightXValue);
+        SmartDashboard.putNumber("area is: ", limelightAreaValue);
+        SmartDashboard.putNumber("target is: ", limelightTargetFoundValue);
+        Shuffleboard.getTab("Limelight").add("Area",limelightAreaValue);
         try {
           Thread.sleep(1000);
         } catch (InterruptedException e) {
