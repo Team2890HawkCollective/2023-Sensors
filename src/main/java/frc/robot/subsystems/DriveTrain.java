@@ -77,8 +77,15 @@ public class DriveTrain extends SubsystemBase {
     {
       isMecanum = !isMecanum;
       butterFlySolenoid.toggle();
-      if(isMecanum){}
-      if(!isMecanum){}
+      System.out.println();
+      System.out.println();
+      System.out.println();
+      System.out.println();
+      System.out.println("GETS PAST SOLENOID ACTUATION");
+      System.out.println();
+      System.out.println();
+      System.out.println();
+      System.out.println();
 
     }
     if (isMecanum)
@@ -150,8 +157,8 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("backRightMotorCoeff", Constants.backRightMotorCoeff);
     
     butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
-    phCompressor = new Compressor(1, PneumaticsModuleType.REVPH);
-    phCompressor.enableDigital();
+    phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
+    phCompressor.enableAnalog(90, 110);
     butterFlySolenoid.set(Value.kReverse);
   }
 

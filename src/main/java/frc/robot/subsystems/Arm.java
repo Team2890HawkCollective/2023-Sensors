@@ -57,11 +57,11 @@ public class Arm extends SubsystemBase {
 
     //System.out.println("gets passed pid placement ");
 
-    System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + m_Encoder.getPosition() + " Motor Temp " + armMotor.getMotorTemperature());
+    //System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + m_Encoder.getPosition() + " Motor Temp " + armMotor.getMotorTemperature());
  
     if(aPressed) 
     {
-      System.out.println("gets passed AAAAAAAAa ");
+     // System.out.println("gets passed AAAAAAAAa ");
 
       //Setting the target position with the PID control
       armMotor.getPIDController().setReference(45, com.revrobotics.CANSparkMax.ControlType.kPosition);
@@ -69,7 +69,7 @@ public class Arm extends SubsystemBase {
     } 
     else if(bPressed) 
     {
-      System.out.println("gets passed BBBBBBBBb ");
+     // System.out.println("gets passed BBBBBBBBb ");
 
       //Setting the target position with the PID control
       armMotor.getPIDController().setReference(5, com.revrobotics.CANSparkMax.ControlType.kPosition);
