@@ -35,6 +35,7 @@ public class DriveTrainCommand extends CommandBase {
 	{
     DriveTrain.updateShuffleboard();
     DriveTrain.chooseDrive();
+    //DriveTrain.driveMecanum();
 	}
 
 
