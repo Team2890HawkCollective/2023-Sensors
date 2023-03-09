@@ -51,6 +51,10 @@ public class Arm extends SubsystemBase {
     {
       System.out.println("DPAD RIGHT PRESSED");
     }
+    else if (dPadAngle == 180)
+    {
+      System.out.println("DPAD DOWN PRESSED");
+    }
 
 
   }
