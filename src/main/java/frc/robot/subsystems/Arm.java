@@ -32,6 +32,28 @@ public class Arm extends SubsystemBase {
   private static RelativeEncoder m_Encoder = armMotor.getEncoder();
   private static boolean aPressed = false;
   private static boolean bPressed = false; 
+  private static int dPadAngle;
+
+
+  public static void ShoulderControl()
+  {
+    dPadAngle = driverController.getPOV();
+
+    if (dPadAngle == 0)
+    {
+      System.out.println("DPAD UP PRESSED");
+    }
+    else if (dPadAngle == 270)
+    {
+      System.out.println("DPAD LEFT PRESSED");
+    }
+    else if (dPadAngle == 90)
+    {
+      System.out.println("DPAD RIGHT PRESSED");
+    }
+
+
+  }
 
 
   public static void PIDMoveArm()

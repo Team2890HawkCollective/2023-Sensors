@@ -54,7 +54,7 @@ public class DriveTrain extends SubsystemBase {
   private static double yInput;
 
   private static double rInput;
-  private static boolean isMecanum = true;
+  private static boolean isMecanum = false;
 
   private static DoubleSolenoid butterFlySolenoid = null;
   private static Compressor phCompressor = null;
@@ -134,13 +134,13 @@ public class DriveTrain extends SubsystemBase {
     frontRightSparkMax.setInverted(true);
 
     xInput = 0;
-    yInput = (MathUtil.applyDeadband(driverController.getLeftX(), .02));
+    yInput = (MathUtil.applyDeadband(driverController.getLeftY(), .02));
     rInput = 0;
     
 
 
     chassisDrive.driveCartesian
-          (driverController.getLeftX() * -1 * Constants.SPEED_MOD, 
+          (driverController.getLeftY() * -1 * Constants.SPEED_MOD, 
           0, 
           0,
           new Rotation2d(), 
