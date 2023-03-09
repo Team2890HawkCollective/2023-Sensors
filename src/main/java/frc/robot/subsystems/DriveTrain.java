@@ -71,33 +71,6 @@ public class DriveTrain extends SubsystemBase {
 
 
 
-  public static void chooseDrive()
-  {
-    if (driverController.getLeftBumperReleased())
-    {
-      isMecanum = !isMecanum;
-      butterFlySolenoid.toggle();
-      System.out.println();
-      System.out.println();
-      System.out.println();
-      System.out.println();
-      System.out.println("GETS PAST SOLENOID ACTUATION");
-      System.out.println();
-      System.out.println();
-      System.out.println();
-      System.out.println();
-
-    }
-    if (isMecanum)
-    {
-      driveMecanum();
-    }
-    else
-    {
-      driveFriction();
-    }
-  }
-
 
   /**
    * Drives the robot using mecanum drive
@@ -109,9 +82,9 @@ public class DriveTrain extends SubsystemBase {
     frontLeftSparkMax.setInverted(true);
     frontRightSparkMax.setInverted(true);
 
-    xInput = (MathUtil.applyDeadband(driverController.getLeftX(), .02));
-    yInput = -(MathUtil.applyDeadband(driverController.getLeftY(), .02));
-    rInput = (MathUtil.applyDeadband(driverController.getRightY(), .02));
+    xInput = (MathUtil.applyDeadband(driverController.getLeftX(), .1));
+    yInput = -(MathUtil.applyDeadband(driverController.getLeftY(), .1));
+    rInput = (MathUtil.applyDeadband(driverController.getRightY(), .1));
 
     //2/8/2023 USE THE new Rotation2d() THING TO PASS A BLANK GYRO VALUE IF NOT USING GYRO !!!!!!!!!!!!!!
 
@@ -123,29 +96,6 @@ public class DriveTrain extends SubsystemBase {
           motorCoefficients);
   }
 
-  /**
-   * This is the drive method for the non-mecanum drive train
-   */
-  public static void driveFriction()
-  {
-    backLeftSparkMax.setInverted(false);
-    backRightSparkMax.setInverted(false);
-    frontLeftSparkMax.setInverted(true);
-    frontRightSparkMax.setInverted(true);
-
-    xInput = 0;
-    yInput = (MathUtil.applyDeadband(driverController.getLeftY(), .02));
-    rInput = 0;
-    
-
-
-    chassisDrive.driveCartesian
-          (driverController.getLeftY() * -1 * Constants.SPEED_MOD, 
-          0, 
-          0,
-          new Rotation2d(), 
-          motorCoefficients);
-  }
 
 
 
@@ -155,11 +105,15 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("frontRightMotorCoeff", Constants.frontRightMotorCoeff);
     SmartDashboard.putNumber("backLeftMotorCoeff", Constants.backLeftMotorCoeff);
     SmartDashboard.putNumber("backRightMotorCoeff", Constants.backRightMotorCoeff);
-    
-    butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
-    phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
-    phCompressor.enableAnalog(90, 110);
-    butterFlySolenoid.set(Value.kReverse);
+
+
+    /**
+     * Solenoid and pneumatic control
+     */
+    //butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
+    //phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
+    //phCompressor.enableAnalog(90, 110); 
+    //butterFlySolenoid.set(Value.kReverse);
   }
 
   @Override
