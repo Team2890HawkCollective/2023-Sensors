@@ -28,6 +28,7 @@ public class Arm extends SubsystemBase {
   private static final CANSparkMax armMotor = new CANSparkMax(Constants.ARM_MOTOR, MotorType.kBrushless);
 
   private static XboxController driverController = new XboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);  
+  private static XboxController assistantController = new XboxController(Constants.ASSISTANT_XBOX_CONTROLLER_PORT);  
 
   private static RelativeEncoder m_Encoder = armMotor.getEncoder();
   private static boolean aPressed = false;
@@ -37,26 +38,15 @@ public class Arm extends SubsystemBase {
 
   public static void ShoulderControl()
   {
-    dPadAngle = driverController.getPOV();
-
-    if (dPadAngle == 0)
-    {
-      System.out.println("DPAD UP PRESSED");
+    if(assistantController.getXButton()){
+      System.out.println("assistant driver controller x button, shoulder lowest");
     }
-    else if (dPadAngle == 270)
-    {
-      System.out.println("DPAD LEFT PRESSED");
+    if(assistantController.getYButton()){
+      System.out.println("assistant driver controller y button, shoulder middle");
     }
-    else if (dPadAngle == 90)
-    {
-      System.out.println("DPAD RIGHT PRESSED");
+    if(assistantController.getBButton()){
+      System.out.println("assistant driver controller b button, shoulder highest");
     }
-    else if (dPadAngle == 180)
-    {
-      System.out.println("DPAD DOWN PRESSED");
-    }
-
-
   }
 
 
@@ -87,24 +77,18 @@ public class Arm extends SubsystemBase {
  
     if(aPressed) 
     {
-     // System.out.println("gets passed AAAAAAAAa ");
-
       //Setting the target position with the PID control
       armMotor.getPIDController().setReference(45, com.revrobotics.CANSparkMax.ControlType.kPosition);
    
     } 
     else if(bPressed) 
     {
-     // System.out.println("gets passed BBBBBBBBb ");
-
       //Setting the target position with the PID control
       armMotor.getPIDController().setReference(5, com.revrobotics.CANSparkMax.ControlType.kPosition);
     } 
 
     else 
     {
-      //System.out.println("neither pressed ");
-
       armMotor.set(0.0);
     }
   }

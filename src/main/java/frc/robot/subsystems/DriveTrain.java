@@ -33,10 +33,10 @@ public class DriveTrain extends SubsystemBase {
   // private static MotorController backLeftVictorSPX = new VictorSPXMecanum(Constants.MOTOR_BACK_LEFT);
   // private static MotorController backRightVictorSPX = new VictorSPXMecanum(Constants.MOTOR_BACK_RIGHT);
 
-  private static CANSparkMax frontLeftSparkMax = new CANSparkMax(Constants.MOTOR_FRONT_LEFT, MotorType.kBrushless);
-  private static CANSparkMax frontRightSparkMax = new CANSparkMax(Constants.MOTOR_FRONT_RIGHT, MotorType.kBrushless);
-  private static CANSparkMax backLeftSparkMax = new CANSparkMax(Constants.MOTOR_BACK_LEFT, MotorType.kBrushless);
-  private static CANSparkMax backRightSparkMax = new CANSparkMax(Constants.MOTOR_BACK_RIGHT, MotorType.kBrushless);
+  // private static CANSparkMax frontLeftSparkMax = new CANSparkMax(Constants.MOTOR_FRONT_LEFT, MotorType.kBrushless);
+  // private static CANSparkMax frontRightSparkMax = new CANSparkMax(Constants.MOTOR_FRONT_RIGHT, MotorType.kBrushless);
+  // private static CANSparkMax backLeftSparkMax = new CANSparkMax(Constants.MOTOR_BACK_LEFT, MotorType.kBrushless);
+  // private static CANSparkMax backRightSparkMax = new CANSparkMax(Constants.MOTOR_BACK_RIGHT, MotorType.kBrushless);
 
 
 
@@ -44,7 +44,7 @@ public class DriveTrain extends SubsystemBase {
 
   // private static MecanumWrapperClass chassisDrive = new MecanumWrapperClass(frontLeftVictorSPX, backLeftVictorSPX, frontRightVictorSPX, backRightVictorSPX);
   
-  private static MecanumWrapperClass chassisDrive = new MecanumWrapperClass(frontLeftSparkMax, backLeftSparkMax, frontRightSparkMax, backRightSparkMax);
+  //private static MecanumWrapperClass chassisDrive = new MecanumWrapperClass(frontLeftSparkMax, backLeftSparkMax, frontRightSparkMax, backRightSparkMax);
 
 
   private static XboxController driverController = new XboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);
@@ -71,82 +71,6 @@ public class DriveTrain extends SubsystemBase {
 
 
 
-  public static void chooseDrive()
-  {
-    if (driverController.getLeftBumperReleased())
-    {
-      isMecanum = !isMecanum;
-      butterFlySolenoid.toggle();
-      System.out.println();
-      System.out.println();
-      System.out.println();
-      System.out.println();
-      System.out.println("GETS PAST SOLENOID ACTUATION");
-      System.out.println();
-      System.out.println();
-      System.out.println();
-      System.out.println();
-
-    }
-    if (isMecanum)
-    {
-      driveMecanum();
-    }
-    else
-    {
-      driveFriction();
-    }
-  }
-
-
-  /**
-   * Drives the robot using mecanum drive
-   */
-  public static void driveMecanum()
-  {
-    backLeftSparkMax.setInverted(false);
-    backRightSparkMax.setInverted(false);
-    frontLeftSparkMax.setInverted(true);
-    frontRightSparkMax.setInverted(true);
-
-    xInput = (MathUtil.applyDeadband(driverController.getLeftX(), .02));
-    yInput = -(MathUtil.applyDeadband(driverController.getLeftY(), .02));
-    rInput = (MathUtil.applyDeadband(driverController.getRightY(), .02));
-
-    //2/8/2023 USE THE new Rotation2d() THING TO PASS A BLANK GYRO VALUE IF NOT USING GYRO !!!!!!!!!!!!!!
-
-    chassisDrive.driveCartesian
-          (driverController.getLeftX() * -1 * Constants.SPEED_MOD, 
-          driverController.getLeftY() * Constants.SPEED_MOD, 
-          driverController.getRightX() * -1 * Constants.SPEED_MOD,
-          new Rotation2d(), 
-          motorCoefficients);
-  }
-
-  /**
-   * This is the drive method for the non-mecanum drive train
-   */
-  public static void driveFriction()
-  {
-    backLeftSparkMax.setInverted(false);
-    backRightSparkMax.setInverted(false);
-    frontLeftSparkMax.setInverted(true);
-    frontRightSparkMax.setInverted(true);
-
-    xInput = 0;
-    yInput = (MathUtil.applyDeadband(driverController.getLeftY(), .02));
-    rInput = 0;
-    
-
-
-    chassisDrive.driveCartesian
-          (driverController.getLeftY() * -1 * Constants.SPEED_MOD, 
-          0, 
-          0,
-          new Rotation2d(), 
-          motorCoefficients);
-  }
-
 
 
   /** Creates a new ExampleSubsystem. */
@@ -156,10 +80,10 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("backLeftMotorCoeff", Constants.backLeftMotorCoeff);
     SmartDashboard.putNumber("backRightMotorCoeff", Constants.backRightMotorCoeff);
     
-    butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
-    phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
-    phCompressor.enableAnalog(90, 110);
-    butterFlySolenoid.set(Value.kReverse);
+    // butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
+    // phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
+    // phCompressor.enableAnalog(90, 110);
+    // butterFlySolenoid.set(Value.kReverse);
   }
 
   @Override
