@@ -25,12 +25,16 @@ public class Arm extends SubsystemBase {
   private static final String kGraphTitle = "Encoder Position";
   private static final int kMaxDataPoints = 100;
 
-  private static final CANSparkMax armMotor = new CANSparkMax(Constants.ARM_MOTOR, MotorType.kBrushless);
+  //private static final CANSparkMax armMotor = new CANSparkMax(Constants.ARM_MOTOR, MotorType.kBrushless);
+  private static final CANSparkMax shoulderMotor = new CANSparkMax(Constants.SHOULDER_MOTOR, MotorType.kBrushless);
 
-  private static XboxController driverController = new XboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);  
+  //private static XboxController driverController = new XboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);  
   private static XboxController assistantController = new XboxController(Constants.ASSISTANT_XBOX_CONTROLLER_PORT);  
 
-  private static RelativeEncoder m_Encoder = armMotor.getEncoder();
+  //private static RelativeEncoder m_ExtensionEncoder = armMotor.getEncoder();
+  private static RelativeEncoder m_ShoulderEncoder = shoulderMotor.getEncoder();
+
+
   private static boolean aPressed = false;
   private static boolean bPressed = false; 
   private static int dPadAngle;
@@ -49,11 +53,11 @@ public class Arm extends SubsystemBase {
     }
   }
 
-
+/*
   public static void PIDMoveArm()
   {
-    aPressed = driverController.getAButton();
-    bPressed = driverController.getBButton();
+    //aPressed = driverController.getAButton();
+    //bPressed = driverController.getBButton();
     
     //System.out.println("gets inside PID MOVE ARM ");
 
@@ -92,14 +96,18 @@ public class Arm extends SubsystemBase {
       armMotor.set(0.0);
     }
   }
+  */
 
   
   
 
 
   public Arm() {
-    m_Encoder.setPosition(0);
-    armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    //m_ExtensionEncoder.setPosition(0);
+    //armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
+    m_ShoulderEncoder.setPosition(0);
+    shoulderMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
     SmartDashboard.putNumber("PID P", Constants.PID_P);
     SmartDashboard.putNumber("PID I", Constants.PID_I);

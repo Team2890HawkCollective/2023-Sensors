@@ -36,8 +36,9 @@ public class ArmCommand extends CommandBase {
   @Override
   public void execute() 
 	{
-    Arm.PIDMoveArm();
+    //Arm.PIDMoveArm();
     //System.out.println("gets to PID MOVE ARM ");
+    Arm.ShoulderControl();
 }
 
 
