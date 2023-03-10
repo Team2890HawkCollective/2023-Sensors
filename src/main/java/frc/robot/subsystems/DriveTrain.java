@@ -56,8 +56,8 @@ public class DriveTrain extends SubsystemBase {
   private static double rInput;
   private static boolean isMecanum = false;
 
-  private static DoubleSolenoid butterFlySolenoid = null;
-  private static Compressor phCompressor = null;
+  //private static DoubleSolenoid butterFlySolenoid = null;
+  //private static Compressor phCompressor = null;
 
   public static void updateShuffleboard()
   {
@@ -66,7 +66,7 @@ public class DriveTrain extends SubsystemBase {
     motorCoefficients[2] = SmartDashboard.getNumber("backLeftMotorCoeff", Constants.backLeftMotorCoeff);
     motorCoefficients[3] = SmartDashboard.getNumber("backRightMotorCoeff", Constants.backRightMotorCoeff);
 
-    SmartDashboard.putNumber("Compressor Pressure", phCompressor.getPressure());
+    //SmartDashboard.putNumber("Compressor Pressure", phCompressor.getPressure());
   }
 
 

@@ -42,14 +42,17 @@ public class Arm extends SubsystemBase {
 
   public static void ShoulderControl()
   {
-    if(assistantController.getXButton()){
-      System.out.println("assistant driver controller x button, shoulder lowest");
+    if(assistantController.getXButtonReleased()){
+      //System.out.println("assistant driver controller x button, shoulder lowest");
+      shoulderMotor.getPIDController().setReference(0, com.revrobotics.CANSparkMax.ControlType.kPosition);
     }
-    if(assistantController.getYButton()){
-      System.out.println("assistant driver controller y button, shoulder middle");
+    if(assistantController.getYButtonReleased()){
+      //System.out.println("assistant driver controller y button, shoulder middle");
+      shoulderMotor.getPIDController().setReference(0, com.revrobotics.CANSparkMax.ControlType.kPosition);
     }
-    if(assistantController.getBButton()){
-      System.out.println("assistant driver controller b button, shoulder highest");
+    if(assistantController.getBButtonReleased()){
+      //System.out.println("assistant driver controller b button, shoulder highest");
+      shoulderMotor.getPIDController().setReference(0, com.revrobotics.CANSparkMax.ControlType.kPosition);
     }
   }
 
