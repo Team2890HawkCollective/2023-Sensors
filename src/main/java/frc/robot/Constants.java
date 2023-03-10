@@ -51,5 +51,10 @@ public final class Constants {
 
     public static final int REV_PNEUMATIC_MODULE = 11;
 
+    public static final double ShPID_P = 0.03;
+    public static final double ShPID_I = 0.000025;
+    public static final double ShPID_D = 0.24;
+    public static final double ShPID_I_ZONE = 5;
+
     //first commit change
 }

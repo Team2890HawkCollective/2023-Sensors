@@ -118,7 +118,10 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("PID FF", Constants.PID_FF);
     SmartDashboard.putNumber("PID I Zone", Constants.PID_I_ZONE);
 
-
+    shoulderMotor.getPIDController().setP(Constants.ShPID_P);
+    shoulderMotor.getPIDController().setI(Constants.ShPID_I);
+    shoulderMotor.getPIDController().setD(Constants.ShPID_D);
+    shoulderMotor.getPIDController().setD(Constants.ShPID_I_ZONE);
   }
 
   @Override
