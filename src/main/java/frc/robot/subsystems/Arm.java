@@ -25,21 +25,21 @@ public class Arm extends SubsystemBase {
   private static final String kGraphTitle = "Encoder Position";
   private static final int kMaxDataPoints = 100;
 
-  //private static final CANSparkMax armMotor = new CANSparkMax(Constants.ARM_MOTOR, MotorType.kBrushless);
-  private static final CANSparkMax shoulderMotor = new CANSparkMax(Constants.SHOULDER_MOTOR, MotorType.kBrushless);
+  private static final CANSparkMax armMotor = new CANSparkMax(Constants.ARM_MOTOR, MotorType.kBrushless);
+  private static XboxController driverController = new XboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);  
+  private static RelativeEncoder m_ExtensionEncoder = armMotor.getEncoder();
 
-  //private static XboxController driverController = new XboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);  
-  private static XboxController assistantController = new XboxController(Constants.ASSISTANT_XBOX_CONTROLLER_PORT);  
 
-  //private static RelativeEncoder m_ExtensionEncoder = armMotor.getEncoder();
-  private static RelativeEncoder m_ShoulderEncoder = shoulderMotor.getEncoder();
+  // private static final CANSparkMax shoulderMotor = new CANSparkMax(Constants.SHOULDER_MOTOR, MotorType.kBrushless);
+  // private static XboxController assistantController = new XboxController(Constants.ASSISTANT_XBOX_CONTROLLER_PORT);  
+  // private static RelativeEncoder m_ShoulderEncoder = shoulderMotor.getEncoder();
 
 
   private static boolean aPressed = false;
   private static boolean bPressed = false; 
   private static int dPadAngle;
 
-
+/*
   public static void ShoulderControl()
   {
     if(assistantController.getXButtonReleased()){
@@ -55,17 +55,17 @@ public class Arm extends SubsystemBase {
       shoulderMotor.getPIDController().setReference(0, com.revrobotics.CANSparkMax.ControlType.kPosition);
     }
   }
+*/
 
-/*
   public static void PIDMoveArm()
   {
-    //aPressed = driverController.getAButton();
-    //bPressed = driverController.getBButton();
+    aPressed = driverController.getAButton();
+    bPressed = driverController.getBButton();
     
     //System.out.println("gets inside PID MOVE ARM ");
 
     
-    double encoderPosition = m_Encoder.getPosition();
+    double encoderPosition = m_ExtensionEncoder.getPosition();
     SmartDashboard.putNumber("Encoder Position", encoderPosition);
     
 
@@ -80,18 +80,20 @@ public class Arm extends SubsystemBase {
 
     //System.out.println("gets passed pid placement ");
 
-    //System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + m_Encoder.getPosition() + " Motor Temp " + armMotor.getMotorTemperature());
+    //System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + m_ExtensionEncoder.getPosition() + " Motor Temp " + armMotor.getMotorTemperature());
  
     if(aPressed) 
     {
       //Setting the target position with the PID control
-      armMotor.getPIDController().setReference(45, com.revrobotics.CANSparkMax.ControlType.kPosition);
-   
+      armMotor.getPIDController().setReference(160, com.revrobotics.CANSparkMax.ControlType.kPosition);
+      System.out.println("gets to a pid");
     } 
     else if(bPressed) 
     {
       //Setting the target position with the PID control
       armMotor.getPIDController().setReference(5, com.revrobotics.CANSparkMax.ControlType.kPosition);
+      System.out.println("gets to b pid");
+
     } 
 
     else 
@@ -99,18 +101,18 @@ public class Arm extends SubsystemBase {
       armMotor.set(0.0);
     }
   }
-  */
+  
 
   
   
 
 
   public Arm() {
-    //m_ExtensionEncoder.setPosition(0);
-    //armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-
-    m_ShoulderEncoder.setPosition(0);
-    shoulderMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    m_ExtensionEncoder.setPosition(0);
+    armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    armMotor.setInverted(true);
+    // m_ShoulderEncoder.setPosition(0);
+    // shoulderMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
     SmartDashboard.putNumber("PID P", Constants.PID_P);
     SmartDashboard.putNumber("PID I", Constants.PID_I);
@@ -118,10 +120,10 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("PID FF", Constants.PID_FF);
     SmartDashboard.putNumber("PID I Zone", Constants.PID_I_ZONE);
 
-    shoulderMotor.getPIDController().setP(Constants.ShPID_P);
-    shoulderMotor.getPIDController().setI(Constants.ShPID_I);
-    shoulderMotor.getPIDController().setD(Constants.ShPID_D);
-    shoulderMotor.getPIDController().setD(Constants.ShPID_I_ZONE);
+    // shoulderMotor.getPIDController().setP(Constants.ShPID_P);
+    // shoulderMotor.getPIDController().setI(Constants.ShPID_I);
+    // shoulderMotor.getPIDController().setD(Constants.ShPID_D);
+    // shoulderMotor.getPIDController().setD(Constants.ShPID_I_ZONE);
   }
 
   @Override

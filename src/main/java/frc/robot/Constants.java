@@ -26,8 +26,8 @@ public final class Constants {
 
     public static final int POLARITY_SWAP = -1;
 
-    //public static final int ARM_MOTOR = 0;
-    public static final int SHOULDER_MOTOR = 10;
+    public static final int ARM_MOTOR = 10;
+    //public static final int SHOULDER_MOTOR = 10;
 
     public static final double ARM_SPEED = .1;
     public static final double ARM_REBOUND_SPEED = 0.1;
