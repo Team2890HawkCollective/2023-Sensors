@@ -26,49 +26,76 @@ public class Arm extends SubsystemBase {
   private static final int kMaxDataPoints = 100;
 
   private static final CANSparkMax armMotor = new CANSparkMax(Constants.ARM_MOTOR, MotorType.kBrushless);
+  private static final CANSparkMax shoulderMotor = new CANSparkMax(Constants.SHOULDER_MOTOR, MotorType.kBrushless);
 
   private static XboxController driverController = new XboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);  
+  private static XboxController assistController = new XboxController(Constants.ASSIST_XBOX_CONTROLLER_PORT);
 
   private static RelativeEncoder m_Encoder = armMotor.getEncoder();
-  private static boolean aPressed = false;
-  private static boolean bPressed = false; 
+  private static RelativeEncoder m_ShoulderEnc = shoulderMotor.getEncoder();
+
+  private static boolean xPressed = false;
+  private static boolean yPressed = false; 
+  private static boolean bPressed = false;
+
+  private static double encoderPosition;
+  private static double encoderShoulderPosition;
+
+  private static boolean leftBumper = false;
+  private static boolean rightBumper = false;
+  
   private static int dPadAngle;
 
 
   public static void ShoulderControl()
   {
-    dPadAngle = driverController.getPOV();
+    xPressed = assistController.getXButton();
+    yPressed = assistController.getYButton();
+    bPressed = assistController.getBButton();
 
-    if (dPadAngle == 0)
-    {
-      System.out.println("DPAD UP PRESSED");
-    }
-    else if (dPadAngle == 270)
-    {
-      System.out.println("DPAD LEFT PRESSED");
-    }
-    else if (dPadAngle == 90)
-    {
-      System.out.println("DPAD RIGHT PRESSED");
-    }
-    else if (dPadAngle == 180)
-    {
-      System.out.println("DPAD DOWN PRESSED");
-    }
+    encoderShoulderPosition = m_ShoulderEnc.getPosition();
 
-
+    if(xPressed){
+      shoulderMotor.getPIDController().setReference(0, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    }
+    else if(yPressed){
+      shoulderMotor.getPIDController().setReference(0, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    }
+    else if(bPressed){
+      shoulderMotor.getPIDController().setReference(0, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    }
+    else{
+      shoulderMotor.set(0);
+    }
   }
+
+  public static void GrabberControl(){
+    leftBumper = assistController.getLeftBumperReleased();
+    rightBumper = assistController.getRightBumperReleased();
+
+    /* 
+     * 
+     * 
+     *  TODO FINISH IF GRABBER IS BUILT
+     * 
+     * 
+     */
+    
+  }
+
+
+
 
 
   public static void PIDMoveArm()
   {
-    aPressed = driverController.getAButton();
-    bPressed = driverController.getBButton();
+
+    dPadAngle = assistController.getPOV();
     
     //System.out.println("gets inside PID MOVE ARM ");
 
     
-    double encoderPosition = m_Encoder.getPosition();
+    encoderPosition = m_Encoder.getPosition();
     SmartDashboard.putNumber("Encoder Position", encoderPosition);
     
 
@@ -85,7 +112,7 @@ public class Arm extends SubsystemBase {
 
     //System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + m_Encoder.getPosition() + " Motor Temp " + armMotor.getMotorTemperature());
  
-    if(aPressed) 
+    if(dPadAngle > 10 && dPadAngle < 170) 
     {
      // System.out.println("gets passed AAAAAAAAa ");
 
@@ -93,7 +120,7 @@ public class Arm extends SubsystemBase {
       armMotor.getPIDController().setReference(45, com.revrobotics.CANSparkMax.ControlType.kPosition);
    
     } 
-    else if(bPressed) 
+    else if(dPadAngle < 350 && dPadAngle > 190) 
     {
      // System.out.println("gets passed BBBBBBBBb ");
 
@@ -115,6 +142,7 @@ public class Arm extends SubsystemBase {
 
   public Arm() {
     m_Encoder.setPosition(0);
+    m_ShoulderEnc.setPosition(0);
     armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
     SmartDashboard.putNumber("PID P", Constants.PID_P);

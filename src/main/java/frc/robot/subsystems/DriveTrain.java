@@ -77,15 +77,6 @@ public class DriveTrain extends SubsystemBase {
     {
       isMecanum = !isMecanum;
       butterFlySolenoid.toggle();
-      System.out.println();
-      System.out.println();
-      System.out.println();
-      System.out.println();
-      System.out.println("GETS PAST SOLENOID ACTUATION");
-      System.out.println();
-      System.out.println();
-      System.out.println();
-      System.out.println();
 
     }
     if (isMecanum)
