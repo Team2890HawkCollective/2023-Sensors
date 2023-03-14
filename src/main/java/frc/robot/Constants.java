@@ -47,6 +47,8 @@ public final class Constants {
     public static final int BUTTERFLY_SOLENOID_RETRACT = 13;
 
     public static final int REV_PNEUMATIC_MODULE = 11;
+    
+    public static final double RAMP_TARGET_HEIGHT = .5;
 
     //first commit change
 }

@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import java.time.format.ResolverStyle;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -49,9 +50,11 @@ public class DriveTrain extends SubsystemBase {
 
   private static XboxController driverController = new XboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);
 
+  private static AHRS gyro = new AHRS();
   private static double xInput;
 
   private static double yInput;
+  private static double deltaZ;
 
   private static double rInput;
   private static boolean isMecanum = false;
@@ -69,6 +72,41 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("Compressor Pressure", phCompressor.getPressure());
   }
 
+  public static double getDeltaZ()
+  {
+    deltaZ = gyro.getDisplacementZ();
+
+    return deltaZ;
+  }
+
+  public static void stopMotors()
+  {
+    chassisDrive.driveCartesian
+    (driverController.getLeftX() * -1 * Constants.SPEED_MOD, 
+    driverController.getLeftY() * Constants.SPEED_MOD, 
+    driverController.getRightX() * -1 * Constants.SPEED_MOD,
+    new Rotation2d(), 
+    new double[] {0.0,0.0,0.0,0.0});
+  }
+
+  public static void autoForward(){
+    chassisDrive.driveCartesian(0, .2, 0, null, motorCoefficients);
+  }
+  public static void autoBackward(){
+    chassisDrive.driveCartesian(0, -.2, 0, null, motorCoefficients);
+  }
+  public static void autoLeft(){
+    chassisDrive.driveCartesian(.2, 0, 0, null, motorCoefficients);
+  }
+  public static void autoRight(){
+    chassisDrive.driveCartesian(-.2, 0, 0, null, motorCoefficients);
+  }
+  public static void autoAngleRight(){
+    chassisDrive.driveCartesian(0, 0, .2, null, motorCoefficients);
+  }
+  public static void autoAngeLeft(){
+    chassisDrive.driveCartesian(0, 0, -.2, null, motorCoefficients);
+  }
 
 
 
@@ -105,7 +143,7 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("frontRightMotorCoeff", Constants.frontRightMotorCoeff);
     SmartDashboard.putNumber("backLeftMotorCoeff", Constants.backLeftMotorCoeff);
     SmartDashboard.putNumber("backRightMotorCoeff", Constants.backRightMotorCoeff);
-
+    gyro.resetDisplacement();
 
     /**
      * Solenoid and pneumatic control
