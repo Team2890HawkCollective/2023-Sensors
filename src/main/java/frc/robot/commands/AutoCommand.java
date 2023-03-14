@@ -15,6 +15,7 @@ public class AutoCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Auto m_subsystem;
 
+
   /**
    * Creates a new ExampleCommand.
    *
@@ -35,13 +36,13 @@ public class AutoCommand extends CommandBase {
 
   @Override
   public void execute(){
-    
+
     ramp();
     line();
   }
 
     private static void line(){
-      DriveTrain.autoForward();
+      DriveTrain.driveForward();
       Timer.delay(8);
       DriveTrain.stopMotors();
       Timer.delay(1500);
@@ -53,7 +54,7 @@ public class AutoCommand extends CommandBase {
             DriveTrain.stopMotors();
         }
         else{
-            DriveTrain.autoForward();
+            DriveTrain.driveForward();
         }
     }
 

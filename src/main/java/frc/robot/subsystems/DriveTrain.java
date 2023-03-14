@@ -89,22 +89,22 @@ public class DriveTrain extends SubsystemBase {
     new double[] {0.0,0.0,0.0,0.0});
   }
 
-  public static void autoForward(){
+  public static void driveForward(){
     chassisDrive.driveCartesian(0, .2, 0, null, motorCoefficients);
   }
-  public static void autoBackward(){
+  public static void driveBackward(){
     chassisDrive.driveCartesian(0, -.2, 0, null, motorCoefficients);
   }
-  public static void autoLeft(){
+  public static void driveLeft(){
     chassisDrive.driveCartesian(.2, 0, 0, null, motorCoefficients);
   }
-  public static void autoRight(){
+  public static void driveRight(){
     chassisDrive.driveCartesian(-.2, 0, 0, null, motorCoefficients);
   }
-  public static void autoAngleRight(){
+  public static void driveAngleRight(){
     chassisDrive.driveCartesian(0, 0, .2, null, motorCoefficients);
   }
-  public static void autoAngeLeft(){
+  public static void driveAngeLeft(){
     chassisDrive.driveCartesian(0, 0, -.2, null, motorCoefficients);
   }
 
