@@ -62,6 +62,9 @@ public class DriveTrain extends SubsystemBase {
   private static DoubleSolenoid butterFlySolenoid = null;
   private static Compressor phCompressor = null;
 
+  private static int[] motorPolarity = {Constants.FRONT_LEFT_POLARITY, Constants.FRONT_RIGHT_POLARITY, Constants.BACK_LEFT_POLARITY, Constants.BACK_RIGHT_POLARITY};
+
+
   public static void updateShuffleboard()
   {
     motorCoefficients[0] = SmartDashboard.getNumber("frontLeftMotorCoeff", Constants.frontLeftMotorCoeff);
@@ -141,28 +144,46 @@ public class DriveTrain extends SubsystemBase {
    */
   public static void driveMecanum()
   {
-    backLeftSparkMax.setInverted(false);
-    backRightSparkMax.setInverted(false);
-    frontLeftSparkMax.setInverted(true);
-    frontRightSparkMax.setInverted(true);
+    
 
-    xInput = (MathUtil.applyDeadband(driverController.getLeftX(), .1));
-    yInput = -(MathUtil.applyDeadband(driverController.getLeftY(), .1));
-    rInput = (MathUtil.applyDeadband(driverController.getRightY(), .1));
+    xInput = (MathUtil.applyDeadband(driverController.getLeftX(), .01));
+    yInput = -(MathUtil.applyDeadband(driverController.getLeftY(), .01));
+    rInput = (MathUtil.applyDeadband(driverController.getRightX(), .01));
 
     //2/8/2023 USE THE new Rotation2d() THING TO PASS A BLANK GYRO VALUE IF NOT USING GYRO !!!!!!!!!!!!!!
 
-    chassisDrive.driveCartesian
-          (driverController.getLeftX() * -1 * Constants.SPEED_MOD, 
-          driverController.getLeftY() * Constants.SPEED_MOD, 
-          driverController.getRightX() * -1 * Constants.SPEED_MOD,
-          new Rotation2d(), 
-          motorCoefficients);
+    if(rInput != 0){
+      twist(rInput);
+    }
+    else{
+      chassisDrive.driveCartesian
+      (driverController.getLeftX() * -1 * Constants.SPEED_MOD, 
+      driverController.getLeftY() * Constants.SPEED_MOD, 
+      0,
+      new Rotation2d(), 
+      motorCoefficients);
+    }
   }
 
+// X-Axis on drive controller right joystick
+public static void twist(double inputX){
+  double[] baseBehaviour = new double[] {1.0 * inputX, -1.0 * inputX, 1.0 * inputX, -1.0 * inputX};
+  double[] motorInputs = applyFilters(motorPolarity, motorCoefficients, baseBehaviour);
+  frontLeftSparkMax.set(motorInputs[0]);
+  frontRightSparkMax.set(motorInputs[1]);
+  backLeftSparkMax.set(motorInputs[2]);
+  backRightSparkMax.set(motorInputs[3]);
+}
 
-
-
+public static double[] applyFilters(int[] polarity, double[] coeff, double[] speeds){
+  double[] correctedValues = new double[] {
+    coeff[0] * speeds[0] * polarity[0],
+    coeff[1] * speeds[1] * polarity[1],
+    coeff[2] * speeds[2] * polarity[2], 
+    coeff[3] * speeds[3] * polarity[3]
+  };
+  return correctedValues;
+}
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
     SmartDashboard.putNumber("frontLeftMotorCoeff", Constants.frontLeftMotorCoeff);
@@ -170,15 +191,18 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("backLeftMotorCoeff", Constants.backLeftMotorCoeff);
     SmartDashboard.putNumber("backRightMotorCoeff", Constants.backRightMotorCoeff);
     gyro.resetDisplacement();
-
+    backLeftSparkMax.setInverted(true);
+    backRightSparkMax.setInverted(true);
+    frontLeftSparkMax.setInverted(false);
+    frontRightSparkMax.setInverted(false);
     resetEncoders();
     
     /**
      * Solenoid and pneumatic control
      */
-    //butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
-    //phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
-    //phCompressor.enableAnalog(90, 110); 
+    butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
+    phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
+    phCompressor.enableAnalog(0, 20); 
     //butterFlySolenoid.set(Value.kReverse);
   }
 
