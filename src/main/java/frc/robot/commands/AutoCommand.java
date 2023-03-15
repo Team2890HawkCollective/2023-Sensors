@@ -51,7 +51,7 @@ public class AutoCommand extends CommandBase {
 
     private static void lineEncoder(){
       double encoderArray[] = DriveTrain.getEncoderArray();
-      double encoderAverage = (encoderArray[0] + encoderArray[1])/2;
+      double encoderAverage = (encoderArray[0] + encoderArray[1] + encoderArray[2] + encoderArray[3] )/4;
       if(encoderAverage < Constants.LINE_TARGET_DISTANCE){
         DriveTrain.driveForward();
       }
