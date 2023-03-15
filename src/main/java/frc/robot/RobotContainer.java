@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ArmCommand;
-import frc.robot.commands.AutoCommand;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Auto;
@@ -32,7 +31,6 @@ public class RobotContainer {
   private final ArmCommand m_ArmCommand = new ArmCommand(m_armSubsystem);
 
   private final Auto m_autoSubsystem = new Auto();
-  private final AutoCommand m_AutoCommand = new AutoCommand(m_autoSubsystem);
   // The robot's subsystems and commands are defined here...
 
   //private final DriveTrain m_exampleSubsystem = new DriveTrain();
@@ -70,10 +68,10 @@ public Command getArmCommand() {
    * @return the command to run in autonomous
    */
   
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_AutoCommand;
-  }
+  // public Command getAutonomousCommand() {
+  //   // An ExampleCommand will run in autonomous
+  //   return m_AutoCommand;
+  // }
 
 
 

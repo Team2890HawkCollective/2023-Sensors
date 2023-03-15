@@ -21,8 +21,9 @@ public final class Constants {
 
     public static final int DRIVER_XBOX_CONTROLLER_PORT = 0;
 
-    public static final double SPEED_MOD = .6;
+    public static final double DRIVE_SPEED = .6;
 
+    public static final double DEADBAND = 0.2;
     public static final int POLARITY_SWAP = -1;
 
     public static final int ARM_MOTOR = 20;
@@ -32,10 +33,14 @@ public final class Constants {
     /**
      * The coefficients for the mecanum drive motor controllers.
      */
-    public static final double frontLeftMotorCoeff = 1.0;
-    public static final double frontRightMotorCoeff = 1.0;
-    public static final double backLeftMotorCoeff = 1.0;
-    public static final double backRightMotorCoeff = 1.0;
+    public static final double FRONT_LEFT_COEFF = 1.0;
+    public static final double FRONT_RIGHT_COEFF = 1.0;
+    public static final double BACK_LEFT_COEFF = 1.0;
+    public static final double BACK_RIGHT_COEFF = 1.0;
+    public static final int FRONT_LEFT_POLARITY = 1;
+    public static final int FRONT_RIGHT_POLARITY = 1;
+    public static final int BACK_LEFT_POLARITY = 1;
+    public static final int BACK_RIGHT_POLARITY = 1;
 
     public static final double PID_P = 0.03;
     public static final double PID_I = 0.0000255;
