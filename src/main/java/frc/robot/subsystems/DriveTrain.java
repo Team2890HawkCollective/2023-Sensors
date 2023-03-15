@@ -33,11 +33,10 @@ public class DriveTrain extends SubsystemBase {
 
   private static int[] motorPolarity = {Constants.FRONT_LEFT_POLARITY, Constants.FRONT_RIGHT_POLARITY, Constants.BACK_LEFT_POLARITY, Constants.BACK_RIGHT_POLARITY};
   private static double[] motorCoefficients = {Constants.FRONT_LEFT_COEFF, Constants.FRONT_RIGHT_COEFF, Constants.BACK_LEFT_COEFF, Constants.BACK_RIGHT_COEFF};
-  private static double[] gyroRotationalDelta = new double[] {0,0,0};
-  private static double[] gyroPositionalDelta = new double[] {0,0,0};
-  private static double[] gyroPositional = new double[] {0,0,0};
-  private static double[] gyroRotational = new double[] {0,0,0};
-
+  private static double[] gyroDeltas = new double[] {0,0,0};
+  private static double[] gyroAngles = new double[] {0,0,0};
+  private static boolean holdHeading = false;
+  private static double heading = 0.0;
   
   public DriveTrain() {
     
@@ -49,19 +48,30 @@ public class DriveTrain extends SubsystemBase {
     boolean lbPressed = driverController.getLeftBumper();
 
     if(axies[0] != 0 && axies[1] != 0){
+      holdHeading = true;
       diagonal(axies[0], axies[1]);
     } else if(axies[0] != 0) {
+      holdHeading = true;
       strafe(axies[0]);
     } else if(axies[1] != 0) {
+      holdHeading = true;
       straight(axies[1]);
     } else if(axies[3] != 0) {
+      holdHeading = false;
       twist(axies[3]);
     } else if(rbPressed && !lbPressed) {
+      holdHeading = false;
       corner(false, true);
     } else if (lbPressed && !rbPressed) {
+      holdHeading = false;
       corner(true, false);
     } else {
+      holdHeading = false;
       stopMotors();
+    }
+
+    if(!holdHeading){
+      heading = gyro.getAngle();
     }
   }
 
@@ -71,14 +81,18 @@ public class DriveTrain extends SubsystemBase {
     motorCoefficients[1] = SmartDashboard.getNumber("frontRightMotorCoeff", motorCoefficients[1]);
     motorCoefficients[2] = SmartDashboard.getNumber("backLeftMotorCoeff", motorCoefficients[2]);
     motorCoefficients[3] = SmartDashboard.getNumber("backRightMotorCoeff", motorCoefficients[3]);
+    gyroDeltas = readGyroDisplacement();
+    gyroAngles = readGyroRot();
   }
 
-  public double[] readGyroAcc() {
-    return null;
+  public static double[] readGyroDisplacement() {
+    double[] arr = {gyro.getDisplacementX(), gyro.getDisplacementY(), gyro.getDisplacementZ()};
+    return arr;
   }
 
-  public double[] readGyroRot() {
-    return null;
+  public static double[] readGyroRot() {
+    double[] arr = {gyro.getRoll(), gyro.getPitch(), gyro.getYaw()};
+    return arr;
   }
 
   public static void stopMotors()
@@ -91,8 +105,19 @@ public class DriveTrain extends SubsystemBase {
 
   // Y-Axis on drive controller left joystick
   public static void straight(double inputY){
+    double e = heading - gyro.getAngle();
+    double[] coeff = motorCoefficients;
+
+    if(e >= 15){
+      e = Math.abs(e) / 100;
+      coeff = new double[] {1.0 - e, 1.0 + e, 1.0 - e, 1.0 + e};
+    } else if (e <= -15){
+      e = Math.abs(e) / 100;
+      coeff = new double[] {1.0 + e, 1.0 - e, 1.0 + e, 1.0 - e};
+    }
+
     double[] baseBehaviour = new double[] {1.0 * inputY, 1.0 * inputY, 1.0 * inputY, 1.0 * inputY};
-    double[] motorInputs = applyFilters(motorPolarity, motorCoefficients, baseBehaviour);
+    double[] motorInputs = applyFilters(motorPolarity, coeff, baseBehaviour);
     frontLeftSparkMax.set(motorInputs[0]);
     frontRightSparkMax.set(motorInputs[1]);
     backLeftSparkMax.set(motorInputs[2]);
