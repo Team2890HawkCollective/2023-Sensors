@@ -108,7 +108,33 @@ public class DriveTrain extends SubsystemBase {
     chassisDrive.driveCartesian(0, 0, -.2, null, motorCoefficients);
   }
 
+  public static double[] getEncoderArray(){
+    return new double[]{
+      frontLeftSparkMax.getEncoder().getPosition(),
+      frontRightSparkMax.getEncoder().getPosition(), 
+      backLeftSparkMax.getEncoder().getPosition(), 
+      backRightSparkMax.getEncoder().getPosition()
+    };
+  }
 
+  public static void resetEncoders(){
+    frontLeftSparkMax.getEncoder().setPosition(0);
+    frontRightSparkMax.getEncoder().setPosition(0);
+    backLeftSparkMax.getEncoder().setPosition(0);
+    backRightSparkMax.getEncoder().setPosition(0);
+  }
+
+  public static void actuateAnchor(){
+    if(driverController.getYButton())
+    {
+      butterFlySolenoid.set(Value.kForward);
+    }
+    else if(driverController.getBButton())
+    {
+      butterFlySolenoid.set(Value.kReverse);
+    }
+
+  }
 
   /**
    * Drives the robot using mecanum drive
@@ -145,6 +171,8 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("backRightMotorCoeff", Constants.backRightMotorCoeff);
     gyro.resetDisplacement();
 
+    resetEncoders();
+    
     /**
      * Solenoid and pneumatic control
      */

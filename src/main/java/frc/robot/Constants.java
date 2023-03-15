@@ -49,6 +49,7 @@ public final class Constants {
     public static final int REV_PNEUMATIC_MODULE = 11;
     
     public static final double RAMP_TARGET_HEIGHT = .5;
+    public static final double LINE_TARGET_DISTANCE = 0; //TODO: Find the distance to the line target IN ENCODER VALUE
 
     //first commit change
 }

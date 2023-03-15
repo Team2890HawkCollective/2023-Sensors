@@ -38,17 +38,27 @@ public class AutoCommand extends CommandBase {
   public void execute(){
 
     ramp();
-    line();
+    lineTime();
+    lineEncoder();
   }
 
-    private static void line(){
+    private static void lineTime(){
       DriveTrain.driveForward();
       Timer.delay(8);
       DriveTrain.stopMotors();
       Timer.delay(1500);
     }
 
-
+    private static void lineEncoder(){
+      double encoderArray[] = DriveTrain.getEncoderArray();
+      double encoderAverage = (encoderArray[0] + encoderArray[1])/2;
+      if(encoderAverage < Constants.LINE_TARGET_DISTANCE){
+        DriveTrain.driveForward();
+      }
+      else{
+        DriveTrain.stopMotors();
+      }
+    }
     private static void ramp(){
         if(DriveTrain.getDeltaZ() > Constants.RAMP_TARGET_HEIGHT){
             DriveTrain.stopMotors();
