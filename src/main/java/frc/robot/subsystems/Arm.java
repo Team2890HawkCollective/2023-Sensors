@@ -10,8 +10,13 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 //import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 //import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,6 +36,9 @@ public class Arm extends SubsystemBase {
   private static XboxController driverController = new XboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);  
   private static XboxController assistController = new XboxController(Constants.ASSIST_XBOX_CONTROLLER_PORT);
 
+  private static DoubleSolenoid butterFlySolenoid = null;
+  private static Compressor phCompressor = null;
+
   private static RelativeEncoder m_Encoder = armMotor.getEncoder();
   private static RelativeEncoder m_ShoulderEnc = shoulderMotor.getEncoder();
 
@@ -45,6 +53,8 @@ public class Arm extends SubsystemBase {
   private static boolean rightBumper = false;
   
   private static int dPadAngle;
+
+  private static double yAssistantValue;
 
 
   public static void ShoulderControl()
@@ -69,23 +79,41 @@ public class Arm extends SubsystemBase {
     }
   }
 
-  public static void GrabberControl(){
+  public static void ArmControl()
+  {
+    yAssistantValue = -(MathUtil.applyDeadband(assistController.getLeftY(), .02));
+
+    if(yAssistantValue > 0.1)
+    {
+      armMotor.set(0.5);
+    }
+    else if(yAssistantValue < -0.1)
+    {
+      armMotor.set(-0.5);
+    }
+    else
+    {
+      armMotor.set(0);
+    }
+  }
+
+  
+
+  public static void GrabberControl()
+  {
     leftBumper = assistController.getLeftBumperReleased();
     rightBumper = assistController.getRightBumperReleased();
 
-    /* 
-     * 
-     * 
-     *  TODO FINISH IF GRABBER IS BUILT
-     * 
-     * 
-     */
-    
+    if(leftBumper)
+    {
+      butterFlySolenoid.set(Value.kForward);
+    }
+    else if(rightBumper)
+    {
+      butterFlySolenoid.set(Value.kReverse);
+    }
+  
   }
-
-
-
-
 
   public static void PIDMoveArm()
   {
@@ -151,6 +179,10 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("PID FF", Constants.PID_FF);
     SmartDashboard.putNumber("PID I Zone", Constants.PID_I_ZONE);
 
+    butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
+    phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
+    phCompressor.enableAnalog(90, 110); 
+    butterFlySolenoid.set(Value.kReverse);
 
   }
 
