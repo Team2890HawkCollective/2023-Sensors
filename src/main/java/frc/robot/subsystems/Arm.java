@@ -177,10 +177,10 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("PID FF", Constants.PID_FF);
     SmartDashboard.putNumber("PID I Zone", Constants.PID_I_ZONE);
 
-    butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
-    phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
-    phCompressor.enableAnalog(90, 110); 
-    butterFlySolenoid.set(Value.kReverse);
+    // butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
+    //phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
+    // phCompressor.enableAnalog(90, 110); 
+    // butterFlySolenoid.set(Value.kReverse);
 
   }
 

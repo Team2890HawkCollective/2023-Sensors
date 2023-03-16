@@ -37,7 +37,7 @@ public class ArmCommand extends CommandBase {
   public void execute() 
 	{
    // Arm.PIDMoveArm();
-    Arm.GrabberControl();
+    //Arm.GrabberControl();
    // Arm.ShoulderControl();
     //System.out.println("gets to PID MOVE ARM ");
 }

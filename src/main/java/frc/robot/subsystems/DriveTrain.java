@@ -74,7 +74,7 @@ public class DriveTrain extends SubsystemBase {
     motorCoefficients[2] = SmartDashboard.getNumber("backLeftMotorCoeff", Constants.backLeftMotorCoeff);
     motorCoefficients[3] = SmartDashboard.getNumber("backRightMotorCoeff", Constants.backRightMotorCoeff);
 
-    SmartDashboard.putNumber("Compressor Pressure", phCompressor.getPressure());
+    //SmartDashboard.putNumber("Compressor Pressure", phCompressor.getPressure());
   }
 
   public static void brakeModeToggle()
@@ -222,13 +222,13 @@ public static double[] applyFilters(int[] polarity, double[] coeff, double[] spe
     resetEncoders();
     
     
-    /**
-     * Solenoid and pneumatic control
-     */
-    butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
-    phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
-    phCompressor.enableAnalog(0, 20); 
-    //butterFlySolenoid.set(Value.kReverse);
+    // /**
+    //  * Solenoid and pneumatic control
+    //  */
+    // butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
+    // phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
+    // phCompressor.enableAnalog(0, 20); 
+    // //butterFlySolenoid.set(Value.kReverse);
     
 
   }
