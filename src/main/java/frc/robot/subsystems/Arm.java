@@ -30,16 +30,16 @@ public class Arm extends SubsystemBase {
   private static final String kGraphTitle = "Encoder Position";
   private static final int kMaxDataPoints = 100;
 
-  private static final CANSparkMax armMotor = new CANSparkMax(Constants.ARM_MOTOR, MotorType.kBrushless);
-  private static final CANSparkMax shoulderMotor = new CANSparkMax(Constants.SHOULDER_MOTOR, MotorType.kBrushless);
+  //private static final CANSparkMax armMotor = new CANSparkMax(Constants.ARM_MOTOR, MotorType.kBrushless);
+  //private static final CANSparkMax shoulderMotor = new CANSparkMax(Constants.SHOULDER_MOTOR, MotorType.kBrushless);
 
   private static XboxController assistController = new XboxController(Constants.ASSIST_XBOX_CONTROLLER_PORT);
 
   private static DoubleSolenoid butterFlySolenoid = null;
   private static Compressor phCompressor = null;
 
-  private static RelativeEncoder m_Encoder = armMotor.getEncoder();
-  private static RelativeEncoder m_ShoulderEnc = shoulderMotor.getEncoder();
+  //private static RelativeEncoder m_Encoder = armMotor.getEncoder();
+  //private static RelativeEncoder m_ShoulderEnc = shoulderMotor.getEncoder();
 
   private static boolean xPressed = false;
   private static boolean yPressed = false; 
@@ -55,7 +55,7 @@ public class Arm extends SubsystemBase {
 
   private static double yAssistantValue;
 
-
+/* 
   public static void ShoulderControl()
   {
     xPressed = assistController.getXButton();
@@ -96,7 +96,7 @@ public class Arm extends SubsystemBase {
     }
   }
 
-  
+  */
 
   public static void GrabberControl()
   {
@@ -113,7 +113,7 @@ public class Arm extends SubsystemBase {
     }
   
   }
-
+/*
   public static void PIDMoveArm()
   {
 
@@ -165,11 +165,11 @@ public class Arm extends SubsystemBase {
   
   
 
-
+*/
   public Arm() {
-    m_Encoder.setPosition(0);
-    m_ShoulderEnc.setPosition(0);
-    armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    // m_Encoder.setPosition(0);
+    // m_ShoulderEnc.setPosition(0);
+    // armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
     SmartDashboard.putNumber("PID P", Constants.PID_P);
     SmartDashboard.putNumber("PID I", Constants.PID_I);
