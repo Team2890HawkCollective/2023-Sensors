@@ -33,7 +33,6 @@ public class Arm extends SubsystemBase {
   private static final CANSparkMax armMotor = new CANSparkMax(Constants.ARM_MOTOR, MotorType.kBrushless);
   private static final CANSparkMax shoulderMotor = new CANSparkMax(Constants.SHOULDER_MOTOR, MotorType.kBrushless);
 
-  private static XboxController driverController = new XboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);  
   private static XboxController assistController = new XboxController(Constants.ASSIST_XBOX_CONTROLLER_PORT);
 
   private static DoubleSolenoid butterFlySolenoid = null;
@@ -138,7 +137,6 @@ public class Arm extends SubsystemBase {
 
     //System.out.println("gets passed pid placement ");
 
-    //System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + m_Encoder.getPosition() + " Motor Temp " + armMotor.getMotorTemperature());
  
     if(dPadAngle > 10 && dPadAngle < 170) 
     {
