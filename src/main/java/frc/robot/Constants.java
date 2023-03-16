@@ -20,12 +20,14 @@ public final class Constants {
     public static final int MOTOR_BACK_RIGHT = 4;
 
     public static final int DRIVER_XBOX_CONTROLLER_PORT = 0;
+    public static final int ASSIST_XBOX_CONTROLLER_PORT = 0;
 
     public static final double SPEED_MOD = .6;
 
     public static final int POLARITY_SWAP = -1;
 
     public static final int ARM_MOTOR = 20;
+    public static final int SHOULDER_MOTOR = 19; // CHECK VALUES
     public static final double ARM_SPEED = .1;
     public static final double ARM_REBOUND_SPEED = 0.1;
 

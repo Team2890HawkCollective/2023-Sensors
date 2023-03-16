@@ -10,8 +10,13 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 //import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 //import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,45 +31,99 @@ public class Arm extends SubsystemBase {
   private static final int kMaxDataPoints = 100;
 
   private static final CANSparkMax armMotor = new CANSparkMax(Constants.ARM_MOTOR, MotorType.kBrushless);
+  private static final CANSparkMax shoulderMotor = new CANSparkMax(Constants.SHOULDER_MOTOR, MotorType.kBrushless);
 
   private static XboxController driverController = new XboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);  
+  private static XboxController assistController = new XboxController(Constants.ASSIST_XBOX_CONTROLLER_PORT);
+
+  private static DoubleSolenoid butterFlySolenoid = null;
+  private static Compressor phCompressor = null;
 
   private static RelativeEncoder m_Encoder = armMotor.getEncoder();
-  private static boolean aPressed = false;
-  private static boolean bPressed = false; 
+  private static RelativeEncoder m_ShoulderEnc = shoulderMotor.getEncoder();
+
+  private static boolean xPressed = false;
+  private static boolean yPressed = false; 
+  private static boolean bPressed = false;
+
+  private static double encoderPosition;
+  private static double encoderShoulderPosition;
+
+  private static boolean leftBumper = false;
+  private static boolean rightBumper = false;
+  
   private static int dPadAngle;
+
+  private static double yAssistantValue;
 
 
   public static void ShoulderControl()
   {
-    dPadAngle = driverController.getPOV();
+    xPressed = assistController.getXButton();
+    yPressed = assistController.getYButton();
+    bPressed = assistController.getBButton();
 
-    if (dPadAngle == 0)
-    {
-      System.out.println("DPAD UP PRESSED");
-    }
-    else if (dPadAngle == 270)
-    {
-      System.out.println("DPAD LEFT PRESSED");
-    }
-    else if (dPadAngle == 90)
-    {
-      System.out.println("DPAD RIGHT PRESSED");
-    }
+    encoderShoulderPosition = m_ShoulderEnc.getPosition();
 
-
+    if(xPressed){
+      shoulderMotor.getPIDController().setReference(0, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    }
+    else if(yPressed){
+      shoulderMotor.getPIDController().setReference(0, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    }
+    else if(bPressed){
+      shoulderMotor.getPIDController().setReference(0, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    }
+    else{
+      shoulderMotor.set(0);
+    }
   }
 
+  public static void ArmControl()
+  {
+    yAssistantValue = -(MathUtil.applyDeadband(assistController.getLeftY(), .02));
+
+    if(yAssistantValue > 0.1)
+    {
+      armMotor.set(0.5);
+    }
+    else if(yAssistantValue < -0.1)
+    {
+      armMotor.set(-0.5);
+    }
+    else
+    {
+      armMotor.set(0);
+    }
+  }
+
+  
+
+  public static void GrabberControl()
+  {
+    leftBumper = assistController.getLeftBumperReleased();
+    rightBumper = assistController.getRightBumperReleased();
+
+    if(leftBumper)
+    {
+      butterFlySolenoid.set(Value.kForward);
+    }
+    else if(rightBumper)
+    {
+      butterFlySolenoid.set(Value.kReverse);
+    }
+  
+  }
 
   public static void PIDMoveArm()
   {
-    aPressed = driverController.getAButton();
-    bPressed = driverController.getBButton();
+
+    dPadAngle = assistController.getPOV();
     
     //System.out.println("gets inside PID MOVE ARM ");
 
     
-    double encoderPosition = m_Encoder.getPosition();
+    encoderPosition = m_Encoder.getPosition();
     SmartDashboard.putNumber("Encoder Position", encoderPosition);
     
 
@@ -81,7 +140,7 @@ public class Arm extends SubsystemBase {
 
     //System.out.println("A = " + driverController.getAButton() + " B = " + driverController.getBButton() + " Encoder Value = " + m_Encoder.getPosition() + " Motor Temp " + armMotor.getMotorTemperature());
  
-    if(aPressed) 
+    if(dPadAngle > 10 && dPadAngle < 170) 
     {
      // System.out.println("gets passed AAAAAAAAa ");
 
@@ -89,7 +148,7 @@ public class Arm extends SubsystemBase {
       armMotor.getPIDController().setReference(45, com.revrobotics.CANSparkMax.ControlType.kPosition);
    
     } 
-    else if(bPressed) 
+    else if(dPadAngle < 350 && dPadAngle > 190) 
     {
      // System.out.println("gets passed BBBBBBBBb ");
 
@@ -111,6 +170,7 @@ public class Arm extends SubsystemBase {
 
   public Arm() {
     m_Encoder.setPosition(0);
+    m_ShoulderEnc.setPosition(0);
     armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
     SmartDashboard.putNumber("PID P", Constants.PID_P);
@@ -119,6 +179,10 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("PID FF", Constants.PID_FF);
     SmartDashboard.putNumber("PID I Zone", Constants.PID_I_ZONE);
 
+    butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
+    phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
+    phCompressor.enableAnalog(90, 110); 
+    butterFlySolenoid.set(Value.kReverse);
 
   }
 
