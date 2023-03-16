@@ -62,6 +62,8 @@ public class DriveTrain extends SubsystemBase {
   private static DoubleSolenoid butterFlySolenoid = null;
   private static Compressor phCompressor = null;
 
+  private static boolean brakeBooleanToggle = false;
+
   private static int[] motorPolarity = {Constants.FRONT_LEFT_POLARITY, Constants.FRONT_RIGHT_POLARITY, Constants.BACK_LEFT_POLARITY, Constants.BACK_RIGHT_POLARITY};
 
 
@@ -73,6 +75,28 @@ public class DriveTrain extends SubsystemBase {
     motorCoefficients[3] = SmartDashboard.getNumber("backRightMotorCoeff", Constants.backRightMotorCoeff);
 
     SmartDashboard.putNumber("Compressor Pressure", phCompressor.getPressure());
+  }
+
+  public static void brakeModeToggle()
+  {
+    if(driverController.getBButtonReleased()){
+      brakeBooleanToggle = !brakeBooleanToggle;
+    }
+    if(brakeBooleanToggle){
+      frontLeftSparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
+      backLeftSparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
+      frontRightSparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
+      backRightSparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    }
+    else{
+      frontLeftSparkMax.setIdleMode(CANSparkMax.IdleMode.kCoast);
+      backLeftSparkMax.setIdleMode(CANSparkMax.IdleMode.kCoast);
+      frontRightSparkMax.setIdleMode(CANSparkMax.IdleMode.kCoast);
+      backRightSparkMax.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    }
+
+
+
   }
 
   public static double getDeltaZ()
@@ -197,6 +221,7 @@ public static double[] applyFilters(int[] polarity, double[] coeff, double[] spe
     frontRightSparkMax.setInverted(false);
     resetEncoders();
     
+    
     /**
      * Solenoid and pneumatic control
      */
@@ -204,6 +229,8 @@ public static double[] applyFilters(int[] polarity, double[] coeff, double[] spe
     phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
     phCompressor.enableAnalog(0, 20); 
     //butterFlySolenoid.set(Value.kReverse);
+    
+
   }
 
   @Override

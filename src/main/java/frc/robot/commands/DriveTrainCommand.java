@@ -36,6 +36,7 @@ public class DriveTrainCommand extends CommandBase {
     DriveTrain.updateShuffleboard();
     DriveTrain.driveMecanum();
     DriveTrain.actuateAnchor();
+    DriveTrain.brakeModeToggle();
 	}
 
 
