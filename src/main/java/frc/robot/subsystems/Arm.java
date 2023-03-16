@@ -69,10 +69,10 @@ public class Arm extends SubsystemBase {
       shoulderMotor.getPIDController().setReference(0, com.revrobotics.CANSparkMax.ControlType.kPosition);
     }
     else if(yPressed){
-      shoulderMotor.getPIDController().setReference(0, com.revrobotics.CANSparkMax.ControlType.kPosition);
+      shoulderMotor.getPIDController().setReference(2, com.revrobotics.CANSparkMax.ControlType.kPosition);
     }
     else if(bPressed){
-      shoulderMotor.getPIDController().setReference(0, com.revrobotics.CANSparkMax.ControlType.kPosition);
+      shoulderMotor.getPIDController().setReference(4, com.revrobotics.CANSparkMax.ControlType.kPosition);
     }
     else{
       shoulderMotor.set(0);
