@@ -25,7 +25,7 @@ public final class Constants {
 
     public static final int POLARITY_SWAP = -1;
 
-    public static final int ARM_MOTOR = 10;
+    public static final int ARM_MOTOR = 20;
     public static final double ARM_SPEED = .1;
     public static final double ARM_REBOUND_SPEED = 0.1;
 
@@ -43,6 +43,18 @@ public final class Constants {
     public static final double PID_I_ZONE = 3;
     public static final double PID_FF = 0;
 
+    public static final int BUTTERFLY_SOLENOID_DEPLOY = 12;
+    public static final int BUTTERFLY_SOLENOID_RETRACT = 13;
 
-
+    public static final int REV_PNEUMATIC_MODULE = 11;
+    
+    public static final double RAMP_TARGET_HEIGHT = .5;
+    public static final double LINE_TARGET_DISTANCE = 0; //TODO: Find the distance to the line target IN ENCODER VALUE
+	
+    
+    public static final int FRONT_LEFT_POLARITY = -1;
+    public static final int FRONT_RIGHT_POLARITY = 1;
+    public static final int BACK_LEFT_POLARITY = 1;
+    public static final int BACK_RIGHT_POLARITY = -1;
+    //first commit change
 }
