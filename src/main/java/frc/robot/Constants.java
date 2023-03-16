@@ -49,6 +49,14 @@ public final class Constants {
     public static final int BUTTERFLY_SOLENOID_RETRACT = 13;
 
     public static final int REV_PNEUMATIC_MODULE = 11;
-
+    
+    public static final double RAMP_TARGET_HEIGHT = .5;
+    public static final double LINE_TARGET_DISTANCE = 0; //TODO: Find the distance to the line target IN ENCODER VALUE
+	
+    
+    public static final int FRONT_LEFT_POLARITY = -1;
+    public static final int FRONT_RIGHT_POLARITY = 1;
+    public static final int BACK_LEFT_POLARITY = 1;
+    public static final int BACK_RIGHT_POLARITY = -1;
     //first commit change
 }
