@@ -65,12 +65,18 @@ public class Arm extends SubsystemBase {
     encoderShoulderPosition = m_ShoulderEnc.getPosition();
 
     if(xPressed){
+      System.out.println("xPressed = " + xPressed);
+
       shoulderMotor.getPIDController().setReference(5, com.revrobotics.CANSparkMax.ControlType.kPosition);
     }
     else if(yPressed){
+      System.out.println("yPressed = " + xPressed);
+
       shoulderMotor.getPIDController().setReference(25, com.revrobotics.CANSparkMax.ControlType.kPosition);
     }
     else if(bPressed){
+      System.out.println("bPressed = " + xPressed);
+
       shoulderMotor.getPIDController().setReference(50, com.revrobotics.CANSparkMax.ControlType.kPosition);
     }
     else{
@@ -85,10 +91,13 @@ public class Arm extends SubsystemBase {
     if(yAssistantValue > 0.1)
     {
       armMotor.set(0.15);
+      System.out.println("y positive value = " + yAssistantValue);
     }
     else if(yAssistantValue < -0.1)
     {
       armMotor.set(-0.05);
+      System.out.println("y negative value = " + yAssistantValue);
+
     }
     else
     {
@@ -106,10 +115,14 @@ public class Arm extends SubsystemBase {
     if(leftBumper)
     {
       butterFlySolenoid.set(Value.kForward);
+      System.out.println("Got Left Bumper pressed");
+
     }
     else if(rightBumper)
     {
       butterFlySolenoid.set(Value.kReverse);
+      System.out.println("Got Right Bumper pressed");
+
     }
   
   }
@@ -126,7 +139,7 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("Encoder Position", encoderPosition);
     
 
-    //System.out.println("gets passed dashboard placement ");
+    //System.out.println("gets passed dashboard placement");
 
 
     armMotor.getPIDController().setP(SmartDashboard.getNumber("PID P", 0));
@@ -140,8 +153,7 @@ public class Arm extends SubsystemBase {
  
     if(dPadAngle > 10 && dPadAngle < 170) 
     {
-     // System.out.println("gets passed AAAAAAAAa ");
-
+      System.out.println("DPAD Right");
       //Setting the target position with the PID control
       armMotor.getPIDController().setReference(45, com.revrobotics.CANSparkMax.ControlType.kPosition);
    
@@ -149,6 +161,7 @@ public class Arm extends SubsystemBase {
     else if(dPadAngle < 350 && dPadAngle > 190) 
     {
      // System.out.println("gets passed BBBBBBBBb ");
+     System.out.println("DPAD Left");
 
       //Setting the target position with the PID control
       armMotor.getPIDController().setReference(5, com.revrobotics.CANSparkMax.ControlType.kPosition);
