@@ -220,16 +220,8 @@ public static double[] applyFilters(int[] polarity, double[] coeff, double[] spe
     frontLeftSparkMax.setInverted(false);
     frontRightSparkMax.setInverted(false);
     resetEncoders();
-    
-    
-    /**
-     * Solenoid and pneumatic control
-     */
-    butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
     phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
-    phCompressor.enableAnalog(0, 20); 
-    //butterFlySolenoid.set(Value.kReverse);
-    
+    phCompressor.enableAnalog(90, 110); 
 
   }
 

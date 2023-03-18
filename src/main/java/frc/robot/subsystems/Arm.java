@@ -65,13 +65,13 @@ public class Arm extends SubsystemBase {
     encoderShoulderPosition = m_ShoulderEnc.getPosition();
 
     if(xPressed){
-      shoulderMotor.getPIDController().setReference(0, com.revrobotics.CANSparkMax.ControlType.kPosition);
+      shoulderMotor.getPIDController().setReference(5, com.revrobotics.CANSparkMax.ControlType.kPosition);
     }
     else if(yPressed){
-      shoulderMotor.getPIDController().setReference(2, com.revrobotics.CANSparkMax.ControlType.kPosition);
+      shoulderMotor.getPIDController().setReference(25, com.revrobotics.CANSparkMax.ControlType.kPosition);
     }
     else if(bPressed){
-      shoulderMotor.getPIDController().setReference(4, com.revrobotics.CANSparkMax.ControlType.kPosition);
+      shoulderMotor.getPIDController().setReference(50, com.revrobotics.CANSparkMax.ControlType.kPosition);
     }
     else{
       shoulderMotor.set(0);
@@ -84,11 +84,11 @@ public class Arm extends SubsystemBase {
 
     if(yAssistantValue > 0.1)
     {
-      armMotor.set(0.5);
+      armMotor.set(0.15);
     }
     else if(yAssistantValue < -0.1)
     {
-      armMotor.set(-0.5);
+      armMotor.set(-0.05);
     }
     else
     {
@@ -178,8 +178,7 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("PID I Zone", Constants.PID_I_ZONE);
 
     butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
-    phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
-    phCompressor.enableAnalog(90, 110); 
+    
     butterFlySolenoid.set(Value.kReverse);
 
   }
