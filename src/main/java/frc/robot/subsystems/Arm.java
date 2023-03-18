@@ -63,19 +63,16 @@ public class Arm extends SubsystemBase {
     bPressed = assistController.getBButton();
 
     encoderShoulderPosition = m_ShoulderEnc.getPosition();
-
+    //System.out.println("xpressed " + xPressed + " ypressed " + yPressed + " bpressed " + bPressed);
     if(xPressed){
-      System.out.println("xPressed = " + xPressed);
 
       shoulderMotor.getPIDController().setReference(5, com.revrobotics.CANSparkMax.ControlType.kPosition);
     }
     else if(yPressed){
-      System.out.println("yPressed = " + xPressed);
 
       shoulderMotor.getPIDController().setReference(25, com.revrobotics.CANSparkMax.ControlType.kPosition);
     }
     else if(bPressed){
-      System.out.println("bPressed = " + xPressed);
 
       shoulderMotor.getPIDController().setReference(50, com.revrobotics.CANSparkMax.ControlType.kPosition);
     }
@@ -86,22 +83,18 @@ public class Arm extends SubsystemBase {
 
   public static void ArmControl()
   {
-    yAssistantValue = -(MathUtil.applyDeadband(assistController.getLeftY(), .02));
-
-    if(yAssistantValue > 0.1)
+   if(assistController.getYButton())
     {
-      armMotor.set(0.15);
-      System.out.println("y positive value = " + yAssistantValue);
+      shoulderMotor.set(0.15);
     }
-    else if(yAssistantValue < -0.1)
+    else if(assistController.getXButton())
     {
-      armMotor.set(-0.05);
-      System.out.println("y negative value = " + yAssistantValue);
+      shoulderMotor.set(-0.05);
 
     }
     else
     {
-      armMotor.set(0);
+      shoulderMotor.set(0);
     }
   }
 
@@ -109,19 +102,16 @@ public class Arm extends SubsystemBase {
 
   public static void GrabberControl()
   {
-    leftBumper = assistController.getLeftBumperReleased();
-    rightBumper = assistController.getRightBumperReleased();
-
+    leftBumper = assistController.getLeftBumper();
+    rightBumper = assistController.getRightBumper();
     if(leftBumper)
     {
       butterFlySolenoid.set(Value.kForward);
-      System.out.println("Got Left Bumper pressed");
 
     }
     else if(rightBumper)
     {
       butterFlySolenoid.set(Value.kReverse);
-      System.out.println("Got Right Bumper pressed");
 
     }
   
@@ -151,28 +141,40 @@ public class Arm extends SubsystemBase {
     //System.out.println("gets passed pid placement ");
 
  
-    if(dPadAngle > 10 && dPadAngle < 170) 
+    //if(dPadAngle > 10 && dPadAngle < 170) 
+    if(assistController.getAButton())
     {
       System.out.println("DPAD Right");
       //Setting the target position with the PID control
-      armMotor.getPIDController().setReference(45, com.revrobotics.CANSparkMax.ControlType.kPosition);
-   
+      armMotor.getPIDController().setReference(175, com.revrobotics.CANSparkMax.ControlType.kPosition);
+      //armMotor.set(.3);
+
     } 
-    else if(dPadAngle < 350 && dPadAngle > 190) 
+    
+    // else if(dPadAngle < 350 && dPadAngle > 190) 
+    else if(assistController.getBButton())
     {
      // System.out.println("gets passed BBBBBBBBb ");
      System.out.println("DPAD Left");
 
       //Setting the target position with the PID control
-      armMotor.getPIDController().setReference(5, com.revrobotics.CANSparkMax.ControlType.kPosition);
-    } 
+      //armMotor.set(-.3);
+      armMotor.getPIDController().setReference(-5, com.revrobotics.CANSparkMax.ControlType.kPosition);
 
-    else 
-    {
+    } 
+    else    {
       //System.out.println("neither pressed ");
 
       armMotor.set(0.0);
     }
+
+    // if(assistController.getAButton()){
+    //   armMotor.set(.3);
+    // }
+    // else if(assistController.getBButton()){
+    //   armMotor.set(-.3);
+    // }
+    
   }
 
   
@@ -183,16 +185,16 @@ public class Arm extends SubsystemBase {
     m_Encoder.setPosition(0);
     m_ShoulderEnc.setPosition(0);
     armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-
+    shoulderMotor.setInverted(true);
     SmartDashboard.putNumber("PID P", Constants.PID_P);
     SmartDashboard.putNumber("PID I", Constants.PID_I);
     SmartDashboard.putNumber("PID D", Constants.PID_D);
     SmartDashboard.putNumber("PID FF", Constants.PID_FF);
     SmartDashboard.putNumber("PID I Zone", Constants.PID_I_ZONE);
 
-    butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
+    //butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
     
-    butterFlySolenoid.set(Value.kReverse);
+    //butterFlySolenoid.set(Value.kReverse);
 
   }
 

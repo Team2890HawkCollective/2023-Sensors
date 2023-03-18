@@ -37,16 +37,24 @@ public class AutoCommand extends CommandBase {
   @Override
   public void execute(){
 
-    ramp();
+    //ramp();
+    //rampTime();
     lineTime();
-    lineEncoder();
+    //lineEncoder();
   }
 
     private static void lineTime(){
       DriveTrain.driveForward();
-      Timer.delay(8);
+      Timer.delay(5);
       DriveTrain.stopMotors();
       Timer.delay(1500);
+    }
+
+    private static void rampTime(){
+      DriveTrain.driveForward();
+      Timer.delay(5);
+      DriveTrain.stopMotors();
+      Timer.delay(3000);
     }
 
     private static void lineEncoder(){

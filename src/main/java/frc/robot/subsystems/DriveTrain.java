@@ -74,7 +74,7 @@ public class DriveTrain extends SubsystemBase {
     motorCoefficients[2] = SmartDashboard.getNumber("backLeftMotorCoeff", Constants.backLeftMotorCoeff);
     motorCoefficients[3] = SmartDashboard.getNumber("backRightMotorCoeff", Constants.backRightMotorCoeff);
 
-    SmartDashboard.putNumber("Compressor Pressure", phCompressor.getPressure());
+    //SmartDashboard.putNumber("Compressor Pressure", phCompressor.getPressure());
   }
 
   public static void brakeModeToggle()
@@ -220,8 +220,8 @@ public static double[] applyFilters(int[] polarity, double[] coeff, double[] spe
     frontLeftSparkMax.setInverted(false);
     frontRightSparkMax.setInverted(false);
     resetEncoders();
-    phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
-    phCompressor.enableAnalog(90, 110); 
+    // phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
+    // phCompressor.enableAnalog(90, 110); 
 
   }
 
