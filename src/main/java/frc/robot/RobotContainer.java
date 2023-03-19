@@ -11,7 +11,6 @@ import frc.robot.commands.ArmCommand;
 import frc.robot.commands.AutoCommand;
 import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Auto;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -29,10 +28,9 @@ public class RobotContainer {
   private final DriveTrainCommand m_driveTrainCommand = new DriveTrainCommand(m_driveTrainSubsystem);
 
   private final Arm m_armSubsystem = new Arm();
-  private final ArmCommand m_ArmCommand = new ArmCommand(m_armSubsystem);
+  // private final ArmCommand m_ArmCommand = new ArmCommand(m_armSubsystem);
 
-  private final Auto m_autoSubsystem = new Auto();
-  private final AutoCommand m_AutoCommand = new AutoCommand(m_autoSubsystem);
+  private final AutoCommand m_AutoCommand = new AutoCommand(m_driveTrainSubsystem);
   // The robot's subsystems and commands are defined here...
 
   //private final DriveTrain m_exampleSubsystem = new DriveTrain();
@@ -58,9 +56,9 @@ public Command getDriveTrainCommand() {
 }
 
 
-public Command getArmCommand() {
-    return m_ArmCommand;
-}
+// public Command getArmCommand() {
+//     return m_ArmCommand;
+// }
 
 
 

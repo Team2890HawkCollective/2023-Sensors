@@ -117,7 +117,10 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public static void driveForward(){
-    chassisDrive.driveCartesian(0, .2, 0, null, motorCoefficients);
+    frontLeftSparkMax.set(-0.2);
+    frontRightSparkMax.set(0.2);
+    backLeftSparkMax.set(.2);
+    backRightSparkMax.set(-0.2);
   }
   public static void driveBackward(){
     chassisDrive.driveCartesian(0, -.2, 0, null, motorCoefficients);
@@ -151,17 +154,17 @@ public class DriveTrain extends SubsystemBase {
     backRightSparkMax.getEncoder().setPosition(0);
   }
 
-  public static void actuateAnchor(){
-    if(driverController.getYButton())
-    {
-      butterFlySolenoid.set(Value.kForward);
-    }
-    else if(driverController.getBButton())
-    {
-      butterFlySolenoid.set(Value.kReverse);
-    }
+  // public static void actuateAnchor(){
+  //   if(driverController.getYButton())
+  //   {
+  //     butterFlySolenoid.set(Value.kForward);
+  //   }
+  //   else if(driverController.getBButton())
+  //   {
+  //     butterFlySolenoid.set(Value.kReverse);
+  //   }
 
-  }
+  // }
 
   /**
    * Drives the robot using mecanum drive

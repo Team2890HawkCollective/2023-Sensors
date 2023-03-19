@@ -6,15 +6,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Auto;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Timer;
 /** An example command that uses an example subsystem. */
 public class AutoCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Auto m_subsystem;
-
+  private final DriveTrain m_subsystem;
+  Timer timer;
 
   /**
    * Creates a new ExampleCommand.
@@ -24,15 +23,18 @@ public class AutoCommand extends CommandBase {
 
 
 
-  public AutoCommand(Auto subsystem) {
+  public AutoCommand(DriveTrain subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
+    timer = new Timer();
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    timer.start();
+  }
 
   @Override
   public void execute(){
@@ -41,13 +43,12 @@ public class AutoCommand extends CommandBase {
     //rampTime();
     lineTime();
     //lineEncoder();
+    System.out.println("AUTO EXECUTE METHOD");
   }
 
     private static void lineTime(){
+      System.out.print("LINE METHOD");
       DriveTrain.driveForward();
-      Timer.delay(5);
-      DriveTrain.stopMotors();
-      Timer.delay(1500);
     }
 
     private static void rampTime(){
@@ -78,11 +79,14 @@ public class AutoCommand extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    DriveTrain.stopMotors();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return timer.get() > 3;
+    // return false;
   }
 }
