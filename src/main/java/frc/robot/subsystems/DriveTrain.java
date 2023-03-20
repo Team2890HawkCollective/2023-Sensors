@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.time.format.ResolverStyle;
-
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -14,13 +12,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-//import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -208,8 +201,8 @@ public class DriveTrain extends SubsystemBase {
     frontLeftSparkMax.setInverted(false);
     frontRightSparkMax.setInverted(false);
     resetEncoders();
-    phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
-    phCompressor.enableAnalog(90, 110);
+    // phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
+    // phCompressor.enableAnalog(90, 110); 
 
   }
 

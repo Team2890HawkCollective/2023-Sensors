@@ -4,25 +4,16 @@
 
 package frc.robot.subsystems;
 
-import java.util.LinkedList;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-//import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-//import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm extends SubsystemBase {
@@ -34,9 +25,6 @@ public class Arm extends SubsystemBase {
   private static final CANSparkMax shoulderMotor = new CANSparkMax(Constants.SHOULDER_MOTOR, MotorType.kBrushless);
 
   private static XboxController assistController = new XboxController(Constants.ASSIST_XBOX_CONTROLLER_PORT);
-
-  private static DoubleSolenoid butterFlySolenoid = null;
-  private static Compressor phCompressor = null;
 
   private static RelativeEncoder m_Encoder = armMotor.getEncoder();
   private static RelativeEncoder m_ShoulderEnc = shoulderMotor.getEncoder();
@@ -50,6 +38,8 @@ public class Arm extends SubsystemBase {
 
   private static boolean leftBumper = false;
   private static boolean rightBumper = false;
+  private static DoubleSolenoid butterFlySolenoid = null;
+
 
   private static int dPadAngle;
 
@@ -61,8 +51,6 @@ public class Arm extends SubsystemBase {
     bPressed = assistController.getBButton();
 
     encoderShoulderPosition = m_ShoulderEnc.getPosition();
-    // System.out.println("xpressed " + xPressed + " ypressed " + yPressed + "
-    // bpressed " + bPressed);
     if (xPressed) {
 
       shoulderMotor.getPIDController().setReference(5, com.revrobotics.CANSparkMax.ControlType.kPosition);
@@ -132,7 +120,7 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("PID FF", Constants.PID_FF);
     SmartDashboard.putNumber("PID I Zone", Constants.PID_I_ZONE);
 
-    butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH ,
+     butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH ,
     Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
 
     butterFlySolenoid.set(Value.kReverse);
@@ -142,6 +130,7 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
 
   }
 
