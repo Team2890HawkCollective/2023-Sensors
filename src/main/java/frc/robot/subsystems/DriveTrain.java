@@ -12,6 +12,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -201,9 +202,8 @@ public class DriveTrain extends SubsystemBase {
     frontLeftSparkMax.setInverted(false);
     frontRightSparkMax.setInverted(false);
     resetEncoders();
-    // phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
-    // phCompressor.enableAnalog(90, 110); 
-
+    phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
+    phCompressor.enableAnalog(90, 110); 
   }
 
   @Override
