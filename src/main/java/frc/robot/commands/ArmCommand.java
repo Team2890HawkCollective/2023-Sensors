@@ -38,7 +38,7 @@ public class ArmCommand extends CommandBase {
 	{
     Arm.PIDMoveArm();
     Arm.GrabberControl();
-    Arm.ArmControl();
+    //Arm.ArmControl();
 }
 
 

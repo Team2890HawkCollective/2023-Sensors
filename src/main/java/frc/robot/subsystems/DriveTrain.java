@@ -47,7 +47,6 @@ public class DriveTrain extends SubsystemBase {
   private static MecanumWrapperClass chassisDrive = new MecanumWrapperClass(frontLeftSparkMax, backLeftSparkMax,
       frontRightSparkMax, backRightSparkMax);
 
-  private static XboxController driverController = new XboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);
 
   private static AHRS gyro = new AHRS();
   private static double xInput;
@@ -76,7 +75,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public static void brakeModeToggle() {
-    if (driverController.getBButtonReleased()) {
+    if (false) { //FIGURE OUT HOW TO GET THE BUTTONS ON THE FLIGHT STICK TO WORK
       brakeBooleanToggle = !brakeBooleanToggle;
     }
     if (brakeBooleanToggle) {
@@ -100,9 +99,9 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public static void stopMotors() {
-    chassisDrive.driveCartesian(driverController.getLeftX() * -1 * Constants.SPEED_MOD,
-        driverController.getLeftY() * Constants.SPEED_MOD,
-        driverController.getRightX() * -1 * Constants.SPEED_MOD,
+    chassisDrive.driveCartesian(leftFlightJoystick.getX() * -1 * Constants.SPEED_MOD,
+        leftFlightJoystick.getY() * Constants.SPEED_MOD,
+        rightFlightJoystick.getX() * -1 * Constants.SPEED_MOD,
         new Rotation2d(),
         new double[] { 0.0, 0.0, 0.0, 0.0 });
   }
@@ -155,8 +154,7 @@ public class DriveTrain extends SubsystemBase {
    */
   public static void driveMecanum() {
 
-    xInput = (MathUtil.applyDeadband(driverController.getLeftX(), .01));
-    yInput = -(MathUtil.applyDeadband(driverController.getLeftY(), .01));
+
     rInput = (MathUtil.applyDeadband(rightFlightJoystick.getX(), .01));
 
     // 2/8/2023 USE THE new Rotation2d() THING TO PASS A BLANK GYRO VALUE IF NOT

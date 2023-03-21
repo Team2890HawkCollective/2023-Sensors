@@ -26,8 +26,6 @@ public class Arm extends SubsystemBase {
   private static final CANSparkMax armMotor = new CANSparkMax(Constants.ARM_MOTOR, MotorType.kBrushless);
   private static final CANSparkMax shoulderMotor = new CANSparkMax(Constants.SHOULDER_MOTOR, MotorType.kBrushless);
 
-  private static XboxController assistController = new XboxController(Constants.ASSIST_XBOX_CONTROLLER_PORT);
-
   private static RelativeEncoder m_Encoder = armMotor.getEncoder();
   private static RelativeEncoder m_ShoulderEnc = shoulderMotor.getEncoder();
 
@@ -51,48 +49,20 @@ public class Arm extends SubsystemBase {
   private static int dPadAngle;
 
   private static double yAssistantValue;
+  private static boolean closeButton = false;
+  private static boolean openButton = false;
 
-  public static void ShoulderControl() {
-    xPressed = assistController.getXButton();
-    yPressed = assistController.getYButton();
-    bPressed = assistController.getBButton();
 
-    encoderShoulderPosition = m_ShoulderEnc.getPosition();
-    if (xPressed) {
-
-      shoulderMotor.getPIDController().setReference(5, com.revrobotics.CANSparkMax.ControlType.kPosition);
-    } else if (yPressed) {
-
-      shoulderMotor.getPIDController().setReference(25, com.revrobotics.CANSparkMax.ControlType.kPosition);
-    } else if (bPressed) {
-
-      shoulderMotor.getPIDController().setReference(50, com.revrobotics.CANSparkMax.ControlType.kPosition);
-    } else {
-      shoulderMotor.set(0);
-    }
-  }
-
-  public static void ArmControl() {
-    if (assistController.getYButton()) {
-      shoulderMotor.set(0.15);
-    } else if (assistController.getXButton()) {
-      shoulderMotor.set(-0.05);
-
-    } else {
-      shoulderMotor.set(0);
-    }
-
-  }
 
   public static void GrabberControl() {
-    leftBumper = assistController.getLeftBumper();
-    rightBumper = assistController.getRightBumper();
-    if (leftBumper) {
+
+    closeButton = arcadeJoystick1Buttons[0].getAsBoolean();
+    openButton = arcadeJoystick1Buttons[1].getAsBoolean();
+
+    if (closeButton) {
       butterFlySolenoid.set(Value.kForward);
-
-    } else if (rightBumper) {
+    } else if (openButton) {
       butterFlySolenoid.set(Value.kReverse);
-
     }
 
   }
@@ -108,9 +78,9 @@ public class Arm extends SubsystemBase {
     armMotor.getPIDController().setFF(SmartDashboard.getNumber("PID FF", 0));
     armMotor.getPIDController().setIZone(SmartDashboard.getNumber("PID I Zone", 0));
 
-    if (assistController.getAButton()) {
+    if (arcadeJoystick1.getY() == 1) {
       armMotor.getPIDController().setReference(175, com.revrobotics.CANSparkMax.ControlType.kPosition);
-    } else if (assistController.getBButton()) {
+    } else if (arcadeJoystick1.getY() == -1) {
       armMotor.getPIDController().setReference(-5, com.revrobotics.CANSparkMax.ControlType.kPosition);
     } else {
       armMotor.set(0.0);
@@ -130,6 +100,8 @@ public class Arm extends SubsystemBase {
 
     butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH,
         Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
+
+
 
     butterFlySolenoid.set(Value.kReverse);
     arcadeJoystick1 = new Joystick(2);

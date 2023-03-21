@@ -19,8 +19,7 @@ public final class Constants {
     public static final int MOTOR_BACK_LEFT = 3;
     public static final int MOTOR_BACK_RIGHT = 4;
 
-    public static final int DRIVER_XBOX_CONTROLLER_PORT = 0;
-    public static final int ASSIST_XBOX_CONTROLLER_PORT = 1;
+
     public static final int LEFT_FLIGHT_JOYSTICK_PORT = 2;
     public static final int RIGHT_FLIGHT_JOYSTICK_PORT = 3;
 
