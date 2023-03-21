@@ -9,10 +9,12 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -40,6 +42,11 @@ public class Arm extends SubsystemBase {
   private static boolean rightBumper = false;
   private static DoubleSolenoid butterFlySolenoid = null;
 
+  private static Joystick arcadeJoystick1;
+  private static Joystick arcadeJoystick2;
+
+  private static JoystickButton[] arcadeJoystick1Buttons;
+  private static JoystickButton[] arcadeJoystick2Buttons;
 
   private static int dPadAngle;
 
@@ -74,6 +81,7 @@ public class Arm extends SubsystemBase {
     } else {
       shoulderMotor.set(0);
     }
+
   }
 
   public static void GrabberControl() {
@@ -120,17 +128,26 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("PID FF", Constants.PID_FF);
     SmartDashboard.putNumber("PID I Zone", Constants.PID_I_ZONE);
 
-    butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH ,
-    Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
+    butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH,
+        Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
 
     butterFlySolenoid.set(Value.kReverse);
+    arcadeJoystick1 = new Joystick(2);
+    arcadeJoystick2 = new Joystick(3);
 
+    int numberOfButtons = 10;
+    arcadeJoystick1Buttons = new JoystickButton[numberOfButtons];
+    arcadeJoystick2Buttons = new JoystickButton[numberOfButtons];
+
+    for (int i = 0; i < numberOfButtons; i++) {
+      arcadeJoystick1Buttons[i] = new JoystickButton(arcadeJoystick1, i + 1);
+      arcadeJoystick2Buttons[i] = new JoystickButton(arcadeJoystick2, i + 1);
+    }
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
 
   }
 

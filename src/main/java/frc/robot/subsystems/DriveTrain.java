@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.Joystick;
 
 public class DriveTrain extends SubsystemBase {
 
@@ -33,6 +34,8 @@ public class DriveTrain extends SubsystemBase {
   private static CANSparkMax frontRightSparkMax = new CANSparkMax(Constants.MOTOR_FRONT_RIGHT, MotorType.kBrushless);
   private static CANSparkMax backLeftSparkMax = new CANSparkMax(Constants.MOTOR_BACK_LEFT, MotorType.kBrushless);
   private static CANSparkMax backRightSparkMax = new CANSparkMax(Constants.MOTOR_BACK_RIGHT, MotorType.kBrushless);
+  private static Joystick leftFlightJoystick;
+  private static Joystick rightFlightJoystick;
 
   private static double[] motorCoefficients = { Constants.frontLeftMotorCoeff, Constants.frontRightMotorCoeff,
       Constants.backLeftMotorCoeff, Constants.backRightMotorCoeff };
@@ -154,7 +157,7 @@ public class DriveTrain extends SubsystemBase {
 
     xInput = (MathUtil.applyDeadband(driverController.getLeftX(), .01));
     yInput = -(MathUtil.applyDeadband(driverController.getLeftY(), .01));
-    rInput = (MathUtil.applyDeadband(driverController.getRightX(), .01));
+    rInput = (MathUtil.applyDeadband(rightFlightJoystick.getX(), .01));
 
     // 2/8/2023 USE THE new Rotation2d() THING TO PASS A BLANK GYRO VALUE IF NOT
     // USING GYRO !!!!!!!!!!!!!!
@@ -162,8 +165,8 @@ public class DriveTrain extends SubsystemBase {
     if (rInput != 0) {
       twist(rInput);
     } else {
-      chassisDrive.driveCartesian(driverController.getLeftX() * -1 * Constants.SPEED_MOD,
-          driverController.getLeftY() * Constants.SPEED_MOD,
+      chassisDrive.driveCartesian(leftFlightJoystick.getX()* -1 * Constants.SPEED_MOD,
+          leftFlightJoystick.getY() * Constants.SPEED_MOD,
           0,
           new Rotation2d(),
           motorCoefficients);
@@ -204,6 +207,8 @@ public class DriveTrain extends SubsystemBase {
     resetEncoders();
     phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
     phCompressor.enableAnalog(90, 110); 
+    leftFlightJoystick = new Joystick(Constants.LEFT_FLIGHT_JOYSTICK_PORT);
+    rightFlightJoystick = new Joystick(Constants.RIGHT_FLIGHT_JOYSTICK_PORT);
   }
 
   @Override
