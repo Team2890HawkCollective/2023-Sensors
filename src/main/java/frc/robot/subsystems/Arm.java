@@ -103,7 +103,7 @@ public class Arm extends SubsystemBase {
 
 
 
-    butterFlySolenoid.set(Value.kReverse);
+    butterFlySolenoid.set(Value.kForward);
     arcadeJoystick1 = new Joystick(2);
     arcadeJoystick2 = new Joystick(3);
 
