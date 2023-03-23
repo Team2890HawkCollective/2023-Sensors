@@ -37,6 +37,9 @@ public class DriveTrain extends SubsystemBase {
   private static Joystick leftFlightJoystick;
   private static Joystick rightFlightJoystick;
 
+  private static XboxController driverController = new XboxController(Constants.DRIVER_CONTROLLER_PORT);
+  private static XboxController assistantController = new XboxController(Constants.ASSISTANT_CONTROLLER_PORT);
+
   private static double[] motorCoefficients = { Constants.frontLeftMotorCoeff, Constants.frontRightMotorCoeff,
       Constants.backLeftMotorCoeff, Constants.backRightMotorCoeff };
 
@@ -101,9 +104,9 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public static void stopMotors() {
-    chassisDrive.driveCartesian(leftFlightJoystick.getX() * -1 * Constants.SPEED_MOD,
-        leftFlightJoystick.getY() * Constants.SPEED_MOD,
-        rightFlightJoystick.getX() * -1 * Constants.SPEED_MOD,
+    chassisDrive.driveCartesian(driverController.getLeftX() * -1 * Constants.SPEED_MOD,
+         driverController.getLeftY()* Constants.SPEED_MOD,
+        driverController.getRightY() * -1 * Constants.SPEED_MOD,
         new Rotation2d(),
         new double[] { 0.0, 0.0, 0.0, 0.0 });
   }
@@ -157,7 +160,7 @@ public class DriveTrain extends SubsystemBase {
   public static void driveMecanum() {
 
 
-    rInput = (MathUtil.applyDeadband(rightFlightJoystick.getX(), .01));
+    rInput = (MathUtil.applyDeadband(driverController.getRightX(), .01));
 
     // 2/8/2023 USE THE new Rotation2d() THING TO PASS A BLANK GYRO VALUE IF NOT
     // USING GYRO !!!!!!!!!!!!!!
@@ -165,8 +168,8 @@ public class DriveTrain extends SubsystemBase {
     if (rInput != 0) {
       twist(rInput);
     } else {
-      chassisDrive.driveCartesian(leftFlightJoystick.getX()* -1 * Constants.SPEED_MOD,
-          leftFlightJoystick.getY() * Constants.SPEED_MOD,
+      chassisDrive.driveCartesian(driverController.getLeftX()* -1 * Constants.SPEED_MOD,
+          driverController.getLeftY() * Constants.SPEED_MOD,
           0,
           new Rotation2d(),
           motorCoefficients);
@@ -207,8 +210,7 @@ public class DriveTrain extends SubsystemBase {
     resetEncoders();
     phCompressor = new Compressor(11, PneumaticsModuleType.REVPH);
     phCompressor.enableAnalog(90, 110); 
-    leftFlightJoystick = new Joystick(Constants.LEFT_FLIGHT_JOYSTICK_PORT);
-    rightFlightJoystick = new Joystick(Constants.RIGHT_FLIGHT_JOYSTICK_PORT);
+
 
 
 

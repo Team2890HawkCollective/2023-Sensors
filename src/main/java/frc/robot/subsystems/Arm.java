@@ -40,6 +40,9 @@ public class Arm extends SubsystemBase {
   private static boolean rightBumper = false;
   private static DoubleSolenoid GrabberSolenoid = null;
 
+  private static XboxController driverController = new XboxController(Constants.DRIVER_CONTROLLER_PORT);
+  private static XboxController assistantController = new XboxController(Constants.ASSISTANT_CONTROLLER_PORT);
+
   private static Joystick arcadeJoystick1;
   private static Joystick arcadeJoystick2;
 
@@ -56,12 +59,12 @@ public class Arm extends SubsystemBase {
 
   public static void GrabberControl() {
 
-    closeButton = arcadeJoystick1Buttons[0].getAsBoolean();
-    openButton = arcadeJoystick1Buttons[1].getAsBoolean();
+    boolean leftBumper = assistantController.getLeftBumper();
+    boolean rightBumper = assistantController.getRightBumper();
 
-    if (closeButton) {
+    if (rightBumper) {
       GrabberSolenoid.set(Value.kForward);
-    } else if (openButton) {
+    } else if (leftBumper) {
       GrabberSolenoid.set(Value.kReverse);
     }
 
@@ -78,9 +81,9 @@ public class Arm extends SubsystemBase {
     armMotor.getPIDController().setFF(SmartDashboard.getNumber("PID FF", 0));
     armMotor.getPIDController().setIZone(SmartDashboard.getNumber("PID I Zone", 0));
 
-    if (arcadeJoystick1.getY() == 1) {
+    if (assistantController.getLeftY() > 0.2) {
       armMotor.getPIDController().setReference(175, com.revrobotics.CANSparkMax.ControlType.kPosition);
-    } else if (arcadeJoystick1.getY() == -1) {
+    } else if (assistantController.getLeftY() < 0.2) {
       armMotor.getPIDController().setReference(-5, com.revrobotics.CANSparkMax.ControlType.kPosition);
     } else {
       armMotor.set(0.0);

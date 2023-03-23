@@ -51,7 +51,9 @@ public final class Constants {
     public static final int GRABBER_SOLENOID_DEPLOY = 12;
     public static final int GRABBER_SOLENOID_RETRACT = 13;
 
-
+    public static final int DRIVER_CONTROLLER_PORT = 0;
+    public static final int ASSISTANT_CONTROLLER_PORT = 1;
+    
 
     public static final int REV_PNEUMATIC_MODULE = 11;
     
