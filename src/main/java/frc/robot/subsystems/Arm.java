@@ -38,7 +38,7 @@ public class Arm extends SubsystemBase {
 
   private static boolean leftBumper = false;
   private static boolean rightBumper = false;
-  private static DoubleSolenoid butterFlySolenoid = null;
+  private static DoubleSolenoid GrabberSolenoid = null;
 
   private static Joystick arcadeJoystick1;
   private static Joystick arcadeJoystick2;
@@ -60,9 +60,9 @@ public class Arm extends SubsystemBase {
     openButton = arcadeJoystick1Buttons[1].getAsBoolean();
 
     if (closeButton) {
-      butterFlySolenoid.set(Value.kForward);
+      GrabberSolenoid.set(Value.kForward);
     } else if (openButton) {
-      butterFlySolenoid.set(Value.kReverse);
+      GrabberSolenoid.set(Value.kReverse);
     }
 
   }
@@ -91,19 +91,22 @@ public class Arm extends SubsystemBase {
     m_Encoder.setPosition(0);
     m_ShoulderEnc.setPosition(0);
     armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    shoulderMotor.setInverted(true);
+    shoulderMotor.follow(armMotor, true);    
+
     SmartDashboard.putNumber("PID P", Constants.PID_P);
     SmartDashboard.putNumber("PID I", Constants.PID_I);
     SmartDashboard.putNumber("PID D", Constants.PID_D);
     SmartDashboard.putNumber("PID FF", Constants.PID_FF);
     SmartDashboard.putNumber("PID I Zone", Constants.PID_I_ZONE);
 
-    butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH,
-        Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
+    GrabberSolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH,
+        Constants.GRABBER_SOLENOID_DEPLOY, Constants.GRABBER_SOLENOID_RETRACT);
 
 
 
-    butterFlySolenoid.set(Value.kForward);
+
+
+    GrabberSolenoid.set(Value.kForward);
     arcadeJoystick1 = new Joystick(2);
     arcadeJoystick2 = new Joystick(3);
 

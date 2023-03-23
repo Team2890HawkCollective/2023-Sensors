@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import frc.robot.subsystems.Arm;
+
 
 /** An example command that uses an example subsystem. */
 public class AutoCommand extends CommandBase {
@@ -33,6 +36,7 @@ public class AutoCommand extends CommandBase {
   @Override
   public void initialize() {
     timer.start();
+    DriveTrain.armDeployDoubleSolenoid.set(Value.kForward);
   }
 
   @Override

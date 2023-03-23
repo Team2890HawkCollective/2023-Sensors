@@ -48,8 +48,10 @@ public final class Constants {
     public static final double PID_I_ZONE = 3;
     public static final double PID_FF = 0;
 
-    public static final int BUTTERFLY_SOLENOID_DEPLOY = 12;
-    public static final int BUTTERFLY_SOLENOID_RETRACT = 13;
+    public static final int GRABBER_SOLENOID_DEPLOY = 12;
+    public static final int GRABBER_SOLENOID_RETRACT = 13;
+
+
 
     public static final int REV_PNEUMATIC_MODULE = 11;
     
@@ -62,6 +64,10 @@ public final class Constants {
     public static final int BACK_LEFT_POLARITY = 1;
     public static final int BACK_RIGHT_POLARITY = -1;
     //first commit change
+    public static final int GRABBER_BEGINNING_OF_GAME_SOLENOID_DEPLOY = 14;
+    public static final int GRABBER_BEGINNING_OF_GAME_SOLENOID_RETRACT = 15;
+
+
 
     
 }

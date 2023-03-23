@@ -59,6 +59,8 @@ public class DriveTrain extends SubsystemBase {
 
   private static DoubleSolenoid butterFlySolenoid = null;
   private static Compressor phCompressor = null;
+  public static DoubleSolenoid armDeployDoubleSolenoid = null;
+
 
   private static boolean brakeBooleanToggle = false;
 
@@ -207,6 +209,11 @@ public class DriveTrain extends SubsystemBase {
     phCompressor.enableAnalog(90, 110); 
     leftFlightJoystick = new Joystick(Constants.LEFT_FLIGHT_JOYSTICK_PORT);
     rightFlightJoystick = new Joystick(Constants.RIGHT_FLIGHT_JOYSTICK_PORT);
+
+
+
+    armDeployDoubleSolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH,
+    Constants.GRABBER_BEGINNING_OF_GAME_SOLENOID_DEPLOY, Constants.GRABBER_BEGINNING_OF_GAME_SOLENOID_RETRACT);
   }
 
   @Override
