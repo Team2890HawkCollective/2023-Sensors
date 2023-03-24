@@ -80,8 +80,8 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public static void brakeModeToggle() {
-    if (false) { //FIGURE OUT HOW TO GET THE BUTTONS ON THE FLIGHT STICK TO WORK
-      brakeBooleanToggle = !brakeBooleanToggle;
+    if (driverController.getBButtonReleased()) { 
+      brakeBooleanToggle = !brakeBooleanToggle; 
     }
     if (brakeBooleanToggle) {
       frontLeftSparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
