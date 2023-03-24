@@ -32,6 +32,8 @@ public class Arm extends SubsystemBase {
   private static boolean xPressed = false;
   private static boolean yPressed = false;
   private static boolean bPressed = false;
+  private static boolean aPressed = false;
+
 
   private static double encoderPosition;
   private static double encoderShoulderPosition;
@@ -71,6 +73,9 @@ public class Arm extends SubsystemBase {
   }
 
   public static void PIDMoveArm() {
+    yAssistantValue = assistantController.getLeftY();
+    yPressed = assistantController.getYButton();
+    aPressed = assistantController.getAButton();
 
     encoderPosition = m_Encoder.getPosition();
     SmartDashboard.putNumber("Encoder Position", encoderPosition);
@@ -81,10 +86,14 @@ public class Arm extends SubsystemBase {
     armMotor.getPIDController().setFF(SmartDashboard.getNumber("PID FF", 0));
     armMotor.getPIDController().setIZone(SmartDashboard.getNumber("PID I Zone", 0));
 
-    if (assistantController.getLeftY() > 0.2) {
-      armMotor.getPIDController().setReference(175, com.revrobotics.CANSparkMax.ControlType.kPosition);
-    } else if (assistantController.getLeftY() < 0.2) {
-      armMotor.getPIDController().setReference(-5, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    // if (yAssistantValue < -0.2) {
+    if (yPressed) {
+      armMotor.set(.3);
+      //armMotor.getPIDController().setReference(175, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    } //else if (yAssistantValue > 0.2) {
+      if (aPressed) {
+      armMotor.set(-.3);
+      //armMotor.getPIDController().setReference(-5, com.revrobotics.CANSparkMax.ControlType.kPosition);
     } else {
       armMotor.set(0.0);
     }
@@ -94,6 +103,7 @@ public class Arm extends SubsystemBase {
     m_Encoder.setPosition(0);
     m_ShoulderEnc.setPosition(0);
     armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    shoulderMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     shoulderMotor.follow(armMotor, true);    
 
     SmartDashboard.putNumber("PID P", Constants.PID_P);
