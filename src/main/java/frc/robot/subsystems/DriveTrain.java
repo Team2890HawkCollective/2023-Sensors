@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.cameraserver.CameraServer;
+
 
 public class DriveTrain extends SubsystemBase {
 
@@ -71,12 +73,18 @@ public class DriveTrain extends SubsystemBase {
       Constants.BACK_LEFT_POLARITY, Constants.BACK_RIGHT_POLARITY };
 
   public static void updateShuffleboard() {
-    motorCoefficients[0] = SmartDashboard.getNumber("frontLeftMotorCoeff", Constants.frontLeftMotorCoeff);
-    motorCoefficients[1] = SmartDashboard.getNumber("frontRightMotorCoeff", Constants.frontRightMotorCoeff);
-    motorCoefficients[2] = SmartDashboard.getNumber("backLeftMotorCoeff", Constants.backLeftMotorCoeff);
-    motorCoefficients[3] = SmartDashboard.getNumber("backRightMotorCoeff", Constants.backRightMotorCoeff);
+    //motorCoefficients[0] = SmartDashboard.getNumber("frontLeftMotorCoeff", Constants.frontLeftMotorCoeff);
+    //motorCoefficients[1] = SmartDashboard.getNumber("frontRightMotorCoeff", Constants.frontRightMotorCoeff);
+    //motorCoefficients[2] = SmartDashboard.getNumber("backLeftMotorCoeff", Constants.backLeftMotorCoeff);
+    //motorCoefficients[3] = SmartDashboard.getNumber("backRightMotorCoeff", Constants.backRightMotorCoeff);
 
-    // SmartDashboard.putNumber("Compressor Pressure", phCompressor.getPressure());
+    SmartDashboard.putNumber("Arm Motor 1 TEMP", Arm.shoulderMotor.getMotorTemperature());
+    SmartDashboard.putNumber("Arm Motor 2 TEMP", Arm.armMotor.getMotorTemperature());
+    SmartDashboard.putNumber("Arm Motor 1 CURRENT", Arm.shoulderMotor.getOutputCurrent());
+    SmartDashboard.putNumber("Arm Motor 2 CURRENT", Arm.armMotor.getOutputCurrent());
+
+    SmartDashboard.putNumber("Compressor Pressure", phCompressor.getPressure());
+
   }
 
   public static void brakeModeToggle() {
@@ -212,6 +220,7 @@ public class DriveTrain extends SubsystemBase {
     phCompressor.enableAnalog(90, 110); 
 
 
+    CameraServer.startAutomaticCapture();
 
 
     armDeployDoubleSolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH,

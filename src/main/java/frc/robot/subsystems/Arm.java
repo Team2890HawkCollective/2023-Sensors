@@ -23,8 +23,8 @@ public class Arm extends SubsystemBase {
   private static final String kGraphTitle = "Encoder Position";
   private static final int kMaxDataPoints = 100;
 
-  private static final CANSparkMax armMotor = new CANSparkMax(Constants.ARM_MOTOR, MotorType.kBrushless);
-  private static final CANSparkMax shoulderMotor = new CANSparkMax(Constants.SHOULDER_MOTOR, MotorType.kBrushless);
+  static final CANSparkMax armMotor = new CANSparkMax(Constants.ARM_MOTOR, MotorType.kBrushless);
+  static final CANSparkMax shoulderMotor = new CANSparkMax(Constants.SHOULDER_MOTOR, MotorType.kBrushless);
 
   private static RelativeEncoder m_Encoder = armMotor.getEncoder();
   private static RelativeEncoder m_ShoulderEnc = shoulderMotor.getEncoder();
@@ -60,7 +60,8 @@ public class Arm extends SubsystemBase {
 
 
   public static void GrabberControl() {
-
+    xPressed = assistantController.getXButtonReleased();
+    bPressed = assistantController.getBButtonReleased();
     boolean leftBumper = assistantController.getLeftBumper();
     boolean rightBumper = assistantController.getRightBumper();
 
@@ -68,6 +69,12 @@ public class Arm extends SubsystemBase {
       GrabberSolenoid.set(Value.kForward);
     } else if (leftBumper) {
       GrabberSolenoid.set(Value.kReverse);
+    }
+    if(xPressed){
+      DriveTrain.armDeployDoubleSolenoid.set(Value.kForward);
+    }
+    if(bPressed){
+      DriveTrain.armDeployDoubleSolenoid.set(Value.kReverse);
     }
 
   }
@@ -116,8 +123,10 @@ public class Arm extends SubsystemBase {
     // }
 
     if(yAssistantValue < -.1){
-      System.out.println("can see " + yAssistantValue);
-      armMotor.set(yAssistantValue * .5);
+      //System.out.println("can see " + yAssistantValue);
+      armMotor.set(yAssistantValue * .7);
+      //armMotor.getPIDController().setReference(250, com.revrobotics.CANSparkMax.ControlType.kPosition);
+
     }
     else{
       armMotor.set(0);
