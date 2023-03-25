@@ -86,16 +86,41 @@ public class Arm extends SubsystemBase {
     armMotor.getPIDController().setFF(SmartDashboard.getNumber("PID FF", 0));
     armMotor.getPIDController().setIZone(SmartDashboard.getNumber("PID I Zone", 0));
 
-    // if (yAssistantValue < -0.2) {
-    if (yPressed) {
-      armMotor.set(.3);
-      //armMotor.getPIDController().setReference(175, com.revrobotics.CANSparkMax.ControlType.kPosition);
-    } //else if (yAssistantValue > 0.2) {
-      if (aPressed) {
-      armMotor.set(-.3);
-      //armMotor.getPIDController().setReference(-5, com.revrobotics.CANSparkMax.ControlType.kPosition);
-    } else {
-      armMotor.set(0.0);
+    //  if (yAssistantValue < -0.2) {
+    // //if (yPressed) {
+    //   //armMotor.set(.3);
+    //   //System.out.println("Y PRESSED");
+    //   armMotor.getPIDController().setReference(250, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    // } else if (yAssistantValue > 0.2) {
+    //   //if (aPressed) {
+    //   //armMotor.set(-.3);
+    //   //System.out.println("A PRESSED");
+
+    //   armMotor.getPIDController().setReference(-15, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    // } else {
+    //   armMotor.set(0.0);
+    // }
+
+
+    // if(yAssistantValue > .1){
+    //   armMotor.set(yAssistantValue * .3);
+    //   System.out.println("forward");
+    // }
+    // else if(yAssistantValue < -.1){
+    //   armMotor.set(yAssistantValue * .01);
+    //   System.out.println("back");
+
+    // }
+    // else{
+    //   armMotor.set(0);
+    // }
+
+    if(yAssistantValue < -.1){
+      System.out.println("can see " + yAssistantValue);
+      armMotor.set(yAssistantValue * .5);
+    }
+    else{
+      armMotor.set(0);
     }
   }
 
@@ -104,7 +129,7 @@ public class Arm extends SubsystemBase {
     m_ShoulderEnc.setPosition(0);
     armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     shoulderMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    shoulderMotor.follow(armMotor, true);    
+    shoulderMotor.follow(armMotor, false);    
 
     SmartDashboard.putNumber("PID P", Constants.PID_P);
     SmartDashboard.putNumber("PID I", Constants.PID_I);

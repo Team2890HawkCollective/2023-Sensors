@@ -28,7 +28,7 @@ public class RobotContainer {
   private final DriveTrainCommand m_driveTrainCommand = new DriveTrainCommand(m_driveTrainSubsystem);
 
   private final Arm m_armSubsystem = new Arm();
-  // private final ArmCommand m_ArmCommand = new ArmCommand(m_armSubsystem);
+  private final ArmCommand m_ArmCommand = new ArmCommand(m_armSubsystem);
 
   private final AutoCommand m_AutoCommand = new AutoCommand(m_driveTrainSubsystem);
   // The robot's subsystems and commands are defined here...
@@ -56,9 +56,9 @@ public Command getDriveTrainCommand() {
 }
 
 
-// public Command getArmCommand() {
-//     return m_ArmCommand;
-// }
+public Command getArmCommand() {
+    return m_ArmCommand;
+}
 
 
 
