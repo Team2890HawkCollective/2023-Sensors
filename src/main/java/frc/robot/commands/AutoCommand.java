@@ -17,7 +17,7 @@ import frc.robot.subsystems.Arm;
 public class AutoCommand extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final DriveTrain m_subsystem;
-  Timer timer;
+  static Timer timer;
 
   /**
    * Creates a new ExampleCommand.
@@ -46,12 +46,18 @@ public class AutoCommand extends CommandBase {
     // rampTime();
     lineTime();
     // lineEncoder();
-    System.out.println("AUTO EXECUTE METHOD");
+    // System.out.println("AUTO EXECUTE METHOD");
   }
 
   private static void lineTime() {
-    System.out.print("LINE METHOD");
-    DriveTrain.driveForward();
+    // System.out.print("LINE METHOD");
+    
+    if(timer.get() < .5){
+      DriveTrain.driveBackward();
+    }
+    else{
+      DriveTrain.driveForward();
+    }
   }
 
   private static void rampTime() {

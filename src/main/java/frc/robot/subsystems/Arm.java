@@ -124,9 +124,12 @@ public class Arm extends SubsystemBase {
 
     if(yAssistantValue < -.1){
       //System.out.println("can see " + yAssistantValue);
-      armMotor.set(yAssistantValue * .7);
-      //armMotor.getPIDController().setReference(250, com.revrobotics.CANSparkMax.ControlType.kPosition);
+      armMotor.set(yAssistantValue * .4);
+      //armMotor.getPIDController().setReference(-50, com.revrobotics.CANSparkMax.ControlType.kPosition);
 
+    }
+    else if(yAssistantValue > .1){
+      armMotor.set(yAssistantValue * .05);
     }
     else{
       armMotor.set(0);

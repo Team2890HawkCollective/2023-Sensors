@@ -120,14 +120,17 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public static void driveForward() {
-    frontLeftSparkMax.set(-0.2);
-    frontRightSparkMax.set(0.2);
-    backLeftSparkMax.set(.2);
-    backRightSparkMax.set(-0.2);
+    frontLeftSparkMax.set(-0.35);
+    frontRightSparkMax.set(0.35);
+    backLeftSparkMax.set(.35);
+    backRightSparkMax.set(-0.35);
   }
 
   public static void driveBackward() {
-    chassisDrive.driveCartesian(0, -.2, 0, null, motorCoefficients);
+    frontLeftSparkMax.set(0.2);
+    frontRightSparkMax.set(-0.2);
+    backLeftSparkMax.set(-.2);
+    backRightSparkMax.set(0.2);
   }
 
   public static void driveLeft() {
