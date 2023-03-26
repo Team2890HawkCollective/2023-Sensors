@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
@@ -19,6 +20,10 @@ public class AutoCommand extends CommandBase {
   private final DriveTrain m_subsystem;
   static Timer timer;
 
+  SendableChooser toggleAUTO = new SendableChooser<>();
+  boolean longTrueShortFalse = false;
+  double driveTimeSeconds;
+
   /**
    * Creates a new ExampleCommand.
    *
@@ -30,6 +35,10 @@ public class AutoCommand extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
     timer = new Timer();
+    toggleAUTO.setDefaultOption("SHORT AUTO", "shortAuto");
+    toggleAUTO.addOption("SHORT AUTO", "shortAuto");
+    toggleAUTO.addOption("LONG AUTO", "longAuto");
+    SmartDashboard.putData("toggleAUTO", toggleAUTO);
   }
 
   // Called when the command is initially scheduled.
@@ -37,6 +46,12 @@ public class AutoCommand extends CommandBase {
   public void initialize() {
     timer.start();
     DriveTrain.armDeployDoubleSolenoid.set(Value.kForward);
+    if(toggleAUTO.getSelected().equals("longAuto")){
+      longTrueShortFalse = true; 
+    }
+    else{
+      longTrueShortFalse = false;
+    }
   }
 
   @Override
@@ -44,9 +59,17 @@ public class AutoCommand extends CommandBase {
 
     // ramp();
     // rampTime();
+    if(longTrueShortFalse)
+    {
+      driveTimeSeconds = 4.5;
+    }
+    else{
+      driveTimeSeconds = 3.5;
+    }
     lineTime();
     // lineEncoder();
     // System.out.println("AUTO EXECUTE METHOD");
+
   }
 
   private static void lineTime() {
@@ -58,7 +81,8 @@ public class AutoCommand extends CommandBase {
     else{
       DriveTrain.driveForward();
     }
-  }
+    }
+  
 
   private static void rampTime() {
     DriveTrain.driveForward();
@@ -94,7 +118,7 @@ public class AutoCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get() > 4.5;
+    return timer.get() > driveTimeSeconds;
     // return false;
   }
 }

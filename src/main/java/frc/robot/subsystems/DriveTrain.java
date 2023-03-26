@@ -224,7 +224,7 @@ public class DriveTrain extends SubsystemBase {
 
 
     CameraServer.startAutomaticCapture();
-
+    
 
     armDeployDoubleSolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH,
     Constants.GRABBER_BEGINNING_OF_GAME_SOLENOID_DEPLOY, Constants.GRABBER_BEGINNING_OF_GAME_SOLENOID_RETRACT);
