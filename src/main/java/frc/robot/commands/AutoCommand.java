@@ -94,7 +94,7 @@ public class AutoCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get() > 3;
+    return timer.get() > 4.5;
     // return false;
   }
 }
