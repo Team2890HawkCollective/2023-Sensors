@@ -42,10 +42,10 @@ public final class Constants {
     public static final double backLeftMotorCoeff = 1.0;
     public static final double backRightMotorCoeff = 1.0;
 
-    public static final double PID_P = 0.07;
-    public static final double PID_I = 0.0000255;
-    public static final double PID_D = 0.24;
-    public static final double PID_I_ZONE = 2;
+    public static final double PID_P = 0.07;//speed of change to the target value
+    public static final double PID_I = 0.0000255;//integral, used if it is settling on the correct terget value
+    public static final double PID_D = 0.24;//derivative, used if consistantly overshooting and never settling
+    public static final double PID_I_ZONE = 2;//range of tolerance, +-2
     public static final double PID_FF = 0;
 
     public static final int GRABBER_SOLENOID_DEPLOY = 11;

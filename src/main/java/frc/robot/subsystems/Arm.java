@@ -87,6 +87,7 @@ public class Arm extends SubsystemBase {
     encoderPosition = m_Encoder.getPosition();
     SmartDashboard.putNumber("Encoder Position", encoderPosition);
 
+    //reading the numbers off smart dashboard to set PID control
     armMotor.getPIDController().setP(SmartDashboard.getNumber("PID P", 0));
     armMotor.getPIDController().setI(SmartDashboard.getNumber("PID I", 0));
     armMotor.getPIDController().setD(SmartDashboard.getNumber("PID D", 0));
@@ -125,7 +126,10 @@ public class Arm extends SubsystemBase {
     if(yAssistantValue < -.1){
       //System.out.println("can see " + yAssistantValue);
       armMotor.set(yAssistantValue * .4);
-      //armMotor.getPIDController().setReference(-50, com.revrobotics.CANSparkMax.ControlType.kPosition);
+
+      // Both .set and PID control have individual control over motor speeds. Only use one. 
+
+      armMotor.getPIDController().setReference(-50, com.revrobotics.CANSparkMax.ControlType.kPosition);
 
     }
     else if(yAssistantValue > .1){
@@ -143,6 +147,8 @@ public class Arm extends SubsystemBase {
     shoulderMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     shoulderMotor.follow(armMotor, false);    
 
+
+    //sends constants to smart dashboard to be read later for PID control
     SmartDashboard.putNumber("PID P", Constants.PID_P);
     SmartDashboard.putNumber("PID I", Constants.PID_I);
     SmartDashboard.putNumber("PID D", Constants.PID_D);
