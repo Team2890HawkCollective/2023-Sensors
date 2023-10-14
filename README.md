@@ -5,4 +5,4 @@
 
 - [**Seraph XBoxController button mapping**](https://github.com/Team2890HawkCollective/2023-robot-code/blob/main/design/Seraph-XBoxController-mapping.md)
 
-- Competition code from March 2023 is in the "Competition-Main-with-Limelight" branch.  
+- Competition code from March 2023 is in the ["Competition-Main-with-Limelight" branch](https://github.com/Team2890HawkCollective/2023-Sensors/tree/Competition-Main-with-limelight).  
