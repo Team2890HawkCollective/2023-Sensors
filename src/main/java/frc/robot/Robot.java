@@ -89,7 +89,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
 
     m_robotContainer.getDriveTrainCommand().execute();
-    // m_robotContainer.getArmCommand().execute();
+    m_robotContainer.getArmCommand().execute();
 
   }
 

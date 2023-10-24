@@ -142,38 +142,39 @@ public class Arm extends SubsystemBase {
 
  
     //if(dPadAngle > 10 && dPadAngle < 170) 
-    if(assistController.getAButton())
-    {
-      System.out.println("DPAD Right");
-      //Setting the target position with the PID control
-      armMotor.getPIDController().setReference(175, com.revrobotics.CANSparkMax.ControlType.kPosition);
-      //armMotor.set(.3);
+    // if(assistController.getAButton())
+    // {
+    //   System.out.println("DPAD Right");
+    //   //Setting the target position with the PID control
+    //   armMotor.getPIDController().setReference(175, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    //   //armMotor.set(.3);
 
-    } 
-    
-    // else if(dPadAngle < 350 && dPadAngle > 190) 
-    else if(assistController.getBButton())
-    {
-     // System.out.println("gets passed BBBBBBBBb ");
-     System.out.println("DPAD Left");
+    // } 
+    // // else if(dPadAngle < 350 && dPadAngle > 190) 
+    // else if(assistController.getBButton())
+    // {
+    //  // System.out.println("gets passed BBBBBBBBb ");
+    //  System.out.println("DPAD Left");
 
-      //Setting the target position with the PID control
-      //armMotor.set(-.3);
-      armMotor.getPIDController().setReference(-5, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    //   //Setting the target position with the PID control
+    //   //armMotor.set(-.3);
+    //   armMotor.getPIDController().setReference(-5, com.revrobotics.CANSparkMax.ControlType.kPosition);
 
-    } 
-    else    {
-      //System.out.println("neither pressed ");
+    // } 
+    // else    {
+    //   //System.out.println("neither pressed ");
 
+    //   armMotor.set(0.0);
+    // }
+
+    if(assistController.getAButton()){
+      armMotor.set(.3);
+    }
+    else if(assistController.getBButton()){
+      armMotor.set(-.3);
+    } else {
       armMotor.set(0.0);
     }
-
-    // if(assistController.getAButton()){
-    //   armMotor.set(.3);
-    // }
-    // else if(assistController.getBButton()){
-    //   armMotor.set(-.3);
-    // }
     
   }
 
@@ -192,9 +193,9 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("PID FF", Constants.PID_FF);
     SmartDashboard.putNumber("PID I Zone", Constants.PID_I_ZONE);
 
-    //butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
+    butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
     
-    //butterFlySolenoid.set(Value.kReverse);
+    butterFlySolenoid.set(Value.kReverse);
 
   }
 
