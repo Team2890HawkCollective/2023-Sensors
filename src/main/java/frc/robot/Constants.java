@@ -19,8 +19,11 @@ public final class Constants {
     public static final int MOTOR_BACK_LEFT = 3;
     public static final int MOTOR_BACK_RIGHT = 4;
 
-    public static final int DRIVER_XBOX_CONTROLLER_PORT = 0;
-    public static final int ASSIST_XBOX_CONTROLLER_PORT = 1;
+
+    public static final int LEFT_FLIGHT_JOYSTICK_PORT = 2;
+    public static final int RIGHT_FLIGHT_JOYSTICK_PORT = 3;
+
+    
 
     public static final double SPEED_MOD = 1;
 
@@ -39,14 +42,18 @@ public final class Constants {
     public static final double backLeftMotorCoeff = 1.0;
     public static final double backRightMotorCoeff = 1.0;
 
-    public static final double PID_P = 0.03;
-    public static final double PID_I = 0.0000255;
-    public static final double PID_D = 0.24;
-    public static final double PID_I_ZONE = 3;
+    public static final double PID_P = 0.07;//speed of change to the target value
+    public static final double PID_I = 0.0000255;//integral, used if it is settling on the correct terget value
+    public static final double PID_D = 0.24;//derivative, used if consistantly overshooting and never settling
+    public static final double PID_I_ZONE = 2;//range of tolerance, +-2
     public static final double PID_FF = 0;
 
-    public static final int BUTTERFLY_SOLENOID_DEPLOY = 12;
-    public static final int BUTTERFLY_SOLENOID_RETRACT = 13;
+    public static final int GRABBER_SOLENOID_DEPLOY = 11;
+    public static final int GRABBER_SOLENOID_RETRACT = 12;
+
+    public static final int DRIVER_CONTROLLER_PORT = 0;
+    public static final int ASSISTANT_CONTROLLER_PORT = 1;
+    
 
     public static final int REV_PNEUMATIC_MODULE = 11;
     
@@ -59,4 +66,10 @@ public final class Constants {
     public static final int BACK_LEFT_POLARITY = 1;
     public static final int BACK_RIGHT_POLARITY = -1;
     //first commit change
+    public static final int GRABBER_BEGINNING_OF_GAME_SOLENOID_DEPLOY = 13;
+    public static final int GRABBER_BEGINNING_OF_GAME_SOLENOID_RETRACT = 14;
+
+
+
+    
 }

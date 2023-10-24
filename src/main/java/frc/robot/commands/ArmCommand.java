@@ -38,10 +38,9 @@ public class ArmCommand extends CommandBase {
 	{
     Arm.PIDMoveArm();
     Arm.GrabberControl();
-    //Arm.ShoulderControl();
-    //System.out.println("gets to PID MOVE ARM ");
-    Arm.ArmControl();
+    //Arm.ArmControl();
 }
+
 
 
   // Called once the command ends or is interrupted.

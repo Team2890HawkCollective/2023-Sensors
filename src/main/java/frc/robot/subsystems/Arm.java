@@ -4,25 +4,18 @@
 
 package frc.robot.subsystems;
 
-import java.util.LinkedList;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-//import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-//import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm extends SubsystemBase {
@@ -30,179 +23,163 @@ public class Arm extends SubsystemBase {
   private static final String kGraphTitle = "Encoder Position";
   private static final int kMaxDataPoints = 100;
 
-  private static final CANSparkMax armMotor = new CANSparkMax(Constants.ARM_MOTOR, MotorType.kBrushless);
-  private static final CANSparkMax shoulderMotor = new CANSparkMax(Constants.SHOULDER_MOTOR, MotorType.kBrushless);
-
-  private static XboxController assistController = new XboxController(Constants.ASSIST_XBOX_CONTROLLER_PORT);
-
-  private static DoubleSolenoid butterFlySolenoid = null;
-  private static Compressor phCompressor = null;
+  static final CANSparkMax armMotor = new CANSparkMax(Constants.ARM_MOTOR, MotorType.kBrushless);
+  static final CANSparkMax shoulderMotor = new CANSparkMax(Constants.SHOULDER_MOTOR, MotorType.kBrushless);
 
   private static RelativeEncoder m_Encoder = armMotor.getEncoder();
   private static RelativeEncoder m_ShoulderEnc = shoulderMotor.getEncoder();
 
   private static boolean xPressed = false;
-  private static boolean yPressed = false; 
+  private static boolean yPressed = false;
   private static boolean bPressed = false;
+  private static boolean aPressed = false;
+
 
   private static double encoderPosition;
   private static double encoderShoulderPosition;
 
   private static boolean leftBumper = false;
   private static boolean rightBumper = false;
-  
+  private static DoubleSolenoid GrabberSolenoid = null;
+
+  private static XboxController driverController = new XboxController(Constants.DRIVER_CONTROLLER_PORT);
+  private static XboxController assistantController = new XboxController(Constants.ASSISTANT_CONTROLLER_PORT);
+
+  private static Joystick arcadeJoystick1;
+  private static Joystick arcadeJoystick2;
+
+  private static JoystickButton[] arcadeJoystick1Buttons;
+  private static JoystickButton[] arcadeJoystick2Buttons;
+
   private static int dPadAngle;
 
   private static double yAssistantValue;
+  private static boolean closeButton = false;
+  private static boolean openButton = false;
 
 
-  public static void ShoulderControl()
-  {
-    xPressed = assistController.getXButton();
-    yPressed = assistController.getYButton();
-    bPressed = assistController.getBButton();
 
-    encoderShoulderPosition = m_ShoulderEnc.getPosition();
-    //System.out.println("xpressed " + xPressed + " ypressed " + yPressed + " bpressed " + bPressed);
+  public static void GrabberControl() {
+    xPressed = assistantController.getXButtonReleased();
+    bPressed = assistantController.getBButtonReleased();
+    boolean leftBumper = assistantController.getLeftBumper();
+    boolean rightBumper = assistantController.getRightBumper();
+
+    if (rightBumper) {
+      GrabberSolenoid.set(Value.kForward);
+    } else if (leftBumper) {
+      GrabberSolenoid.set(Value.kReverse);
+    }
     if(xPressed){
+      DriveTrain.armDeployDoubleSolenoid.set(Value.kForward);
+    }
+    if(bPressed){
+      DriveTrain.armDeployDoubleSolenoid.set(Value.kReverse);
+    }
 
-      shoulderMotor.getPIDController().setReference(5, com.revrobotics.CANSparkMax.ControlType.kPosition);
-    }
-    else if(yPressed){
-
-      shoulderMotor.getPIDController().setReference(25, com.revrobotics.CANSparkMax.ControlType.kPosition);
-    }
-    else if(bPressed){
-
-      shoulderMotor.getPIDController().setReference(50, com.revrobotics.CANSparkMax.ControlType.kPosition);
-    }
-    else{
-      shoulderMotor.set(0);
-    }
   }
 
-  public static void ArmControl()
-  {
-   if(assistController.getYButton())
-    {
-      shoulderMotor.set(0.15);
-    }
-    else if(assistController.getXButton())
-    {
-      shoulderMotor.set(-0.05);
+  public static void PIDMoveArm() {
+    yAssistantValue = assistantController.getLeftY();
+    yPressed = assistantController.getYButton();
+    aPressed = assistantController.getAButton();
 
-    }
-    else
-    {
-      shoulderMotor.set(0);
-    }
-  }
-
-  
-
-  public static void GrabberControl()
-  {
-    leftBumper = assistController.getLeftBumper();
-    rightBumper = assistController.getRightBumper();
-    if(leftBumper)
-    {
-      butterFlySolenoid.set(Value.kForward);
-
-    }
-    else if(rightBumper)
-    {
-      butterFlySolenoid.set(Value.kReverse);
-
-    }
-  
-  }
-
-  public static void PIDMoveArm()
-  {
-
-    dPadAngle = assistController.getPOV();
-    
-    //System.out.println("gets inside PID MOVE ARM ");
-
-    
     encoderPosition = m_Encoder.getPosition();
     SmartDashboard.putNumber("Encoder Position", encoderPosition);
-    
 
-    //System.out.println("gets passed dashboard placement");
-
-
+    //reading the numbers off smart dashboard to set PID control
     armMotor.getPIDController().setP(SmartDashboard.getNumber("PID P", 0));
     armMotor.getPIDController().setI(SmartDashboard.getNumber("PID I", 0));
     armMotor.getPIDController().setD(SmartDashboard.getNumber("PID D", 0));
     armMotor.getPIDController().setFF(SmartDashboard.getNumber("PID FF", 0));
     armMotor.getPIDController().setIZone(SmartDashboard.getNumber("PID I Zone", 0));
 
-    //System.out.println("gets passed pid placement ");
+    //  if (yAssistantValue < -0.2) {
+    // //if (yPressed) {
+    //   //armMotor.set(.3);
+    //   //System.out.println("Y PRESSED");
+    //   armMotor.getPIDController().setReference(250, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    // } else if (yAssistantValue > 0.2) {
+    //   //if (aPressed) {
+    //   //armMotor.set(-.3);
+    //   //System.out.println("A PRESSED");
 
- 
-    //if(dPadAngle > 10 && dPadAngle < 170) 
-    if(assistController.getAButton())
-    {
-      System.out.println("DPAD Right");
-      //Setting the target position with the PID control
-      armMotor.getPIDController().setReference(175, com.revrobotics.CANSparkMax.ControlType.kPosition);
-      //armMotor.set(.3);
+    //   armMotor.getPIDController().setReference(-15, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    // } else {
+    //   armMotor.set(0.0);
+    // }
 
-    } 
-    
-    // else if(dPadAngle < 350 && dPadAngle > 190) 
-    else if(assistController.getBButton())
-    {
-     // System.out.println("gets passed BBBBBBBBb ");
-     System.out.println("DPAD Left");
 
-      //Setting the target position with the PID control
-      //armMotor.set(-.3);
-      armMotor.getPIDController().setReference(-5, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    // if(yAssistantValue > .1){
+    //   armMotor.set(yAssistantValue * .3);
+    //   System.out.println("forward");
+    // }
+    // else if(yAssistantValue < -.1){
+    //   armMotor.set(yAssistantValue * .01);
+    //   System.out.println("back");
 
-    } 
-    else    {
-      //System.out.println("neither pressed ");
+    // }
+    // else{
+    //   armMotor.set(0);
+    // }
 
-      armMotor.set(0.0);
+    if(yAssistantValue < -.1){
+      //System.out.println("can see " + yAssistantValue);
+      armMotor.set(yAssistantValue * .4);
+
+      // Both .set and PID control have individual control over motor speeds. Only use one. 
+
+      armMotor.getPIDController().setReference(-50, com.revrobotics.CANSparkMax.ControlType.kPosition);
+
     }
-
-    // if(assistController.getAButton()){
-    //   armMotor.set(.3);
-    // }
-    // else if(assistController.getBButton()){
-    //   armMotor.set(-.3);
-    // }
-    
+    else if(yAssistantValue > .1){
+      armMotor.set(yAssistantValue * .05);
+    }
+    else{
+      armMotor.set(0);
+    }
   }
-
-  
-  
-
 
   public Arm() {
     m_Encoder.setPosition(0);
     m_ShoulderEnc.setPosition(0);
     armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    shoulderMotor.setInverted(true);
+    shoulderMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    shoulderMotor.follow(armMotor, false);    
+
+
+    //sends constants to smart dashboard to be read later for PID control
     SmartDashboard.putNumber("PID P", Constants.PID_P);
     SmartDashboard.putNumber("PID I", Constants.PID_I);
     SmartDashboard.putNumber("PID D", Constants.PID_D);
     SmartDashboard.putNumber("PID FF", Constants.PID_FF);
     SmartDashboard.putNumber("PID I Zone", Constants.PID_I_ZONE);
 
-    //butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
-    
-    //butterFlySolenoid.set(Value.kReverse);
+    GrabberSolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH,
+        Constants.GRABBER_SOLENOID_DEPLOY, Constants.GRABBER_SOLENOID_RETRACT);
 
+
+
+
+
+    GrabberSolenoid.set(Value.kForward);
+    arcadeJoystick1 = new Joystick(2);
+    arcadeJoystick2 = new Joystick(3);
+
+    int numberOfButtons = 10;
+    arcadeJoystick1Buttons = new JoystickButton[numberOfButtons];
+    arcadeJoystick2Buttons = new JoystickButton[numberOfButtons];
+
+    for (int i = 0; i < numberOfButtons; i++) {
+      arcadeJoystick1Buttons[i] = new JoystickButton(arcadeJoystick1, i + 1);
+      arcadeJoystick2Buttons[i] = new JoystickButton(arcadeJoystick2, i + 1);
+    }
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
-    
   }
 
   @Override

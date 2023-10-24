@@ -4,16 +4,25 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import frc.robot.subsystems.Arm;
+
+
 /** An example command that uses an example subsystem. */
 public class AutoCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final DriveTrain m_subsystem;
-  Timer timer;
+  static Timer timer;
+
+  SendableChooser toggleAUTO = new SendableChooser<>();
+  boolean longTrueShortFalse = false;
+  double driveTimeSeconds;
 
   /**
    * Creates a new ExampleCommand.
@@ -21,61 +30,84 @@ public class AutoCommand extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
 
-
-
   public AutoCommand(DriveTrain subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
     timer = new Timer();
+    toggleAUTO.setDefaultOption("SHORT AUTO", "shortAuto");
+    toggleAUTO.addOption("SHORT AUTO", "shortAuto");
+    toggleAUTO.addOption("LONG AUTO", "longAuto");
+    SmartDashboard.putData("toggleAUTO", toggleAUTO);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     timer.start();
+    DriveTrain.armDeployDoubleSolenoid.set(Value.kForward);
+    if(toggleAUTO.getSelected().equals("longAuto")){
+      longTrueShortFalse = true; 
+    }
+    else{
+      longTrueShortFalse = false;
+    }
   }
 
   @Override
-  public void execute(){
+  public void execute() {
 
-    //ramp();
-    //rampTime();
+    // ramp();
+    // rampTime();
+    if(longTrueShortFalse)
+    {
+      driveTimeSeconds = 4.5;
+    }
+    else{
+      driveTimeSeconds = 3.5;
+    }
     lineTime();
-    //lineEncoder();
-    System.out.println("AUTO EXECUTE METHOD");
+    // lineEncoder();
+    // System.out.println("AUTO EXECUTE METHOD");
+
   }
 
-    private static void lineTime(){
-      System.out.print("LINE METHOD");
+  private static void lineTime() {
+    // System.out.print("LINE METHOD");
+    
+    if(timer.get() < .5){
+      DriveTrain.driveBackward();
+    }
+    else{
       DriveTrain.driveForward();
     }
+    }
+  
 
-    private static void rampTime(){
+  private static void rampTime() {
+    DriveTrain.driveForward();
+    Timer.delay(5);
+    DriveTrain.stopMotors();
+    Timer.delay(3000);
+  }
+
+  private static void lineEncoder() {
+    double encoderArray[] = DriveTrain.getEncoderArray();
+    double encoderAverage = (encoderArray[0] + encoderArray[1] + encoderArray[2] + encoderArray[3]) / 4;
+    if (encoderAverage < Constants.LINE_TARGET_DISTANCE) {
       DriveTrain.driveForward();
-      Timer.delay(5);
+    } else {
       DriveTrain.stopMotors();
-      Timer.delay(3000);
     }
+  }
 
-    private static void lineEncoder(){
-      double encoderArray[] = DriveTrain.getEncoderArray();
-      double encoderAverage = (encoderArray[0] + encoderArray[1] + encoderArray[2] + encoderArray[3] )/4;
-      if(encoderAverage < Constants.LINE_TARGET_DISTANCE){
-        DriveTrain.driveForward();
-      }
-      else{
-        DriveTrain.stopMotors();
-      }
+  private static void ramp() {
+    if (DriveTrain.getDeltaZ() > Constants.RAMP_TARGET_HEIGHT) {
+      DriveTrain.stopMotors();
+    } else {
+      DriveTrain.driveForward();
     }
-    private static void ramp(){
-        if(DriveTrain.getDeltaZ() > Constants.RAMP_TARGET_HEIGHT){
-            DriveTrain.stopMotors();
-        }
-        else{
-            DriveTrain.driveForward();
-        }
-    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -86,7 +118,7 @@ public class AutoCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get() > 3;
+    return timer.get() > driveTimeSeconds;
     // return false;
   }
 }
