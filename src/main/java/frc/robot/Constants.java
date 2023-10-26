@@ -45,8 +45,8 @@ public final class Constants {
     public static final double PID_I_ZONE = 3;
     public static final double PID_FF = 0;
 
-    public static final int BUTTERFLY_SOLENOID_DEPLOY = 12;
-    public static final int BUTTERFLY_SOLENOID_RETRACT = 13;
+    public static final int BUTTERFLY_SOLENOID_DEPLOY = 11;
+    public static final int BUTTERFLY_SOLENOID_RETRACT = 12;
 
     public static final int REV_PNEUMATIC_MODULE = 11;
     

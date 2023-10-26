@@ -54,52 +54,7 @@ public class Arm extends SubsystemBase {
   private static int dPadAngle;
 
   private static double yAssistantValue;
-
-
-  public static void ShoulderControl()
-  {
-    xPressed = assistController.getXButton();
-    yPressed = assistController.getYButton();
-    bPressed = assistController.getBButton();
-
-    encoderShoulderPosition = m_ShoulderEnc.getPosition();
-    //System.out.println("xpressed " + xPressed + " ypressed " + yPressed + " bpressed " + bPressed);
-    if(xPressed){
-
-      shoulderMotor.getPIDController().setReference(5, com.revrobotics.CANSparkMax.ControlType.kPosition);
-    }
-    else if(yPressed){
-
-      shoulderMotor.getPIDController().setReference(25, com.revrobotics.CANSparkMax.ControlType.kPosition);
-    }
-    else if(bPressed){
-
-      shoulderMotor.getPIDController().setReference(50, com.revrobotics.CANSparkMax.ControlType.kPosition);
-    }
-    else{
-      shoulderMotor.set(0);
-    }
-  }
-
-  public static void ArmControl()
-  {
-   if(assistController.getYButton())
-    {
-      shoulderMotor.set(0.15);
-    }
-    else if(assistController.getXButton())
-    {
-      shoulderMotor.set(-0.05);
-
-    }
-    else
-    {
-      shoulderMotor.set(0);
-    }
-  }
-
   
-
   public static void GrabberControl()
   {
     leftBumper = assistController.getLeftBumper();
@@ -117,7 +72,7 @@ public class Arm extends SubsystemBase {
   
   }
 
-  public static void PIDMoveArm()
+  public static void moveArm()
   {
 
     dPadAngle = assistController.getPOV();
@@ -138,49 +93,19 @@ public class Arm extends SubsystemBase {
     armMotor.getPIDController().setFF(SmartDashboard.getNumber("PID FF", 0));
     armMotor.getPIDController().setIZone(SmartDashboard.getNumber("PID I Zone", 0));
 
-    //System.out.println("gets passed pid placement ");
-
- 
-    //if(dPadAngle > 10 && dPadAngle < 170) 
-    // if(assistController.getAButton())
-    // {
-    //   System.out.println("DPAD Right");
-    //   //Setting the target position with the PID control
-    //   armMotor.getPIDController().setReference(175, com.revrobotics.CANSparkMax.ControlType.kPosition);
-    //   //armMotor.set(.3);
-
-    // } 
-    // // else if(dPadAngle < 350 && dPadAngle > 190) 
-    // else if(assistController.getBButton())
-    // {
-    //  // System.out.println("gets passed BBBBBBBBb ");
-    //  System.out.println("DPAD Left");
-
-    //   //Setting the target position with the PID control
-    //   //armMotor.set(-.3);
-    //   armMotor.getPIDController().setReference(-5, com.revrobotics.CANSparkMax.ControlType.kPosition);
-
-    // } 
-    // else    {
-    //   //System.out.println("neither pressed ");
-
-    //   armMotor.set(0.0);
-    // }
-
     if(assistController.getAButton()){
       armMotor.set(.3);
+      shoulderMotor.set(0.3);
     }
     else if(assistController.getBButton()){
       armMotor.set(-.3);
+      shoulderMotor.set(-0.3);
     } else {
       armMotor.set(0.0);
+      shoulderMotor.set(0.0);
     }
     
   }
-
-  
-  
-
 
   public Arm() {
     m_Encoder.setPosition(0);
@@ -194,9 +119,7 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("PID I Zone", Constants.PID_I_ZONE);
 
     butterFlySolenoid = new DoubleSolenoid(11, PneumaticsModuleType.REVPH , Constants.BUTTERFLY_SOLENOID_DEPLOY, Constants.BUTTERFLY_SOLENOID_RETRACT);
-    
     butterFlySolenoid.set(Value.kReverse);
-
   }
 
   @Override
